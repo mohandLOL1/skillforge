@@ -4,10 +4,19 @@
  */
 package misc;
 
+import java.util.Random;
+
 /**
  *
  * @author amr
  */
 public class Generator {
-    
+
+    public static int random_ID() {
+        Random random = new Random();
+        int number;
+        number = random.nextInt(1000, 10001);
+        return number;
+    }
+
 }
