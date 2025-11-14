@@ -45,19 +45,29 @@ public class Validations {
     }
 
     public static boolean validatePhone(String number) {
+        number = number.trim();
 
-        if (number.trim().length() != 12) {
+        if (number.length() != 12) {
             return false;
-        } else {
-            char[] char_number = number.toCharArray();
-            for (char c : char_number) {
-                if (c == '+') {
-                    continue;
-                }
-                if (!Character.isDigit(c)) {
+        }
+        int plusCount = 0;
+        char[] chars = number.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+
+            if (c == '+') {
+                plusCount++;
+                if (i != 0) {
                     return false;
                 }
+                continue;
             }
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        if (plusCount > 1) {
+            return false;
         }
         return true;
     }
