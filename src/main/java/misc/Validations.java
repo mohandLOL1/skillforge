@@ -2,7 +2,7 @@ package misc;
 
 public class Validations {
 
-    public boolean email_validate(String email) {
+    public static boolean validateEmail(String email) {
         if (email == null || email.contains(" ")) {
             return false;
         }
@@ -25,7 +25,7 @@ public class Validations {
         return false;
     }
 
-    public boolean name_validate(String name) {
+    public static boolean validateName(String name) {
         if (name == null) {
             return false;
         }
@@ -38,11 +38,11 @@ public class Validations {
         return true;
     }
 
-    public boolean age_validate(int age) {
+    public static boolean validateAge(int age) {
         return age >= 13 && age <= 99;
     }
 
-    public static boolean validate_Phone(String number) {
+    public static boolean validatePhone(String number) {
 
         if (number.trim().length() != 12) {
             return false;
@@ -60,22 +60,34 @@ public class Validations {
         return true;
     }
 
-    public boolean check_ID(String string_id) {
-
-        int id = Integer.parseInt(string_id);
-        return id >= 1000 && id <= 10000;
-    }
-
-    public boolean gender_validate(String gender) {
-
-        if (gender == null) {
-            return false;
+    public static boolean validateStudentID(String studentID){
+        if(studentID.charAt(0) == 'S'){
+            String numberSubString = studentID.substring(1);
+            int ID = Integer.parseInt(numberSubString);
+            return ID>=10000 && ID<=20000;
         }
-        if (gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female")) {
-
-            return true;
-        } else {
+        else{
             return false;
         }
     }
+    
+    public static boolean validateInstructorID(String studentID){
+        if(studentID.charAt(0) == 'S'){
+            String numberSubString = studentID.substring(1);
+            int ID = Integer.parseInt(numberSubString);
+            return ID>=10000 && ID<=20000;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    public static boolean validateUsername(String username){
+        return true;
+    }
+    
+    public static boolean validatePasswordHash(String password){
+        return true;
+    }
+   
 }
