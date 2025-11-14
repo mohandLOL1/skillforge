@@ -40,7 +40,7 @@ public class Validations {
              throw new IllegalArgumentException("Name must be letters only");
             }
     }
-     public static boolean validate(String number) {
+     public static boolean validate_Phone(String number) {
 
         if (number.trim().length() != 12) 
            throw new IllegalArgumentException("Phone must be 12 number");
