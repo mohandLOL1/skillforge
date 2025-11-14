@@ -538,10 +538,6 @@ public class Signup extends javax.swing.JFrame {
         
         JOptionPane.showMessageDialog(null, "Register successfully!");
         } 
-    catch (NumberFormatException ex) 
-    {
-        JOptionPane.showMessageDialog(null, "Age must be numbers", "Input Error", JOptionPane.ERROR_MESSAGE);
-    } 
     catch (IllegalArgumentException ex) {
         JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
     }
