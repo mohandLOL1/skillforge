@@ -8,6 +8,7 @@ public class Validations {
         }
         int i = 0;
         int dotCount = 0;
+        int dotPosition = 0;
         int atCount = 0;
         int atPosition = -1;
         for (i = 0; i < email.length(); i++) {
@@ -17,9 +18,10 @@ public class Validations {
                 atCount++;
             } else if (c == '.' && atPosition != -1) {
                 dotCount++;
+                dotPosition = i;
             }
         }
-        if (atCount == 1 && dotCount == 1 && atPosition == email.length() - 4 && atPosition > 0) {
+        if (atCount == 1 && dotCount >= 1 && atPosition < email.length() - 1 && atPosition > 0 && dotPosition > atPosition + 1) {
             return true;
         }
         return false;
