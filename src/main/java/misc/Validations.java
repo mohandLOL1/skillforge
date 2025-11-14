@@ -21,7 +21,13 @@ public class Validations {
                 dotPosition = i;
             }
         }
-        if (atCount == 1 && dotCount >= 1 && dotPosition < email.length() - 1 && atPosition > 0 && dotPosition > atPosition + 1) {
+        if (atCount == 1
+                && dotCount >= 1
+                && dotPosition < email.length() - 1
+                && atPosition > 0
+                && dotPosition > atPosition + 1
+                && (email.length() - 1 - dotPosition) >= 2
+                && (email.length() - 1 - dotPosition) <= 3) {
             return true;
         }
         return false;
