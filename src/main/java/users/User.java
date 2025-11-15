@@ -1,20 +1,19 @@
 
 package users;
 
-import filehandler.Searchable;
+
 import misc.Validations;
 
-public abstract class User implements Searchable{
-    private String userID;
-    private String username;
-    private String email;
-    private String passwordHash;
+public abstract class User{
+    protected String userID;
+    protected String username;
+    protected String email;
+    protected String passwordHash;
     
     public User(){
-        
     }
-    public User(String userID, String username, String email, String passwordHash){
-        setUserID(userID);
+    
+    public User(String username, String email, String passwordHash){
         setUsername(username);
         setEmail(email);
         setPasswordHash(passwordHash);

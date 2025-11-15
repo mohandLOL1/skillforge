@@ -6,7 +6,8 @@ public class Instructor extends User{
     public Instructor(){
     }
     public Instructor(String userID, String username, String email, String passwordHash){
-        super(userID,username,email,passwordHash);
+        super(username,email,passwordHash);
+        setUserID(userID);
     }
     
     @Override
@@ -17,5 +18,4 @@ public class Instructor extends User{
         else
             throw new IllegalArgumentException();
     }
-    
 }

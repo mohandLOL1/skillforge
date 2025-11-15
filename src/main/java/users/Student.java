@@ -5,7 +5,7 @@ import misc.Validations;
 
 
 public class Student extends User{
-     public Student(){
+    public Student(){
     }
     public Student(String userID, String username, String email, String passwordHash){
         super(username,email,passwordHash);

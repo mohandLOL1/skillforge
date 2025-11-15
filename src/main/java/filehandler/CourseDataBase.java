@@ -2,6 +2,6 @@
 package filehandler;
 
 
-public class CourseDataBase {
+public class CourseDataBase extends JSONDataBaseManager{
     
 }
