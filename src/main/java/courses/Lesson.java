@@ -2,6 +2,6 @@
 package courses;
 
 
-public class Lesson {
+public class Lesson{
     
 }

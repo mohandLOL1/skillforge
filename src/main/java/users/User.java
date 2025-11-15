@@ -2,9 +2,10 @@
 package users;
 
 
+import filehandler.Searchable;
 import misc.Validations;
 
-public abstract class User{
+public abstract class User implements Searchable{
     protected String userID;
     protected String username;
     protected String email;
@@ -20,7 +21,7 @@ public abstract class User{
     }
     
 
-    public String getUserID() {
+    public String getID() {
         return userID;
     }
     
