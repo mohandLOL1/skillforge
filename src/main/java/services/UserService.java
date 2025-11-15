@@ -69,6 +69,7 @@ public class UserService {
            if(user.getID().equals(userID)){
                users.remove(user);
                userdb.write();
+               return;
            }
        }
        
