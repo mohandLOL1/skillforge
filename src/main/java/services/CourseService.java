@@ -10,9 +10,11 @@ public class CourseService {
 
     private static UserDataBase userdatabase = new UserDataBase("users.json");
     private static CourseDataBase coursedatabase = new CourseDataBase("courses.json");
+    private static final ArrayList<User> users = userdatabase.returnAllRecords();
+    private static final ArrayList<Course> courses = coursedatabase.returnAllRecords();
 
     public static void createCourse(String courseId, String title, String description, String intructorId) throws IOException {
-        ArrayList<User> users = userdatabase.returnAllRecords();
+
         Course course = new Course();
         course.setCourseID(courseId);
         course.setDescription(description);
@@ -25,13 +27,13 @@ public class CourseService {
             }
         }
         userdatabase.write();
-        ArrayList<Course> courses = coursedatabase.returnAllRecords();
+
         courses.add(course);
         coursedatabase.write();
     }
 
     public static void editCourse(Course course) throws IOException {
-        ArrayList<Course> courses = coursedatabase.returnAllRecords();
+
         for (Course c : courses) {
             if (c.getCourseID().equals(course.getCourseID())) {
                 courses.remove(c);
@@ -44,8 +46,7 @@ public class CourseService {
     }
 
     public static void Enrollement(String studentID, String courseID) throws IOException {
-        ArrayList<Course> courses = coursedatabase.returnAllRecords();
-        ArrayList<User> users = userdatabase.returnAllRecords();
+
         Student student = new Student();
         Course course = new Course();
         for (User u : users) {
@@ -67,15 +68,12 @@ public class CourseService {
         coursedatabase.write();
 
     }
-    
-    public ArrayList<Course> returnAllCourses(){
-        
-        ArrayList<Course> Courses=coursedatabase.returnAllRecords();
-        ArrayList<Course> copies = new ArrayList<>(Courses);
+
+    public ArrayList<Course> returnAllCourses() {
+
+        ArrayList<Course> copies = new ArrayList<>(courses);
         return copies;
 
-}
-    
-    
-    
+    }
+
 }
