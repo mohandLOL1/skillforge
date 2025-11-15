@@ -77,7 +77,7 @@ public class Course {
     public Set<Lesson> getLessons() {
         return lessons;
     }
-
+    
     public void addLesson(Lesson lesson) {
         this.lessons.add(lesson);
     }
@@ -86,8 +86,8 @@ public class Course {
         this.lessons.remove(lesson);
     }
     
-    public Set<Lesson> getStudents() {
-        return lessons;
+    public Set<Student> getStudents() {
+        return students;
     }
     
     public void addStudent(Student s){
