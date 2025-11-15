@@ -3,6 +3,7 @@ package users;
 import courses.CourseEnrollment;
 import java.util.HashSet;
 import java.util.Set;
+import misc.Generator;
 import misc.Validations;
 
 public class Student extends User {
@@ -12,7 +13,7 @@ public class Student extends User {
     public Student() {
     }
 
-    public Student(String userID, String username, String email, String passwordHash) {
+    public Student(String userID,String username, String email, String passwordHash) {
         super(username, email, passwordHash);
         setUserID(userID);
         courseEnrollments = new HashSet<>();

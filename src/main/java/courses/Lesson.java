@@ -1,6 +1,8 @@
 
 package courses;
 
+import misc.Validations;
+
 public class Lesson{
     private String lessonID;
     private String title;
@@ -17,7 +19,13 @@ public class Lesson{
         return lessonID;
     }
     public void setLessonID(String lessonID){
-        this.lessonID = lessonID;
+        if(Validations.validateLessonID(lessonID)){
+            this.lessonID = lessonID;
+           
+        }
+        else{
+            throw new IllegalArgumentException("Invalid lesson ID");
+        }
     }
     public String getTitle(){
         return title;

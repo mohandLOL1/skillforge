@@ -18,8 +18,7 @@ public abstract class JSONDataBaseManager<T> {
   
    
            
-        
-  
+ 
     public abstract void read() throws IOException;
     public abstract void write() throws IOException;
     public abstract ArrayList<T> returnAllRecords();
