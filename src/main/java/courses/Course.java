@@ -82,6 +82,9 @@ public class Course {
         this.lessons.add(lesson);
     }
     
+    public void removeLesson(Lesson lesson){
+        this.lessons.remove(lesson);
+    }
     
     public Set<Lesson> getStudents() {
         return lessons;
