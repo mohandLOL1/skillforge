@@ -7,16 +7,11 @@ import users.*;
 import java.io.IOException;
 public class CourseService {
 
-    private UserDataBase userdatabase;
-    private CourseDataBase coursedatabase;
+    private  static UserDataBase userdatabase=new UserDataBase("users.json");
+    private static CourseDataBase coursedatabase=new CourseDataBase("courses.json");
 
-    public CourseService() {
-        userdatabase = new UserDataBase("users.json");
-        coursedatabase = new CourseDataBase("courses.json");
 
-    }
-
-    public void createCourse (String courseId, String title, String description, String intructorId)throws IOException {
+    public static void createCourse (String courseId, String title, String description, String intructorId)throws IOException {
         ArrayList<User> users = userdatabase.returnAllRecords();
         Course course = new Course();
         course.setCourseID(courseId);
@@ -33,6 +28,20 @@ public class CourseService {
        ArrayList<Course> courses=coursedatabase.returnAllRecords();
        courses.add(course);
        coursedatabase.write();
+    }
+    
+    
+    public static void editCourse(Course course) throws IOException{
+      ArrayList<Course> courses=coursedatabase.returnAllRecords();
+      for(Course c:courses){
+        if(c.getCourseID().equals(course.getCourseID())){
+            courses.remove(c);
+            courses.add(course);
+        }
+          
+      }
+        coursedatabase.write();
+        
     }
 
 }
