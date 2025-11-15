@@ -8,6 +8,7 @@ public class Validations {
         }
         int i = 0;
         int dotCount = 0;
+        int dotPosition = 0;
         int atCount = 0;
         int atPosition = -1;
         for (i = 0; i < email.length(); i++) {
@@ -17,9 +18,16 @@ public class Validations {
                 atCount++;
             } else if (c == '.' && atPosition != -1) {
                 dotCount++;
+                dotPosition = i;
             }
         }
-        if (atCount == 1 && dotCount == 1 && atPosition == email.length() - 4 && atPosition > 0) {
+        if (atCount == 1
+                && dotCount >= 1
+                && dotPosition < email.length() - 1
+                && atPosition > 0
+                && dotPosition > atPosition + 1
+                && (email.length() - 1 - dotPosition) >= 2
+                && (email.length() - 1 - dotPosition) <= 3) {
             return true;
         }
         return false;
@@ -43,19 +51,29 @@ public class Validations {
     }
 
     public static boolean validatePhone(String number) {
+        number = number.trim();
 
-        if (number.trim().length() != 12) {
+        if (number.length() != 12) {
             return false;
-        } else {
-            char[] char_number = number.toCharArray();
-            for (char c : char_number) {
-                if (c == '+') {
-                    continue;
-                }
-                if (!Character.isDigit(c)) {
+        }
+        int plusCount = 0;
+        char[] chars = number.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+
+            if (c == '+') {
+                plusCount++;
+                if (i != 0) {
                     return false;
                 }
+                continue;
             }
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        if (plusCount > 1) {
+            return false;
         }
         return true;
     }
