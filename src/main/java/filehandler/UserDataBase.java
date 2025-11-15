@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import users.User;
 
@@ -44,8 +44,4 @@ public class UserDataBase extends JSONDataBaseManager<User> {
         return this.records;
     }
     
-    public void addUser(User user){
-        records.add(user);
-    }
-
 }

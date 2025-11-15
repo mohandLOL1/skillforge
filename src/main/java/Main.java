@@ -23,9 +23,7 @@ public class Main {
             Student s = new Student("S12345", "lol", "mohandamr@gmail.com", "xd");
             Student s2 = new Student("S12333", "haha","smoha@gmail.com","xdd");
 
-            // Add student to database
-            db.addUser(s);
-            db.addUser(s2);
+           
 
             // Write updated list back to JSON
             db.write();
