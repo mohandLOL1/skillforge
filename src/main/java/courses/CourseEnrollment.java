@@ -10,11 +10,13 @@ public class CourseEnrollment {
     private double percent;
     private final Set<String> completedLessons;
 
-    public CourseEnrollment(String courseID, double percent, Set<String> completedLessons) {
+    public CourseEnrollment(String courseID, double percent) {
         setCourseID(courseID);
         setPercent(percent);
         this.completedLessons = new HashSet<>();    
     }
+
+  
 
     public String getCourseID() {
         return courseID;
