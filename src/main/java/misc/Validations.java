@@ -89,9 +89,9 @@ public class Validations {
         }
     }
     
-    public static boolean validateInstructorID(String studentID){
-        if(studentID.charAt(0) == 'S'){
-            String numberSubString = studentID.substring(1);
+    public static boolean validateInstructorID(String InstructorID){
+        if(InstructorID.charAt(0) == 'I'){
+            String numberSubString = InstructorID.substring(1);
             int ID = Integer.parseInt(numberSubString);
             return ID>=10000 && ID<=20000;
         }
