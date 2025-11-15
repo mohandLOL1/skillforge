@@ -7,13 +7,14 @@ public class Lesson{
     private String lessonID;
     private String title;
     private String content;
-
+    private String courseID;
     public Lesson(){
     }
-    public Lesson(String lessonID, String title, String content){
+    public Lesson(String lessonID, String title, String content,String courseID){
         this.lessonID = lessonID;
         this.title = title;
         this.content = content;
+        this.courseID=courseID;
     }
     public String getLessonID(){
         return lessonID;
@@ -38,5 +39,11 @@ public class Lesson{
     }
     public void setContent(String content){
         this.content = content;
+    }
+    public String getcourseID(){
+        return courseID;
+    }
+    public void setcourseID(String courseID){
+        this.courseID = courseID;
     }
 }
