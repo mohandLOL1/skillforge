@@ -5,6 +5,7 @@ import filehandler.*;
 import java.util.ArrayList;
 import users.*;
 import java.io.IOException;
+import java.util.Set;
 
 public class CourseService {
 
@@ -38,11 +39,13 @@ public class CourseService {
             if (c.getCourseID().equals(course.getCourseID())) {
                 courses.remove(c);
                 courses.add(course);
+                coursedatabase.write();
+                return;
             }
 
         }
-        coursedatabase.write();
-
+        
+      throw new IllegalArgumentException("Couldn't find course with that ID");
     }
 
     public static void Enrollement(String studentID, String courseID) throws IOException {
@@ -75,5 +78,25 @@ public class CourseService {
         return copies;
 
     }
+    public void editLesson(Lesson lesson) throws IOException {
+        
+       Set<Lesson> lessons;
+        
+        for(Course c:courses){
+            lessons=c.getLessons();
+       for(Lesson s:lessons){
+           if(s.getLessonID().equals(lesson.getLessonID()))
+           {
+             c.removeLesson(s);
+             c.addLesson(lesson);
+             coursedatabase.write();
+             return;
+           }       
+               }      
+        }
+       throw new IllegalArgumentException("Couldn't find lesson with that ID");
+    }
+    
+    
 
 }
