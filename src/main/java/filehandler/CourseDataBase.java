@@ -10,15 +10,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import courses.Course;
 import java.io.File;
 
-public class CourseDataBase implements JSONDataBaseManager<Course>{
+public class CourseDataBase extends JSONDataBaseManager<Course>{
 
-  private final String filename;
-  private ArrayList<Course> records;
-  private final ObjectMapper mapper = new ObjectMapper();
 
   public CourseDataBase(String filename){
-        this.filename = filename;
-        this.records = new ArrayList<>();
+     super(filename);
     }
 
   @Override

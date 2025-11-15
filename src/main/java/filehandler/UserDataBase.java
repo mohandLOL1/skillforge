@@ -10,16 +10,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import users.User;
 
-public class UserDataBase implements JSONDataBaseManager<User> {
+public class UserDataBase extends JSONDataBaseManager<User> {
 
-    private final String filename;
-    private ArrayList<User> records;
-    private final ObjectMapper mapper;
 
     public UserDataBase(String filename){
-        this.filename = filename;
-        this.records = new ArrayList<>();
-        this.mapper = new ObjectMapper();
+        super(filename);
     }
 
     @Override
