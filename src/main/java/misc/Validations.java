@@ -100,6 +100,29 @@ public class Validations {
         }
     }
     
+    public static boolean validateCourseID(String CourseID){
+        if(CourseID.charAt(0) == 'C'){
+            String numberSubString = CourseID.substring(1);
+            int ID = Integer.parseInt(numberSubString);
+            return ID>=10000 && ID<=20000;
+        }
+        else{
+            return false;
+        }
+    }
+    
+    
+    public static boolean validateLessonID(String LessonID){
+        if(LessonID.charAt(0) == 'C'){
+            String numberSubString = LessonID.substring(1);
+            int ID = Integer.parseInt(numberSubString);
+            return ID>=10000 && ID<=20000;
+        }
+        else{
+            return false;
+        }
+    }
+    
     public static boolean validateUsername(String username){
         return true;
     }
