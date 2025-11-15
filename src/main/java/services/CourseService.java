@@ -44,8 +44,8 @@ public class CourseService {
             }
 
         }
-        
-      throw new IllegalArgumentException("Couldn't find course with that ID");
+
+        throw new IllegalArgumentException("Couldn't find course with that ID");
     }
 
     public static void Enrollement(String studentID, String courseID) throws IOException {
@@ -78,25 +78,53 @@ public class CourseService {
         return copies;
 
     }
+
     public void editLesson(Lesson lesson) throws IOException {
-        
-       Set<Lesson> lessons;
-        
-        for(Course c:courses){
-            lessons=c.getLessons();
-       for(Lesson s:lessons){
-           if(s.getLessonID().equals(lesson.getLessonID()))
-           {
-             c.removeLesson(s);
-             c.addLesson(lesson);
-             coursedatabase.write();
-             return;
-           }       
-               }      
+
+        Set<Lesson> lessons;
+
+        for (Course c : courses) {
+            lessons = c.getLessons();
+            for (Lesson s : lessons) {
+                if (s.getLessonID().equals(lesson.getLessonID())) {
+                    c.removeLesson(s);
+                    c.addLesson(lesson);
+                    coursedatabase.write();
+                    return;
+                }
+            }
         }
-       throw new IllegalArgumentException("Couldn't find lesson with that ID");
+        throw new IllegalArgumentException("Couldn't find lesson with that ID");
     }
-    
-    
+
+    public void addLesson(Lesson lesson) throws IOException {
+
+        for (Course c : courses) {
+            if (c.getCourseID().equals(lesson.getcourseID())) {
+                c.addLesson(lesson);
+                coursedatabase.write();
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Couldn't find course with that ID");
+
+    }
+
+    public void removeLesson(Lesson lesson) throws IOException {
+        for (Course c : courses) {
+            if (c.getCourseID().equals(lesson.getcourseID())) {
+                c.removeLesson(lesson);
+                coursedatabase.write();
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Couldn't find course with that ID");
+
+    }
+
+    public Set<Student> enrolledStudents(Course course) {
+
+        return course.getStudents();
+    }
 
 }
