@@ -3,9 +3,4 @@
   "email" : "mohandamr@gmail.com",
   "passwordHash" : "xd",
   "id" : "S12345"
-}, {
-  "username" : "haha",
-  "email" : "smoha@gmail.com",
-  "passwordHash" : "xdd",
-  "id" : "S12333"
 } ]

@@ -2,10 +2,10 @@
 package users;
 
 
-import filehandler.Searchable;
+
 import misc.Validations;
 
-public abstract class User implements Searchable{
+public abstract class User{
     protected String userID;
     protected String username;
     protected String email;
