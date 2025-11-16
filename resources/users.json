@@ -1,7 +1,8 @@
 [ {
-  "username" : "snmoe",
-  "email" : "moe1@gmail.com",
-  "passwordHash" : "11d7f1d044d1f23c84a1a2729436c6772862510f2b6f6810ccd127d8e1cc7a15",
-  "id" : "I12030",
+  "username" : "moh",
+  "email" : "mohandamr2019@gmail.com",
+  "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
+  "createdCoursesIDs" : [ ],
+  "id" : "I19091",
   "type" : "instructor"
 } ]

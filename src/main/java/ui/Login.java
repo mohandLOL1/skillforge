@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package ui;
 
 import java.awt.Color;
@@ -204,7 +201,7 @@ public class Login extends javax.swing.JFrame {
 
     private void Login(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Login
         // TODO add your handling code here:
-        try {
+         try {
             String username = jTextField1.getText().trim();
             String password = new String(jPasswordField1.getPassword()).trim();
             boolean hasError = false;
@@ -237,7 +234,7 @@ public class Login extends javax.swing.JFrame {
                     new StudentDashboard().setVisible(true);
 
                 } else {
-                    new InstructorDashboard((Instructor) user).setVisible(true);
+                    new InstructorDashboard(user.getID()).setVisible(true);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid username or password!");

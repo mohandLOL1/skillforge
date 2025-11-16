@@ -12,35 +12,32 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
 import javax.swing.JOptionPane;
-import static misc.Validations.validateAge;
-import static misc.Validations.validateEmail;
-import static misc.Validations.validateName;
-import static misc.Validations.validatePassword;
-import static misc.Validations.validatePhone;
-import static misc.Validations.validateUsername;
-import users.Instructor;
 import users.Student;
 
 public class InstructorDashboard extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InstructorDashboard.class.getName());
     private CourseService cs;
-    private Instructor loggedInInstructor;
 
-    /**
-     * Creates new form InstructorDashboard
-     */
-    public InstructorDashboard(Instructor instructor) {
-        this.loggedInInstructor = instructor;
+    private String instructorID;
+    
+
+   
+    public InstructorDashboard(String instructorID) {
+        this.instructorID = instructorID;
         try {
             cs = new CourseService();
         } catch (IOException e) {
+           
             logger.log(java.util.logging.Level.SEVERE, null, e);
         }
+
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Instructor Dashboard");
     }
+
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -187,7 +184,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
 
             Lesson edited = new Lesson(lessonID, newTitle, newContent, courseID);
 
-            cs.editLesson(edited, courseID);
+            cs.editLesson(edited, courseID,this.instructorID);
 
             JOptionPane.showMessageDialog(this, "Lesson updated successfully!");
         } catch (Exception e) {
@@ -203,7 +200,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             String title = JOptionPane.showInputDialog(this, "Lesson Title:");
             String content = JOptionPane.showInputDialog(this, "Lesson Content:");
 
-            cs.addLesson(title, content, courseID);
+            cs.addLesson(title, content, courseID,this.instructorID);
 
             JOptionPane.showMessageDialog(this, "Lesson added successfully!");
         } catch (Exception e) {
@@ -217,7 +214,9 @@ public class InstructorDashboard extends javax.swing.JFrame {
         try {
             String title = javax.swing.JOptionPane.showInputDialog(this, "Course Title:");
             String desc = javax.swing.JOptionPane.showInputDialog(this, "Course Description:");
-            String instructorID = loggedInInstructor.getID();
+            
+
+
             cs.createCourse(title, desc, instructorID);
             javax.swing.JOptionPane.showMessageDialog(this, "Course Added Successfully!");
         } catch (Exception e) {
@@ -230,7 +229,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         try {
             String courseID = JOptionPane.showInputDialog(this, "Course ID to delete:");
 
-            cs.deleteCourse(courseID);
+            cs.deleteCourse(courseID,this.instructorID);
 
             JOptionPane.showMessageDialog(this, "Course deleted successfully!");
         } catch (Exception e) {
@@ -244,7 +243,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             String courseID = JOptionPane.showInputDialog(this, "Course ID:");
             String lessonID = JOptionPane.showInputDialog(this, "Lesson ID:");
 
-            cs.removeLesson(courseID, lessonID);
+            cs.removeLesson(courseID, lessonID,this.instructorID);
             JOptionPane.showMessageDialog(this, "Lesson deleted successfully!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -265,7 +264,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             String newDescription = JOptionPane.showInputDialog(this, "New Description:");
 
             Course updated = new Course(
-                    oldCourse.getID(),
+                    oldCourse.getCourseID(),
                     newTitle,
                     newDescription,
                     oldCourse.getInstructorID()
@@ -276,7 +275,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             for (Student s : oldCourse.getStudents()) {
                 updated.addStudent(s);
             }
-            cs.editCourse(updated);
+            cs.editCourse(oldCourse.getCourseID(), newTitle, newDescription,this.instructorID);
 
             JOptionPane.showMessageDialog(this, "Course updated successfully!");
         } catch (Exception e) {
@@ -297,6 +296,30 @@ public class InstructorDashboard extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new InstructorDashboard("123").setVisible(true));
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCourse;
     private javax.swing.JButton addLesson;

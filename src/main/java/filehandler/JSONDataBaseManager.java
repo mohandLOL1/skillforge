@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.nio.file.Files;
+
 
 public abstract class JSONDataBaseManager<T> {
 

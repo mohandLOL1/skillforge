@@ -27,7 +27,7 @@ public class CourseService {
 
     public boolean containsCourse(String courseID) {
         for (Course course : courses) {
-            if (course.getID().equals(courseID)) {
+            if (course.getCourseID().equals(courseID)) {
                 return true;
             }
         }
@@ -36,12 +36,20 @@ public class CourseService {
 
     public Course findCourse(String courseID) {
         for (Course course : courses) {
-            if (course.getID().equals(courseID)) {
+            if (course.getCourseID().equals(courseID)) {
                 return course;
             }
         }
 
         return null;
+    }
+    
+    public boolean instructorOwnsCourse(String courseID, String InstructorID){
+        Course c = findCourse(courseID);
+        if(c.getInstructorID().equals(InstructorID))
+            return true;
+        
+        return false;
     }
 
     public void createCourse(String title, String description, String instructorID) throws IOException {
@@ -71,29 +79,40 @@ public class CourseService {
         }
     }
 
-    public void deleteCourse(String courseID) throws IOException {
+    public void deleteCourse(String courseID, String instructorID) throws IOException {
+        
+        
 
         Course c = findCourse(courseID);
-        if (c != null) {
+        if(c== null){
+            throw new IllegalArgumentException("Couldn't find course");
+        }
+        if(instructorOwnsCourse(courseID,instructorID)){
             courses.remove(c);
             coursedb.write();
         }
-        throw new IllegalArgumentException("Couldn't find course with that ID");
+        else{
+            throw new IllegalArgumentException("Cannot delete unowned course");
+        }
+              
+       
+        
     }
 
-    public void editCourse(Course course) throws IOException {
-
-        for (Course c : courses) {
-            if (c.getID().equals(course.getID())) {
-                courses.remove(c);
-                courses.add(course);
-                coursedb.write();
-                return;
-            }
-
+    public void editCourse(String courseID, String title, String description, String instructorID) throws IOException {
+        Course oldCourse = findCourse(courseID);
+        if(oldCourse == null){
+            throw new IllegalArgumentException("Couldn't find course");
+        }
+        if(instructorOwnsCourse(courseID,instructorID)){
+            oldCourse.setTitle(title);
+            oldCourse.setDescription(description);
+        }
+        else{
+            throw new IllegalArgumentException("Can only edit owned course");          
         }
 
-        throw new IllegalArgumentException("Couldn't find course with that ID");
+        
     }
 
     public static void enrollStudent(String studentID, String courseID) throws IOException {
@@ -107,7 +126,7 @@ public class CourseService {
             }
         }
         for (Course c : courses) {
-            if (c.getID().equals(courseID)) {
+            if (c.getCourseID().equals(courseID)) {
                 course = c;
             }
         }
@@ -141,7 +160,7 @@ public class CourseService {
 
     }
 
-    public void editLesson(Lesson editedLesson, String courseID) throws IOException {
+    public void editLesson(Lesson editedLesson, String courseID, String InstructorID) throws IOException {
         Set<Lesson> lessons = null;
 
         Course course = findCourse(courseID);
@@ -153,7 +172,9 @@ public class CourseService {
         for (Lesson les : lessons) {
 
             if (les.getLessonID().equals(editedLesson.getLessonID())) {
-                les = editedLesson;
+                lessons.remove(les);
+                lessons.add(editedLesson);
+                break;
             }
         }
 
@@ -161,21 +182,32 @@ public class CourseService {
 
     }
 
-    public void addLesson(String title, String content, String courseID) throws IOException {
-
+    public void addLesson(String title, String content, String courseID, String InstructorID) throws IOException {
+        
+        
         String lessonID = Generator.generateLessonID();
         Lesson lesson = new Lesson(lessonID, title, content, courseID);
         Course course = findCourse(courseID);
+        
+        if(course == null){
+            throw new IllegalArgumentException("Cannot find course");
+        }
+        if(!course.getInstructorID().equals(InstructorID))
+            throw new IllegalArgumentException("Cannot edit unowned course");
+        
         course.addLesson(lesson);
-
         coursedb.write();
     }
 
-    public void removeLesson(String courseID, String lessonID) throws IOException {
+    public void removeLesson(String courseID, String lessonID,String InstructorID) throws IOException {
         Course course = findCourse(courseID);
         if (course == null) {
             throw new IllegalArgumentException("Couldn't find course");
         }
+        
+        if(!course.getInstructorID().equals(InstructorID))
+            throw new IllegalArgumentException("Cannot edit unowned course");
+        
         Lesson lesson = findLessonInCourse(lessonID, course);
 
         if (lesson == null) {
