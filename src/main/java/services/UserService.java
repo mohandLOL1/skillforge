@@ -59,22 +59,36 @@ public class UserService {
             while(containsUser(ID))
                 ID = Generator.generateInstructorID();
         }
-        
+        if(role.equalsIgnoreCase("student")){
         users.add(new Student(ID,username,email,hashedPassword));
+        }
+        else{
+        users.add(new Instructor(ID,username,email,hashedPassword));
+        }
         userdb.write();
     }
+    
+    public static boolean usernameExists(String username){
+    for (User u : users) {
+        if (u.getUsername().equalsIgnoreCase(username)) {
+            return true;
+        }
+    }
+    return false;
+   }
     
     public static void deleteUser(String userID) throws IOException{
        for(User user : users){
            if(user.getID().equals(userID)){
                users.remove(user);
                userdb.write();
-               return;
            }
        }
        
        throw new IllegalArgumentException("Couldn't find user with that ID");
     } 
+    
+    
     
     
     
