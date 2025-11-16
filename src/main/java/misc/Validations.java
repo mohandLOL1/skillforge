@@ -2,7 +2,7 @@ package misc;
 
 public class Validations {
 
-    public boolean email_validate(String email) {
+    public static boolean validateEmail(String email) {
         if (email == null || email.contains(" ")) {
             return false;
         }
@@ -21,13 +21,19 @@ public class Validations {
                 dotPosition = i;
             }
         }
-        if (atCount == 1 && dotCount >= 1 && atPosition < email.length() - 1 && atPosition > 0 && dotPosition > atPosition + 1) {
+        if (atCount == 1
+                && dotCount >= 1
+                && dotPosition < email.length() - 1
+                && atPosition > 0
+                && dotPosition > atPosition + 1
+                && (email.length() - 1 - dotPosition) >= 2
+                && (email.length() - 1 - dotPosition) <= 3) {
             return true;
         }
         return false;
     }
 
-    public boolean name_validate(String name) {
+    public static boolean validateName(String name) {
         if (name == null) {
             return false;
         }
@@ -40,45 +46,65 @@ public class Validations {
         return true;
     }
 
-    public boolean age_validate(int age) {
+    public static boolean validateAge(int age) {
         return age >= 13 && age <= 99;
     }
 
-    public static boolean validate_Phone(String number) {
+    public static boolean validatePhone(String number) {
 
-        if (number.trim().length() != 12) {
+        number = number.trim();
+
+        if (number.length() != 12) {
             return false;
-        } else {
-            char[] char_number = number.toCharArray();
-            for (char c : char_number) {
-                if (c == '+') {
-                    continue;
-                }
-                if (!Character.isDigit(c)) {
+        }
+        int plusCount = 0;
+        char[] chars = number.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+
+            if (c == '+') {
+                plusCount++;
+                if (i != 0) {
                     return false;
                 }
+                continue;
             }
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        if (plusCount > 1) {
+            return false;
         }
         return true;
     }
 
-    public boolean check_ID(String string_id) {
-
-        int id = Integer.parseInt(string_id);
-        return id >= 1000 && id <= 10000;
-    }
-
-    public boolean gender_validate(String gender) {
-
-        if (gender == null) {
-            return false;
-        }
-        if (gender.equalsIgnoreCase("male") || gender.equalsIgnoreCase("female")) {
-
-            return true;
+    public static boolean validateStudentID(String studentID) {
+        if (studentID.charAt(0) == 'S') {
+            String numberSubString = studentID.substring(1);
+            int ID = Integer.parseInt(numberSubString);
+            return ID >= 10000 && ID <= 20000;
         } else {
             return false;
         }
+    }
+
+    public static boolean validateInstructorID(String studentID) {
+        if (studentID.charAt(0) == 'S') {
+            String numberSubString = studentID.substring(1);
+            int ID = Integer.parseInt(numberSubString);
+            return ID >= 10000 && ID <= 20000;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean validateUsername(String username) {
+        return true;
+    }
+
+    public static boolean validatePasswordHash(String password) {
+        return true;
     }
 
 }
