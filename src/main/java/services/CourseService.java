@@ -138,14 +138,14 @@ public class CourseService {
 
             }
         }
-        Set<CourseEnrollment> ee = student.getcourseEnrollments();
-        ArrayList<String> c = new ArrayList<>();
-        for (CourseEnrollment ce : ee) {
-            c.add(ce.getCourseID());
+        Set<CourseEnrollment> returnedEnrolls = student.getcourseEnrollments();
+        ArrayList<String> coursesIDs = new ArrayList<>();
+        for (CourseEnrollment ce : returnedEnrolls) {
+            coursesIDs.add(ce.getCourseID());
         }
 
         Set<Course> enrolledcourses = new HashSet<>();
-        for (String str : c) {
+        for (String str : coursesIDs) {
             for (Course course : courses) {
 
                 if (course.getCourseID().equals(str)) {
