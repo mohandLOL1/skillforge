@@ -1,6 +1,5 @@
 package courses;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import misc.Validations;
@@ -20,7 +19,7 @@ public class Course {
 
     public Course(String courseID, String title, String description, String instructorID) {
 
-        setCourseID(courseID);
+        setID(courseID);
         setTitle(title);
         setDescription(description);
         setInstructorID(instructorID);
@@ -30,11 +29,11 @@ public class Course {
         
     }
 
-    public String getCourseID() {
+    public String getID() {
         return courseID;
     }
 
-    public void setCourseID(String courseID) {
+    public void setID(String courseID) {
         if (courseID == null || courseID.trim().isEmpty()) {
             throw new IllegalArgumentException("Course ID cannot be empty");
         }

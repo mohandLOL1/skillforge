@@ -1,4 +1,3 @@
-
 package filehandler;
 
 import java.io.File;
@@ -6,42 +5,54 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.nio.file.Files;
 
 import users.User;
 
 public class UserDataBase extends JSONDataBaseManager<User> {
 
+    public UserDataBase(String filename) {
 
-    public UserDataBase(String filename){
         super(filename);
+
     }
 
     @Override
-    public void read() throws IOException{
-        File file = new File(filename);
-        if(!file.exists()){
-            System.out.println("CANNOT FIND FILE");
+    public void read() throws IOException {
+
+        File file = getWritableJsonFile(filename);
+
+        if (!file.exists()) {
+            System.out.println("File does not exist, creating new one.");
             file.createNewFile();
-            this.records = new ArrayList<>();
-        }
-        else{
-            this.records = mapper.readValue(file, new TypeReference<ArrayList<User>>(){});
-        }
-    }
-    @Override
-    public void write() throws IOException {
-        if(!new File(filename).exists()){
-            System.out.println("NO FILE FOUND");
+            this.records = new ArrayList<User>();
             return;
         }
-        mapper.writerWithDefaultPrettyPrinter().writeValue(new File(this.filename), this.records);
+
+        
+        if (file.length() == 0) {
+            System.out.println("File is empty, initializing empty records.");
+            this.records = new ArrayList<>();
+            return;
+        }
+
+        this.records = mapper.readValue(file, new TypeReference<ArrayList<User>>() {
+        });
+
     }
-    
+
     @Override
-    
-    public ArrayList<User> returnAllRecords(){
+    public void write() throws IOException {
+        ArrayList<User> copy = this.records;
+        mapper.writerWithDefaultPrettyPrinter().writeValue(getWritableJsonFile(filename), copy);
+    }
+
+    @Override
+
+    public ArrayList<User> returnAllRecords() {
         return this.records;
     }
-    
+
 }

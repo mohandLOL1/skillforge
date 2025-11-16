@@ -1,6 +1,21 @@
 package users;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import misc.Validations;
+
+
+
+
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "type"
+)
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Student.class, name = "student"),
+    @JsonSubTypes.Type(value = Instructor.class, name = "instructor")
+})
 
 public abstract class User {
 
@@ -17,10 +32,8 @@ public abstract class User {
         setEmail(email);
         setPasswordHash(passwordHash);
     }
-
-    public String getID() {
-        return userID;
-    }
+    
+    public abstract String getID();
 
     public abstract void setUserID(String userID);
 
@@ -59,4 +72,5 @@ public abstract class User {
 
     }
 
+  
 }

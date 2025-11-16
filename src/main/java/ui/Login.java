@@ -5,8 +5,11 @@
 package ui;
 
 import java.awt.Color;
+import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import services.UserService;
+import users.User;
 
 /**
  *
@@ -15,11 +18,13 @@ import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
-
+    private UserService userservice;
     /**
      * Creates new form Login
      */
-    public Login() {
+    public Login() throws IOException {
+        userservice = new UserService();
+       
         initComponents();
         Student.setSelected(true);
         setTitle("Login");
@@ -219,16 +224,32 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
             return; 
         }
-
+        User user = userservice.validateLogin(username, password);
+        if (user!=null) {
+         JOptionPane.showMessageDialog(null, "Login successful!");
+         this.dispose();
+          if(Student.isSelected()){
+            new StudentDashboard().setVisible(true);
+        }
+          else{
+           new InstructorDashboard().setVisible(true);}
+        } 
+        else {
+         JOptionPane.showMessageDialog(null, "Invalid username or password!");
+        }
         } catch (IllegalArgumentException ex) {
         JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
         } 
     }//GEN-LAST:event_Login
 
     private void Sing_up(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Sing_up
-        // TODO add your handling code here:
-        Signup s=new Signup();
-        s.setVisible(true);
+        try {
+            // TODO add your handling code here:
+            Signup s=new Signup();
+            s.setVisible(true);
+        } catch (IOException ex) {
+            System.getLogger(Login.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }//GEN-LAST:event_Sing_up
 
     /**
@@ -253,7 +274,13 @@ public class Login extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Login().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new Login().setVisible(true);
+            } catch (IOException ex) {
+                System.getLogger(Login.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

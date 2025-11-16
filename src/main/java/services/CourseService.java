@@ -7,40 +7,77 @@ import users.*;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import misc.Generator;
+
 
 public class CourseService {
 
-    private static UserDataBase userdatabase = new UserDataBase("users.json");
-    private static CourseDataBase coursedatabase = new CourseDataBase("courses.json");
-    private static final ArrayList<User> users = userdatabase.returnAllRecords();
-    private static final ArrayList<Course> courses = coursedatabase.returnAllRecords();
-
-    public static void createCourse(String courseId, String title, String description, String intructorId) throws IOException {
-
-        Course course = new Course();
-        course.setCourseID(courseId);
-        course.setDescription(description);
-        course.setInstructorID(intructorId);
-        course.setTitle(title);
-        for (User user : users) {
-            if (user.getID().equals(intructorId) && user instanceof Instructor) {
-                Instructor instrctor = (Instructor) user;
-                instrctor.addCreatedCourse(courseId);
-            }
+    private static final UserDataBase userdb = new UserDataBase("users.json");
+    private static final CourseDataBase coursedb = new CourseDataBase("courses.json");
+    private static  ArrayList<User> users;
+    private static  ArrayList<Course> courses;
+    private static UserService userservice;
+    public CourseService()throws IOException{
+       userdb.read();
+       coursedb.read();
+       users = userdb.returnAllRecords();
+       courses = coursedb.returnAllRecords();
+    }
+  
+    public static boolean containsCourse(String courseID){
+        for(Course course : courses){
+           if(course.getID().equals(courseID)){
+               return true;
+           }
+       }
+       return false;
+    }
+    public static Course findCourse(String courseID){
+        for(Course course : courses){
+            if(course.getID().equals(courseID)){
+               return course;
+           }
         }
-        userdatabase.write();
+        
+        return null;
+    }
 
-        courses.add(course);
-        coursedatabase.write();
+    public static void createCourse(String title, String description, String instructorID) throws IOException{
+        
+     User tempUser = userservice.getUser(instructorID);
+     
+     if(tempUser != null){
+         if(tempUser instanceof Instructor){
+             String newCourseID = Generator.generateCourseID();
+             
+             while(CourseService.containsCourse(newCourseID)){
+                 newCourseID = Generator.generateCourseID();
+             }
+             
+             Course newCourse = new Course(newCourseID,title,description,instructorID);
+             courses.add(newCourse);
+             
+             ((Instructor) tempUser).addCreatedCourse(newCourseID);
+             
+             coursedb.write();
+             userdb.write();
+         }
+         else{
+             throw new IllegalArgumentException("User isn't an instructor");
+         }
+     }
+     else{
+         throw new IllegalArgumentException("Couldn't find instructor");
+     }
     }
 
     public static void editCourse(Course course) throws IOException {
 
         for (Course c : courses) {
-            if (c.getCourseID().equals(course.getCourseID())) {
+            if (c.getID().equals(course.getID())) {
                 courses.remove(c);
                 courses.add(course);
-                coursedatabase.write();
+                coursedb.write();
                 return;
             }
 
@@ -49,7 +86,7 @@ public class CourseService {
         throw new IllegalArgumentException("Couldn't find course with that ID");
     }
 
-    public static void Enrollement(String studentID, String courseID) throws IOException {
+    public static void enrollStudent(String studentID, String courseID) throws IOException {
 
         Student student = new Student();
         Course course = new Course();
@@ -60,16 +97,16 @@ public class CourseService {
             }
         }
         for (Course c : courses) {
-            if (c.getCourseID().equals(courseID)) {
+            if (c.getID().equals(courseID)) {
                 course = c;
             }
         }
         CourseEnrollment courseenrollment = new CourseEnrollment(courseID, 0.0);
 
         student.addCourseEnrollment(courseenrollment);
-        userdatabase.write();
+        userdb.write();
         course.addStudent(student);
-        coursedatabase.write();
+        coursedb.write();
 
     }
 
@@ -90,7 +127,7 @@ public class CourseService {
                 if (s.getLessonID().equals(lesson.getLessonID())) {
                     c.removeLesson(s);
                     c.addLesson(lesson);
-                    coursedatabase.write();
+                    coursedb.write();
 
                     return;
                 }
@@ -102,9 +139,9 @@ public class CourseService {
     public void addLesson(Lesson lesson) throws IOException {
 
         for (Course c : courses) {
-            if (c.getCourseID().equals(lesson.getcourseID())) {
+            if (c.getID().equals(lesson.getcourseID())) {
                 c.addLesson(lesson);
-                coursedatabase.write();
+                coursedb.write();
                 return;
             }
         }
@@ -114,9 +151,9 @@ public class CourseService {
 
     public void removeLesson(Lesson lesson) throws IOException {
         for (Course c : courses) {
-            if (c.getCourseID().equals(lesson.getcourseID())) {
+            if (c.getID().equals(lesson.getcourseID())) {
                 c.removeLesson(lesson);
-                coursedatabase.write();
+                coursedb.write();
                 return;
             }
         }
@@ -138,7 +175,7 @@ public class CourseService {
 
             }
         }
-        Set<CourseEnrollment> returnedEnrolls = student.getcourseEnrollments();
+        Set<CourseEnrollment> returnedEnrolls = student.getCourseEnrollments();
         ArrayList<String> coursesIDs = new ArrayList<>();
         for (CourseEnrollment ce : returnedEnrolls) {
             coursesIDs.add(ce.getCourseID());
@@ -148,7 +185,7 @@ public class CourseService {
         for (String str : coursesIDs) {
             for (Course course : courses) {
 
-                if (course.getCourseID().equals(str)) {
+                if (course.getID().equals(str)) {
                     enrolledcourses.add(course);
                 }
             }

@@ -1,6 +1,7 @@
 
 package ui;
 import misc.Validations;
+import services.UserService;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -13,19 +14,19 @@ import static misc.Validations.validateAge;
 import static misc.Validations.validateEmail;
 import static misc.Validations.validateName;
 import static misc.Validations.validatePhone;
+import services.*;
 
 
 public class Signup extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Signup.class.getName());
+    private UserService userservice;
 
-    /**
-     * Creates new form Signup
-     */
-    public Signup() {
+    public Signup() throws IOException {
+        userservice = new UserService();
         initComponents();
         Male.setSelected(true);
-        Student.setSelected(true);
+        studentType.setSelected(true);
         setTitle("Signup");
         setLocationRelativeTo(null);
     }
@@ -81,8 +82,8 @@ public class Signup extends javax.swing.JFrame {
         jToggleButton1 = new javax.swing.JToggleButton();
         jToggleButton2 = new javax.swing.JToggleButton();
         jLabel12 = new javax.swing.JLabel();
-        Student = new javax.swing.JRadioButton();
-        Instructor = new javax.swing.JRadioButton();
+        studentType = new javax.swing.JRadioButton();
+        instructorType = new javax.swing.JRadioButton();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -207,14 +208,14 @@ public class Signup extends javax.swing.JFrame {
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("User Type");
 
-        buttonGroup2.add(Student);
-        Student.setText("jRadioButton3");
+        buttonGroup2.add(studentType);
+        studentType.setText("jRadioButton3");
 
-        buttonGroup2.add(Instructor);
-        Instructor.setText("jRadioButton4");
-        Instructor.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup2.add(instructorType);
+        instructorType.setText("jRadioButton4");
+        instructorType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                InstructorActionPerformed(evt);
+                instructorTypeActionPerformed(evt);
             }
         });
 
@@ -263,7 +264,7 @@ public class Signup extends javax.swing.JFrame {
                                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                 .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)))
+                                                .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, Short.MAX_VALUE)))
                                         .addGap(32, 32, 32))
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -275,11 +276,11 @@ public class Signup extends javax.swing.JFrame {
                                         .addComponent(jLabel15))
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(jPanel3Layout.createSequentialGroup()
-                                            .addComponent(Student, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(studentType, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                             .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(69, 69, 69)
-                                            .addComponent(Instructor, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(instructorType, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(jPanel3Layout.createSequentialGroup()
                                             .addComponent(Male, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -356,8 +357,8 @@ public class Signup extends javax.swing.JFrame {
                                 .addComponent(jLabel11)))))
                 .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Student)
-                    .addComponent(Instructor)
+                    .addComponent(studentType)
+                    .addComponent(instructorType)
                     .addComponent(jLabel13)
                     .addComponent(jLabel14)
                     .addComponent(jLabel12))
@@ -460,9 +461,9 @@ public class Signup extends javax.swing.JFrame {
           Gender="Male";
         if(Female.isSelected())
           Gender="Female";
-        if(Student.isSelected())
+        if(studentType.isSelected())
           usertype="Student";
-        if(Instructor.isSelected())
+        if(instructorType.isSelected())
           usertype="Instructor";
         
         if (name.isEmpty()) {
@@ -529,12 +530,14 @@ public class Signup extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "Age Not Accepted.", "Validation Error", JOptionPane.ERROR_MESSAGE);
            return; 
         }
-        
+        userservice.registerUser(usertype,username,email,pass);
         JOptionPane.showMessageDialog(null, "Register successfully!");
         } 
-    catch (IllegalArgumentException ex) {
+        catch (IllegalArgumentException ex) {
         JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-    }
+        } catch (IOException ex) {
+            Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_Register
 
     private void Close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Close
@@ -542,9 +545,9 @@ public class Signup extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_Close
 
-    private void InstructorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InstructorActionPerformed
+    private void instructorTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instructorTypeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_InstructorActionPerformed
+    }//GEN-LAST:event_instructorTypeActionPerformed
 
     private void lastname(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lastname
         // TODO add your handling code here:
@@ -572,7 +575,13 @@ public class Signup extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Signup().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new Signup().setVisible(true);
+            } catch (IOException ex) {
+                System.getLogger(Signup.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -580,16 +589,15 @@ public class Signup extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser Date;
     private javax.swing.JTextField Email;
     private javax.swing.JRadioButton Female;
-    private javax.swing.JRadioButton Instructor;
     private javax.swing.JTextField LastName;
     private javax.swing.JRadioButton Male;
     private javax.swing.JTextField Name;
     private javax.swing.JPasswordField Password;
     private javax.swing.JTextField Phone;
-    private javax.swing.JRadioButton Student;
     private javax.swing.JTextField Username;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JRadioButton instructorType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -609,5 +617,6 @@ public class Signup extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JRadioButton studentType;
     // End of variables declaration//GEN-END:variables
 }

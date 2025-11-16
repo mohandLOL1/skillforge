@@ -1,11 +1,13 @@
 package users;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.HashSet;
 import java.util.Set;
 import misc.Validations;
 
 public class Instructor extends User {
-
+    
+    
     private Set<String> createdCoursesIDs;
     
     public Instructor() {
@@ -16,7 +18,8 @@ public class Instructor extends User {
         setUserID(userID);
         createdCoursesIDs = new HashSet<>();
     }
-
+    
+    @JsonProperty("id")
     @Override
     public void setUserID(String userID) {
         if (Validations.validateInstructorID(userID)) {
@@ -34,4 +37,14 @@ public class Instructor extends User {
             throw new IllegalArgumentException("Invalid course ID");
         }
     }
+    
+    @JsonProperty("type")
+    public String getType() {
+        return "instructor";
+    }
+    @JsonProperty("id")
+     public String getID() {
+        return userID;
+    }
+
 }

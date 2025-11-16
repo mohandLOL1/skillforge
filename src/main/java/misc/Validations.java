@@ -127,7 +127,7 @@ public class Validations {
         return true;
     }
     
-    public static boolean validatePasswordHash(String password){
+    public static boolean validatePassword(String password){
         return true;
     }
    
