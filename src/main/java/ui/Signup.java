@@ -13,9 +13,15 @@ import javax.swing.JOptionPane;
 import static misc.Validations.validateAge;
 import static misc.Validations.validateEmail;
 import static misc.Validations.validateName;
+import static misc.Validations.validatePassword;
 import static misc.Validations.validatePhone;
+import static misc.Validations.validateUsername;
+
 
 import services.*;
+
+
+
 
 
 
@@ -513,11 +519,20 @@ public class Signup extends javax.swing.JFrame {
             return; 
         }
         
+        if(!validateUsername(username)){
+            JOptionPane.showMessageDialog(null, "Username must be at least 3 characters max 10 accepet (a-zA-Z,numbers,_) start with letters.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return; 
+        
+        }
+        
         if(!validatePhone(phone)){
             JOptionPane.showMessageDialog(null, "wrong phone format.", "Validation Error", JOptionPane.ERROR_MESSAGE);
             return; 
         }
-          
+        if(!validatePassword(pass)){
+          JOptionPane.showMessageDialog(null, "password  must be at least 8 characters contains(a-zA-Z,numbers,SpecialChar).", "Validation Error", JOptionPane.ERROR_MESSAGE);
+           return;
+        }
         if(!pass.equals(conpass)){
            JOptionPane.showMessageDialog(null, "Passwords do not match.", "Validation Error", JOptionPane.ERROR_MESSAGE);
            return;
@@ -533,7 +548,15 @@ public class Signup extends javax.swing.JFrame {
            return; 
         }
 
+
         userservice.registerUser(usertype,username,email,pass);
+
+      
+        if(userservice.usernameExists(username)){
+           JOptionPane.showMessageDialog(null, "This username Already exist.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+           return; 
+ 
+        }
 
         JOptionPane.showMessageDialog(null, "Register successfully!");
         } 
