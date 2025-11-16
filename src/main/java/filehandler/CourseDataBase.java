@@ -18,18 +18,11 @@ public class CourseDataBase extends JSONDataBaseManager<Course> {
     public void read() throws IOException {
         File file = getWritableJsonFile(filename);
         
-        if (!file.exists()) {
-        System.out.println("File does not exist, creating new one.");
-        file.createNewFile();
-        this.records = new ArrayList<>();
-        return;
-    }
-
-    
-    if (file.length() == 0) {
+        if (!file.exists() || file.length() == 0) {
         System.out.println("File is empty, initializing empty records.");
-        this.records = new ArrayList<>();
-        return;
+        records = new ArrayList<>();  
+        return;                       
+    
     }
         this.records = mapper.readValue(file, new TypeReference<ArrayList<Course>>() {});
 

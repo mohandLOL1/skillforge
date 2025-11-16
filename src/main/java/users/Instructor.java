@@ -6,10 +6,9 @@ import java.util.Set;
 import misc.Validations;
 
 public class Instructor extends User {
-    
-    
+
     private Set<String> createdCoursesIDs;
-    
+
     public Instructor() {
     }
 
@@ -18,7 +17,7 @@ public class Instructor extends User {
         setUserID(userID);
         createdCoursesIDs = new HashSet<>();
     }
-    
+
     @JsonProperty("id")
     @Override
     public void setUserID(String userID) {
@@ -28,22 +27,26 @@ public class Instructor extends User {
             throw new IllegalArgumentException();
         }
     }
-    
-    public void addCreatedCourse(String courseID){
-        if(Validations.validateCourseID(courseID)){
+
+    public void addCreatedCourse(String courseID) {
+        if (Validations.validateCourseID(courseID)) {
             this.createdCoursesIDs.add(courseID);
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Invalid course ID");
         }
     }
-    
+
+    public Set<String> getCreatedCoursesIDs() {
+        return createdCoursesIDs;
+    }
+
     @JsonProperty("type")
     public String getType() {
         return "instructor";
     }
+
     @JsonProperty("id")
-     public String getID() {
+    public String getID() {
         return userID;
     }
 

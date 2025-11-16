@@ -236,7 +236,7 @@ public class Login extends javax.swing.JFrame {
 
         }
           else{
-           new InstructorDashboard().setVisible(true);}
+           new InstructorDashboard(user.getID()).setVisible(true);}
         } 
         else {
          JOptionPane.showMessageDialog(null, "Invalid username or password!");

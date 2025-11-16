@@ -1,14 +1,8 @@
 [ {
-  "username" : "mo",
+  "username" : "moh",
   "email" : "mohandamr2019@gmail.com",
-  "passwordHash" : "07123e1f482356c415f684407a3b8723e10b2cbbc0b8fcd6282c49d37c9c1abc",
-  "courseEnrollments" : [ ],
-  "id" : "S12406",
-  "type" : "student"
-}, {
-  "username" : "lol",
-  "email" : "mohandamr201@gmail.com",
-  "passwordHash" : "07123e1f482356c415f684407a3b8723e10b2cbbc0b8fcd6282c49d37c9c1abc",
-  "id" : "I17856",
-  "type" : "student"
+  "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
+  "createdCoursesIDs" : [ ],
+  "id" : "I15849",
+  "type" : "instructor"
 } ]

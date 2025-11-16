@@ -4,10 +4,6 @@
  */
 package ui;
 
-/**
- *
- * @author amr
- */
 public class StudentDashboard extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(StudentDashboard.class.getName());
