@@ -124,11 +124,48 @@ public class Validations {
     }
     
     public static boolean validateUsername(String username){
+        if(username==null||username.length()<3||username.length()>10)
+            
+        return false;
+        
+        if(!Character.isLetter(username.charAt(0)))
+            
+        return false;  
+        
+        for(int i=0;i<username.length();i++){
+        char c=username.charAt(i);
+        if(!Character.isLetterOrDigit(c)&&c!='_')
+           return false;
+        }
+        
         return true;
     }
     
     public static boolean validatePassword(String password){
-        return true;
+
+        boolean hasUpperCase = false;
+        boolean hasLowerCase = false;
+        boolean hasDigit = false;
+        boolean hasSpecialChar = false;
+        if (password==null || password.length()<8) {
+            return false;
+        }
+
+        for (char ch:password.toCharArray()) {
+            if (Character.isUpperCase(ch)) {
+                hasUpperCase=true;
+            } else if (Character.isLowerCase(ch)) {
+                hasLowerCase=true;
+            } else if (Character.isDigit(ch)) {
+                hasDigit = true;
+            } else {
+                if (!Character.isLetterOrDigit(ch)) {
+                    hasSpecialChar=true;
+                }
+            }
+        }
+        return hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar;
+
     }
    
 }
