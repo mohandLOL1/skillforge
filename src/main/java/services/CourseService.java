@@ -5,6 +5,7 @@ import filehandler.*;
 import java.util.ArrayList;
 import users.*;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.Set;
 
 public class CourseService {
@@ -90,6 +91,7 @@ public class CourseService {
                     c.removeLesson(s);
                     c.addLesson(lesson);
                     coursedatabase.write();
+
                     return;
                 }
             }
@@ -125,6 +127,33 @@ public class CourseService {
     public Set<Student> enrolledStudents(Course course) {
 
         return course.getStudents();
+    }
+
+    public Set<Course> enrolledcourses(String studentID) {
+
+        Student student = new Student();
+        for (User u : users) {
+            if (u.getID().equals(studentID)) {
+                student = (Student) u;
+
+            }
+        }
+        Set<CourseEnrollment> ee = student.getcourseEnrollments();
+        ArrayList<String> c = new ArrayList<>();
+        for (CourseEnrollment ce : ee) {
+            c.add(ce.getCourseID());
+        }
+
+        Set<Course> enrolledcourses = new HashSet<>();
+        for (String str : c) {
+            for (Course course : courses) {
+
+                if (course.getCourseID().equals(str)) {
+                    enrolledcourses.add(course);
+                }
+            }
+        }
+        return enrolledcourses;
     }
 
 }
