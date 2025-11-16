@@ -118,10 +118,6 @@ public class Validations {
         }
     }
 
-    public static boolean validatePasswordHash(String password) {
-        return true;
-    }
-
     public static boolean validateUsername(String username) {
         if (username == null || username.length() < 3 || username.length() > 10) {
             return false;
