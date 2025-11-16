@@ -46,7 +46,7 @@ public class UserService {
         String ID;
         String hashedPassword = SHA256.hash(password); 
   
-        if(role.equals("student")){
+        if(role.equalsIgnoreCase("student")){
             
             ID = Generator.generateStudentID();
             while(containsUser(ID)){
