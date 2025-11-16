@@ -22,6 +22,7 @@ public class CourseService {
        coursedb.read();
        users = userdb.returnAllRecords();
        courses = coursedb.returnAllRecords();
+       userservice = new UserService();
     }
   
     public boolean containsCourse(String courseID){
