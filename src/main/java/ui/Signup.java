@@ -1,6 +1,7 @@
 
 package ui;
 import misc.Validations;
+import services.UserService;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -13,6 +14,7 @@ import static misc.Validations.validateAge;
 import static misc.Validations.validateEmail;
 import static misc.Validations.validateName;
 import static misc.Validations.validatePhone;
+import static services.UserService.registerUser;
 
 
 public class Signup extends javax.swing.JFrame {
@@ -529,12 +531,14 @@ public class Signup extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "Age Not Accepted.", "Validation Error", JOptionPane.ERROR_MESSAGE);
            return; 
         }
-        
+        registerUser(usertype,username,email,pass);
         JOptionPane.showMessageDialog(null, "Register successfully!");
         } 
-    catch (IllegalArgumentException ex) {
+        catch (IllegalArgumentException ex) {
         JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-    }
+        } catch (IOException ex) {
+            Logger.getLogger(Signup.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_Register
 
     private void Close(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Close

@@ -7,6 +7,8 @@ package ui;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import services.UserService;
+import users.User;
 
 /**
  *
@@ -219,7 +221,19 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
             return; 
         }
-
+        User user = UserService.validateLogin(username, password);
+        if (user!=null) {
+         JOptionPane.showMessageDialog(null, "Login successful!");
+         this.dispose();
+          if(Student.isSelected()){
+            new StudentDashboard(user).setVisible(true);
+        }
+          else{
+           new InstructorDashboard().setVisible(true);}
+        } 
+        else {
+         JOptionPane.showMessageDialog(null, "Invalid username or password!");
+        }
         } catch (IllegalArgumentException ex) {
         JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
         } 
