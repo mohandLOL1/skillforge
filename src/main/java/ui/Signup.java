@@ -548,15 +548,14 @@ public class Signup extends javax.swing.JFrame {
            return; 
         }
 
-
-        userservice.registerUser(usertype,username,email,pass);
-
       
         if(userservice.usernameExists(username)){
            JOptionPane.showMessageDialog(null, "This username Already exist.", "Validation Error", JOptionPane.ERROR_MESSAGE);
            return; 
  
         }
+            
+        userservice.registerUser(usertype,username,email,pass);
 
         JOptionPane.showMessageDialog(null, "Register successfully!");
         } 
