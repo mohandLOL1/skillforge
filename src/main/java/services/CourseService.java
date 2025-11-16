@@ -27,7 +27,7 @@ public class CourseService {
 
     public boolean containsCourse(String courseID) {
         for (Course course : courses) {
-            if (course.getID().equals(courseID)) {
+            if (course.getCourseID().equals(courseID)) {
                 return true;
             }
         }
@@ -36,7 +36,7 @@ public class CourseService {
 
     public Course findCourse(String courseID) {
         for (Course course : courses) {
-            if (course.getID().equals(courseID)) {
+            if (course.getCourseID().equals(courseID)) {
                 return course;
             }
         }
@@ -126,7 +126,7 @@ public class CourseService {
             }
         }
         for (Course c : courses) {
-            if (c.getID().equals(courseID)) {
+            if (c.getCourseID().equals(courseID)) {
                 course = c;
             }
         }

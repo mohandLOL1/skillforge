@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package ui;
 
 import java.awt.Color;
@@ -9,6 +6,7 @@ import java.io.IOException;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import services.UserService;
+import users.Instructor;
 import users.User;
 
 /**
@@ -16,15 +14,16 @@ import users.User;
  * @author amr
  */
 public class Login extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
     private UserService userservice;
+
     /**
      * Creates new form Login
      */
     public Login() throws IOException {
         userservice = new UserService();
-       
+
         initComponents();
         Student.setSelected(true);
         setTitle("Login");
@@ -202,54 +201,53 @@ public class Login extends javax.swing.JFrame {
 
     private void Login(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Login
         // TODO add your handling code here:
-        try{
-        String username = jTextField1.getText().trim();
-        String password = new String(jPasswordField1.getPassword()).trim();
-        boolean hasError = false;
-        
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY, 1));
-        jPasswordField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY, 1));
+         try {
+            String username = jTextField1.getText().trim();
+            String password = new String(jPasswordField1.getPassword()).trim();
+            boolean hasError = false;
 
-        if (username.isEmpty()) {
-            jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
-            hasError = true;
-        }
-        
-        if (password.isEmpty()) {
-            jPasswordField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
-            hasError = true;
-        }
-        
-        if (hasError) {
-            JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
-            return; 
-        }
+            jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY, 1));
+            jPasswordField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY, 1));
 
-        User user = userservice.validateLogin(username, password);
+            if (username.isEmpty()) {
+                jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
+                hasError = true;
+            }
 
-        if (user!=null) {
-         JOptionPane.showMessageDialog(null, "Login successful!");
-         this.dispose();
-          if(Student.isSelected()){
+            if (password.isEmpty()) {
+                jPasswordField1.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
+                hasError = true;
+            }
 
-            new StudentDashboard().setVisible(true);
+            if (hasError) {
+                JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
-        }
-          else{
-           new InstructorDashboard(user.getID()).setVisible(true);}
-        } 
-        else {
-         JOptionPane.showMessageDialog(null, "Invalid username or password!");
-        }
+            User user = userservice.validateLogin(username, password);
+
+            if (user != null) {
+                JOptionPane.showMessageDialog(null, "Login successful!");
+                this.dispose();
+                if (Student.isSelected()) {
+
+                    new StudentDashboard().setVisible(true);
+
+                } else {
+                    new InstructorDashboard(user.getID()).setVisible(true);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid username or password!");
+            }
         } catch (IllegalArgumentException ex) {
-        JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
-        } 
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_Login
 
     private void Sing_up(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Sing_up
         try {
             // TODO add your handling code here:
-            Signup s=new Signup();
+            Signup s = new Signup();
             s.setVisible(true);
         } catch (IOException ex) {
             System.getLogger(Login.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
@@ -263,7 +261,7 @@ public class Login extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

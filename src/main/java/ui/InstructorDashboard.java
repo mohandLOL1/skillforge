@@ -12,33 +12,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.*;
 import javax.swing.JOptionPane;
-import static misc.Validations.validateAge;
-import static misc.Validations.validateEmail;
-import static misc.Validations.validateName;
-import static misc.Validations.validatePassword;
-import static misc.Validations.validatePhone;
-import static misc.Validations.validateUsername;
 import users.Student;
 
 public class InstructorDashboard extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InstructorDashboard.class.getName());
     private CourseService cs;
+
     private String instructorID;
     
 
    
     public InstructorDashboard(String instructorID) {
         this.instructorID = instructorID;
-        
-        
         try {
             cs = new CourseService();
         } catch (IOException e) {
            
             logger.log(java.util.logging.Level.SEVERE, null, e);
         }
-        
+
         initComponents();
         setLocationRelativeTo(null);
         setTitle("Instructor Dashboard");
@@ -223,8 +216,8 @@ public class InstructorDashboard extends javax.swing.JFrame {
             String desc = javax.swing.JOptionPane.showInputDialog(this, "Course Description:");
             
 
-            cs.createCourse(title, desc, instructorID);
 
+            cs.createCourse(title, desc, instructorID);
             javax.swing.JOptionPane.showMessageDialog(this, "Course Added Successfully!");
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
@@ -271,7 +264,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             String newDescription = JOptionPane.showInputDialog(this, "New Description:");
 
             Course updated = new Course(
-                    oldCourse.getID(),
+                    oldCourse.getCourseID(),
                     newTitle,
                     newDescription,
                     oldCourse.getInstructorID()
@@ -303,6 +296,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -324,6 +318,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new InstructorDashboard("123").setVisible(true));
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCourse;

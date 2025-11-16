@@ -29,9 +29,7 @@ public class Course {
         
     }
 
-    public String getID() {
-        return courseID;
-    }
+    
 
     public void setID(String courseID) {
         if (courseID == null || courseID.trim().isEmpty()) {
@@ -94,6 +92,6 @@ public class Course {
     }
 
    public String getCourseID() {
-       return getID();
+       return this.courseID;
     }
 }
