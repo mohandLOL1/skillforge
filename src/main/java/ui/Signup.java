@@ -14,7 +14,9 @@ import static misc.Validations.validateAge;
 import static misc.Validations.validateEmail;
 import static misc.Validations.validateName;
 import static misc.Validations.validatePhone;
+
 import services.*;
+
 
 
 public class Signup extends javax.swing.JFrame {
@@ -530,7 +532,9 @@ public class Signup extends javax.swing.JFrame {
            JOptionPane.showMessageDialog(null, "Age Not Accepted.", "Validation Error", JOptionPane.ERROR_MESSAGE);
            return; 
         }
+
         userservice.registerUser(usertype,username,email,pass);
+
         JOptionPane.showMessageDialog(null, "Register successfully!");
         } 
         catch (IllegalArgumentException ex) {

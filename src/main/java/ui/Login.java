@@ -224,12 +224,16 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
             return; 
         }
+
         User user = userservice.validateLogin(username, password);
+
         if (user!=null) {
          JOptionPane.showMessageDialog(null, "Login successful!");
          this.dispose();
           if(Student.isSelected()){
+
             new StudentDashboard().setVisible(true);
+
         }
           else{
            new InstructorDashboard().setVisible(true);}
