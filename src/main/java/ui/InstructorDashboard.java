@@ -1,16 +1,42 @@
-
 package ui;
 
+import courses.Course;
+import courses.Lesson;
+import misc.Validations;
+import services.UserService;
+import services.CourseService;
+import java.io.IOException;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.*;
+import javax.swing.JOptionPane;
+import static misc.Validations.validateAge;
+import static misc.Validations.validateEmail;
+import static misc.Validations.validateName;
+import static misc.Validations.validatePassword;
+import static misc.Validations.validatePhone;
+import static misc.Validations.validateUsername;
+import users.Student;
 
 public class InstructorDashboard extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InstructorDashboard.class.getName());
+    private CourseService cs;
 
     /**
      * Creates new form InstructorDashboard
      */
     public InstructorDashboard() {
         initComponents();
+        try {
+            cs = new CourseService();
+        } catch (IOException e) {
+            logger.log(java.util.logging.Level.SEVERE, null, e);
+        }
+        setLocationRelativeTo(null);
+        setTitle("Instructor Dashboard");
     }
 
     /**
@@ -22,21 +48,250 @@ public class InstructorDashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        addCourse = new javax.swing.JButton();
+        deleteCourse = new javax.swing.JButton();
+        addLesson = new javax.swing.JButton();
+        deleteLesson = new javax.swing.JButton();
+        editCourse = new javax.swing.JButton();
+        editLesson = new javax.swing.JButton();
+        enrolledStudents = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe Print", 1, 24)); // NOI18N
+        jLabel1.setText("manage courses");
+
+        addCourse.setText("Add Course");
+        addCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addCourseActionPerformed(evt);
+            }
+        });
+
+        deleteCourse.setText("Delete Course");
+        deleteCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteCourseActionPerformed(evt);
+            }
+        });
+
+        addLesson.setText("Add Lesson");
+        addLesson.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addLessonActionPerformed(evt);
+            }
+        });
+
+        deleteLesson.setText("Delete Lesson");
+        deleteLesson.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteLessonActionPerformed(evt);
+            }
+        });
+
+        editCourse.setText("Edit Course");
+        editCourse.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editCourseActionPerformed(evt);
+            }
+        });
+
+        editLesson.setText("Edit Lesson");
+        editLesson.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editLessonActionPerformed(evt);
+            }
+        });
+
+        enrolledStudents.setText("Enrolled Students");
+        enrolledStudents.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enrolledStudentsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(editCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deleteCourse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(deleteLesson, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(editLesson, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addLesson, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(122, 122, 122)
+                        .addComponent(enrolledStudents, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(100, 100, 100)
+                        .addComponent(jLabel1)))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addCourse)
+                    .addComponent(addLesson))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(deleteCourse)
+                    .addComponent(deleteLesson))
+                .addGap(40, 40, 40)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(editCourse)
+                    .addComponent(editLesson))
+                .addGap(18, 18, 18)
+                .addComponent(enrolledStudents)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void editLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editLessonActionPerformed
+        // TODO add your handling code here:
+        try {
+            String courseID = JOptionPane.showInputDialog(this, "Course ID:");
+            String lessonID = JOptionPane.showInputDialog(this, "Lesson ID:");
+
+            Course course = cs.findCourse(courseID);
+            if (course == null) {
+                JOptionPane.showMessageDialog(this, "Course not found!");
+                return;
+            }
+            Lesson oldLesson = cs.findLessonInCourse(lessonID, course);
+            if (oldLesson == null) {
+                JOptionPane.showMessageDialog(this, "Lesson not found!");
+                return;
+            }
+            String newTitle = JOptionPane.showInputDialog(this, "New Title:");
+            String newContent = JOptionPane.showInputDialog(this, "New Content:");
+
+            Lesson edited = new Lesson(lessonID, newTitle, newContent, courseID);
+
+            cs.editLesson(edited, courseID);
+
+            JOptionPane.showMessageDialog(this, "Lesson updated successfully!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+
+    }//GEN-LAST:event_editLessonActionPerformed
+
+    private void addLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addLessonActionPerformed
+        // TODO add your handling code here:
+        try {
+            String courseID = JOptionPane.showInputDialog(this, "Course ID:");
+            String title = JOptionPane.showInputDialog(this, "Lesson Title:");
+            String content = JOptionPane.showInputDialog(this, "Lesson Content:");
+
+            cs.addLesson(title, content, courseID);
+
+            JOptionPane.showMessageDialog(this, "Lesson added successfully!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+
+    }//GEN-LAST:event_addLessonActionPerformed
+
+    private void addCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCourseActionPerformed
+        // TODO add your handling code here:
+        try {
+            String title = javax.swing.JOptionPane.showInputDialog(this, "Course Title:");
+            String desc = javax.swing.JOptionPane.showInputDialog(this, "Course Description:");
+            String instructorID = javax.swing.JOptionPane.showInputDialog(this, "Instructor ID:");
+
+            cs.createCourse(title, desc, instructorID);
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Course Added Successfully!");
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_addCourseActionPerformed
+
+    private void deleteCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCourseActionPerformed
+        // TODO add your handling code here:
+        try {
+            String courseID = JOptionPane.showInputDialog(this, "Course ID to delete:");
+
+            cs.deleteCourse(courseID);
+
+            JOptionPane.showMessageDialog(this, "Course deleted successfully!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_deleteCourseActionPerformed
+
+    private void deleteLessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteLessonActionPerformed
+        // TODO add your handling code here:
+        try {
+            String courseID = JOptionPane.showInputDialog(this, "Course ID:");
+            String lessonID = JOptionPane.showInputDialog(this, "Lesson ID:");
+
+            cs.removeLesson(courseID, lessonID);
+            JOptionPane.showMessageDialog(this, "Lesson deleted successfully!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_deleteLessonActionPerformed
+
+    private void editCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editCourseActionPerformed
+        // TODO add your handling code here:
+        try {
+            String courseID = JOptionPane.showInputDialog(this, "Course ID to edit:");
+
+            Course oldCourse = cs.findCourse(courseID);
+            if (oldCourse == null) {
+                JOptionPane.showMessageDialog(this, "Course not found!");
+                return;
+            }
+            String newTitle = JOptionPane.showInputDialog(this, "New Title:");
+            String newDescription = JOptionPane.showInputDialog(this, "New Description:");
+
+            Course updated = new Course(
+                    oldCourse.getID(),
+                    newTitle,
+                    newDescription,
+                    oldCourse.getInstructorID()
+            );
+            for (Lesson l : oldCourse.getLessons()) {
+                updated.addLesson(l);
+            }
+            for (Student s : oldCourse.getStudents()) {
+                updated.addStudent(s);
+            }
+            cs.editCourse(updated);
+
+            JOptionPane.showMessageDialog(this, "Course updated successfully!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }//GEN-LAST:event_editCourseActionPerformed
+
+    private void enrolledStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enrolledStudentsActionPerformed
+        // TODO add your handling code here:
+        String courseID = JOptionPane.showInputDialog("Enter Course ID:");
+
+        if (courseID != null && !courseID.trim().isEmpty()) {
+            enrolled_students es = new enrolled_students(courseID, cs);
+            es.setVisible(true);
+        }
+    }//GEN-LAST:event_enrolledStudentsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -45,7 +300,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -64,5 +319,13 @@ public class InstructorDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addCourse;
+    private javax.swing.JButton addLesson;
+    private javax.swing.JButton deleteCourse;
+    private javax.swing.JButton deleteLesson;
+    private javax.swing.JButton editCourse;
+    private javax.swing.JButton editLesson;
+    private javax.swing.JButton enrolledStudents;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
