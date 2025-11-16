@@ -18,23 +18,38 @@ import static misc.Validations.validateName;
 import static misc.Validations.validatePassword;
 import static misc.Validations.validatePhone;
 import static misc.Validations.validateUsername;
+import users.Instructor;
 import users.Student;
 
 public class InstructorDashboard extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(InstructorDashboard.class.getName());
     private CourseService cs;
+    private Instructor loggedInInstructor;
 
     /**
      * Creates new form InstructorDashboard
      */
     public InstructorDashboard() {
-        initComponents();
+
         try {
             cs = new CourseService();
         } catch (IOException e) {
             logger.log(java.util.logging.Level.SEVERE, null, e);
         }
+        initComponents();
+        setLocationRelativeTo(null);
+        setTitle("Instructor Dashboard");
+    }
+
+    public InstructorDashboard(Instructor instructor) {
+        this.loggedInInstructor = instructor;
+        try {
+            cs = new CourseService();
+        } catch (IOException e) {
+            logger.log(java.util.logging.Level.SEVERE, null, e);
+        }
+        initComponents();
         setLocationRelativeTo(null);
         setTitle("Instructor Dashboard");
     }
@@ -214,10 +229,8 @@ public class InstructorDashboard extends javax.swing.JFrame {
         try {
             String title = javax.swing.JOptionPane.showInputDialog(this, "Course Title:");
             String desc = javax.swing.JOptionPane.showInputDialog(this, "Course Description:");
-            String instructorID = javax.swing.JOptionPane.showInputDialog(this, "Instructor ID:");
-
+            String instructorID = loggedInInstructor.getID();
             cs.createCourse(title, desc, instructorID);
-
             javax.swing.JOptionPane.showMessageDialog(this, "Course Added Successfully!");
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
