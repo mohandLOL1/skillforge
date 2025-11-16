@@ -67,7 +67,7 @@ public class Course {
     }
 
     public void setInstructorID(String instructorID) {
-        if (Validations.validateInstructorID(instructorID)) {
+        if (!Validations.validateInstructorID(instructorID)) {
             throw new IllegalArgumentException("Instructor ID cannot be empty");
         }
         this.instructorID = instructorID.trim();
