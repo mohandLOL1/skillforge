@@ -51,7 +51,6 @@ public class Validations {
     }
 
     public static boolean validatePhone(String number) {
-
         number = number.trim();
 
         if (number.length() != 12) {
@@ -89,9 +88,9 @@ public class Validations {
         }
     }
 
-    public static boolean validateInstructorID(String studentID) {
-        if (studentID.charAt(0) == 'S') {
-            String numberSubString = studentID.substring(1);
+    public static boolean validateInstructorID(String InstructorID) {
+        if (InstructorID.charAt(0) == 'I') {
+            String numberSubString = InstructorID.substring(1);
             int ID = Integer.parseInt(numberSubString);
             return ID >= 10000 && ID <= 20000;
         } else {
@@ -99,12 +98,74 @@ public class Validations {
         }
     }
 
-    public static boolean validateUsername(String username) {
-        return true;
+    public static boolean validateCourseID(String CourseID) {
+        if (CourseID.charAt(0) == 'C') {
+            String numberSubString = CourseID.substring(1);
+            int ID = Integer.parseInt(numberSubString);
+            return ID >= 10000 && ID <= 20000;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean validateLessonID(String LessonID) {
+        if (LessonID.charAt(0) == 'C') {
+            String numberSubString = LessonID.substring(1);
+            int ID = Integer.parseInt(numberSubString);
+            return ID >= 10000 && ID <= 20000;
+        } else {
+            return false;
+        }
     }
 
     public static boolean validatePasswordHash(String password) {
         return true;
+    }
+
+    public static boolean validateUsername(String username) {
+        if (username == null || username.length() < 3 || username.length() > 10) {
+            return false;
+        }
+
+        if (!Character.isLetter(username.charAt(0))) {
+            return false;
+        }
+
+        for (int i = 0; i < username.length(); i++) {
+            char c = username.charAt(i);
+            if (!Character.isLetterOrDigit(c) && c != '_') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public static boolean validatePassword(String password) {
+
+        boolean hasUpperCase = false;
+        boolean hasLowerCase = false;
+        boolean hasDigit = false;
+        boolean hasSpecialChar = false;
+        if (password == null || password.length() < 8) {
+            return false;
+        }
+
+        for (char ch : password.toCharArray()) {
+            if (Character.isUpperCase(ch)) {
+                hasUpperCase = true;
+            } else if (Character.isLowerCase(ch)) {
+                hasLowerCase = true;
+            } else if (Character.isDigit(ch)) {
+                hasDigit = true;
+            } else {
+                if (!Character.isLetterOrDigit(ch)) {
+                    hasSpecialChar = true;
+                }
+            }
+        }
+        return hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar;
+
     }
 
 }

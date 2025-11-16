@@ -1,1 +1,14 @@
-
+[ {
+  "username" : "mo",
+  "email" : "mohandamr2019@gmail.com",
+  "passwordHash" : "07123e1f482356c415f684407a3b8723e10b2cbbc0b8fcd6282c49d37c9c1abc",
+  "courseEnrollments" : [ ],
+  "id" : "S12406",
+  "type" : "student"
+}, {
+  "username" : "lol",
+  "email" : "mohandamr201@gmail.com",
+  "passwordHash" : "07123e1f482356c415f684407a3b8723e10b2cbbc0b8fcd6282c49d37c9c1abc",
+  "id" : "I17856",
+  "type" : "student"
+} ]
