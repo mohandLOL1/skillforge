@@ -13,14 +13,14 @@ public class UserService {
     private static final UserDataBase userdb = new UserDataBase("users.json");
     private static final ArrayList<User> users = userdb.returnAllRecords();
     
-    public static boolean validateLogin(String username, String password){
+    public static User validateLogin(String username, String password){
         String hashedPassword = SHA256.hash(password);
         for(User user : users){
             if(user.getUsername().equals(username) && user.getPasswordHash().equals(hashedPassword)){
-                return true;
+                return user;
             }
         }
-        return false;
+        return null;
     }
     
     public static boolean containsUser(String userID){
