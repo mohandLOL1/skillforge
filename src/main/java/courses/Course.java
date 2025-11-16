@@ -92,4 +92,8 @@ public class Course {
     public void addStudent(Student s){
         this.students.add(s);
     }
+
+   public String getCourseID() {
+       return getID();
+    }
 }
