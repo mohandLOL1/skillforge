@@ -126,11 +126,12 @@ public class StudentDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(0, 0, 0));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 645, -1));
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 645, 0);
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -155,7 +156,8 @@ public class StudentDashboard extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, 90));
+        getContentPane().add(jPanel2);
+        jPanel2.setBounds(0, 0, 710, 90);
 
         jPanel4.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -211,7 +213,8 @@ public class StudentDashboard extends javax.swing.JFrame {
                 .addContainerGap(194, Short.MAX_VALUE))
         );
 
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 200, 430));
+        getContentPane().add(jPanel4);
+        jPanel4.setBounds(0, 90, 200, 430);
 
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -496,7 +499,8 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab6", jPanel9);
 
-        getContentPane().add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 60, 510, 460));
+        getContentPane().add(jTabbedPane1);
+        jTabbedPane1.setBounds(200, 60, 510, 460);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
