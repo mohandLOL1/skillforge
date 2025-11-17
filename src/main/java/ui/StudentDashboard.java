@@ -129,7 +129,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.setLayout(null);
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 645, 0);
 
