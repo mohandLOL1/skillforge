@@ -26,6 +26,8 @@ public class enrolled_students extends javax.swing.JFrame {
     public enrolled_students(String courseID, CourseService courseService) {
         initComponents();
         loadStudents(courseID, courseService);
+        setTitle("Enrolled Students");
+        setLocationRelativeTo(null);
     }
 
     private void loadStudents(String courseID, CourseService courseService) {

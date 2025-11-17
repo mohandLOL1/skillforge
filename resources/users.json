@@ -5,4 +5,11 @@
   "createdCoursesIDs" : [ ],
   "id" : "I19091",
   "type" : "instructor"
+}, {
+  "username" : "snmoe",
+  "email" : "moe1@gmail.com",
+  "passwordHash" : "11d7f1d044d1f23c84a1a2729436c6772862510f2b6f6810ccd127d8e1cc7a15",
+  "createdCoursesIDs" : [ ],
+  "id" : "I18343",
+  "type" : "instructor"
 } ]
