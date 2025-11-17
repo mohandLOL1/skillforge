@@ -52,6 +52,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         editCourse = new javax.swing.JButton();
         editLesson = new javax.swing.JButton();
         enrolledStudents = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(0, 153, 204));
@@ -108,6 +109,13 @@ public class InstructorDashboard extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Logout");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -131,7 +139,10 @@ public class InstructorDashboard extends javax.swing.JFrame {
                         .addComponent(enrolledStudents, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(100, 100, 100)
-                        .addComponent(jLabel1)))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jButton1)))
                 .addContainerGap(110, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -151,9 +162,11 @@ public class InstructorDashboard extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editCourse)
                     .addComponent(editLesson))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(enrolledStudents)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         pack();
@@ -287,6 +300,19 @@ public class InstructorDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_enrolledStudentsActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+
+        try {
+            // TODO add your handling code here:
+
+            Login lg = new Login();
+            lg.setVisible(true);
+        } catch (IOException ex) {
+            System.getLogger(InstructorDashboard.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -320,6 +346,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
     private javax.swing.JButton editCourse;
     private javax.swing.JButton editLesson;
     private javax.swing.JButton enrolledStudents;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
