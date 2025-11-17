@@ -244,4 +244,34 @@ public class CourseService {
         return enrolledCourses;
     }
 
+    
+ public ArrayList<Lesson> getLessons(String courseID) {
+    Course course = findCourse(courseID);
+    if (course == null) {
+        throw new IllegalArgumentException("Course not found");
+    }
+
+    return new ArrayList<>(course.getLessons());
+    }
+    
+    public Set<String> completedLessons(String studentID, String courseID) {
+
+    User user = userservice.getUser(studentID);
+
+    if (user == null) {
+        throw new IllegalArgumentException("User not found");
+    }
+    if (!(user instanceof Student)) {
+        throw new IllegalArgumentException("User is not a student");
+    }
+
+    Student student = (Student) user;
+
+    for (CourseEnrollment ce : student.getCourseEnrollments()) {
+        if (ce.getCourseID().equals(courseID)) {
+            return ce.getCompletedLessons();  
+        }
+    }
+    return new HashSet<>();  
+}
 }
