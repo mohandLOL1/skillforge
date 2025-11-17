@@ -6,11 +6,12 @@ import java.util.Set;
 import misc.Validations;
 
 public class Instructor extends User {
-    
+
     private String type = "instructor";
     private Set<String> createdCoursesIDs;
 
     public Instructor() {
+        createdCoursesIDs = new HashSet<>();
     }
 
     public Instructor(String userID, String username, String email, String passwordHash) {
@@ -41,18 +42,27 @@ public class Instructor extends User {
         return createdCoursesIDs;
     }
 
-   
+    @JsonProperty("createdCoursesIDs")
+    public void setCreatedCoursesIDs(Set<String> createdCoursesIDs) {
+        if (createdCoursesIDs != null) {
+            this.createdCoursesIDs = createdCoursesIDs;
+        } else {
+            this.createdCoursesIDs = new HashSet<>();
+        }
+    }
 
     @JsonProperty("id")
     public String getID() {
         return userID;
     }
+
     @JsonProperty("type")
-    public void setType(String type){
+    public void setType(String type) {
         this.type = type;
     }
+
     @JsonProperty("type")
-    public String getType(){
+    public String getType() {
         return "instructor";
     }
 

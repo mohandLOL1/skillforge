@@ -17,6 +17,7 @@ public class Student extends User {
     }
 
     public Student() {
+        courseEnrollments = new HashSet<>();
     }
 
     public Student(String userID, String username, String email, String passwordHash) {

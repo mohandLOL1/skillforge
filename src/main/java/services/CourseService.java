@@ -53,8 +53,16 @@ public class CourseService {
     }
 
     public void createCourse(String title, String description, String instructorID) throws IOException {
+        
+        User tempUser = null;
+        
+        
 
-        User tempUser = userservice.getUser(instructorID);
+        for(User user : users){
+            if(user.getID().equals(instructorID)){
+                tempUser = user;
+            }
+        }
 
         if (tempUser != null) {
             if (tempUser instanceof Instructor) {
@@ -68,6 +76,7 @@ public class CourseService {
                 courses.add(newCourse);
 
                 ((Instructor) tempUser).addCreatedCourse(newCourseID);
+                
 
                 coursedb.write();
                 userdb.write();

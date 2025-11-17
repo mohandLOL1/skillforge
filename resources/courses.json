@@ -1,32 +1,22 @@
 [ {
-  "courseID" : "C10364",
-  "title" : "moh'",
+  "courseID" : "C19057",
+  "title" : "lol",
   "description" : "moh",
-  "instructorID" : "I10117",
-  "lessons" : [ {
-    "lessonID" : "L15136",
-    "title" : "lol",
-    "content" : "xd",
-    "courseID" : "C10364"
-  } ],
-  "students" : [ {
-    "type" : "student",
-    "username" : "moh",
-    "email" : "mohandamr2019@gmail.com",
-    "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
-    "courseEnrollments" : [ {
-      "courseID" : "C10364",
-      "percent" : 0.0,
-      "completedLessons" : [ ]
-    } ],
-    "id" : "S19438",
-    "type" : "student"
-  } ]
+  "instructorID" : "I16551",
+  "lessons" : [ ],
+  "students" : [ ]
 }, {
-  "courseID" : "C19588",
-  "title" : "LOL",
+  "courseID" : "C16329",
+  "title" : "lol",
   "description" : "lol",
-  "instructorID" : "I10117",
+  "instructorID" : "I16551",
+  "lessons" : [ ],
+  "students" : [ ]
+}, {
+  "courseID" : "C10193",
+  "title" : "lol",
+  "description" : "lol",
+  "instructorID" : "I16551",
   "lessons" : [ ],
   "students" : [ ]
 } ]
