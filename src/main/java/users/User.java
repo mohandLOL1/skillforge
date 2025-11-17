@@ -6,15 +6,14 @@ import misc.Validations;
 
 
 
-
 @JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME,
-    include = JsonTypeInfo.As.PROPERTY,
-    property = "type"
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
 )
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = Student.class, name = "student"),
-    @JsonSubTypes.Type(value = Instructor.class, name = "instructor")
+        @JsonSubTypes.Type(value = Student.class, name = "student"),
+        @JsonSubTypes.Type(value = Instructor.class, name = "instructor")
 })
 
 public abstract class User {

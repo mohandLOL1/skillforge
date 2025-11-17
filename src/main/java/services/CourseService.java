@@ -274,4 +274,18 @@ public class CourseService {
     }
     return new HashSet<>();  
 }
+    
+    public boolean studentInCourse(String studentID,String courseID){
+        Student s = (Student) userservice.getUser(studentID);
+        if(s.getCourseEnrollments().isEmpty())
+            return false;
+        
+        Set<CourseEnrollment> temp = s.getCourseEnrollments();
+        for(CourseEnrollment c : temp){
+            if(c.getCourseID().equals(courseID))
+                return true;
+        }
+        
+        return false;
+    }
 }

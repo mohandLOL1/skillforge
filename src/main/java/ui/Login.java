@@ -231,7 +231,7 @@ public class Login extends javax.swing.JFrame {
                 this.dispose();
                 if (Student.isSelected()) {
 
-                    new StudentDashboard().setVisible(true);
+                    new StudentDashboard(user).setVisible(true);
 
                 } else {
                     new InstructorDashboard(user.getID()).setVisible(true);

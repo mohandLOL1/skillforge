@@ -39,10 +39,12 @@ public class StudentDashboard extends javax.swing.JFrame {
         DefaultTableModel m = (DefaultTableModel) jTable1.getModel();
         m.setRowCount(0);
         CourseService service = new CourseService();
+        
         ArrayList<Course> available = service.returnAllCourses();
         for (Course c : available) {
           m.addRow(new Object[]{c.getCourseID(),c.getTitle(),c.getDescription(),c.getInstructorID()});
-    }}
+    }
+     }
      
      public void loadEnrolledCourses() throws IOException {
       DefaultTableModel m = (DefaultTableModel) jTable2.getModel();
@@ -50,7 +52,11 @@ public class StudentDashboard extends javax.swing.JFrame {
 
       CourseService service = new CourseService();
       Set<Course> enrolled = service.enrolledcourses(log.getID());
-
+      
+      if(enrolled.isEmpty()){
+          return;
+      }
+      
       for (Course c : enrolled) {
         m.addRow(new Object[]{c.getCourseID(),c.getTitle(),c.getDescription(),c.getInstructorID()});
     }}
@@ -560,13 +566,15 @@ public class StudentDashboard extends javax.swing.JFrame {
         try {
             CourseService service = new CourseService();
             Set<Course> enrolled = service.enrolledcourses(studentID);
+            
+            
 
-            for (Course c : enrolled) {
-                if (c.getCourseID().equals(courseID)) {
+           
+                if (service.studentInCourse(studentID, courseID)) {
                     JOptionPane.showMessageDialog(this,"You are already enrolled in this course.");
                     return;
                 }
-            }
+            
 
             CourseService.enrollStudent(studentID, courseID);
             JOptionPane.showMessageDialog(this, "Enrolled successfully!");

@@ -6,7 +6,8 @@ import java.util.Set;
 import misc.Validations;
 
 public class Instructor extends User {
-
+    
+    private String type = "instructor";
     private Set<String> createdCoursesIDs;
 
     public Instructor() {
@@ -40,14 +41,19 @@ public class Instructor extends User {
         return createdCoursesIDs;
     }
 
-    @JsonProperty("type")
-    public String getType() {
-        return "instructor";
-    }
+   
 
     @JsonProperty("id")
     public String getID() {
         return userID;
+    }
+    @JsonProperty("type")
+    public void setType(String type){
+        this.type = type;
+    }
+    @JsonProperty("type")
+    public String getType(){
+        return "instructor";
     }
 
 }

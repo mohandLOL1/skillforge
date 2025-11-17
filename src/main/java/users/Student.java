@@ -8,8 +8,13 @@ import misc.Generator;
 import misc.Validations;
 
 public class Student extends User {
-
+    public String type = "student";
     private Set<CourseEnrollment> courseEnrollments;
+    
+    @JsonProperty("type")
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Student() {
     }
@@ -19,7 +24,7 @@ public class Student extends User {
         setUserID(userID);
         courseEnrollments = new HashSet<>();
     }
-    
+
     @JsonProperty("id")
     @Override
     public void setUserID(String userID) {
@@ -29,7 +34,7 @@ public class Student extends User {
             throw new IllegalArgumentException();
         }
     }
-    
+
     @JsonProperty("id")
     public String getID() {
         return userID;
@@ -47,4 +52,5 @@ public class Student extends User {
     public String getType() {
         return "student";
     }
+
 }

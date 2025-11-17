@@ -1,10 +1,10 @@
 package filehandler;
 
+import com.fasterxml.jackson.databind.MapperFeature;
 import java.io.IOException;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
-
 
 public abstract class JSONDataBaseManager<T> {
 
@@ -15,6 +15,8 @@ public abstract class JSONDataBaseManager<T> {
     public JSONDataBaseManager(String filename) {
         this.filename = filename;
         this.records = new ArrayList<>();
+
+ 
     }
 
     public File getWritableJsonFile(String filename) {

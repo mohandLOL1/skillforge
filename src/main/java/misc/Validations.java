@@ -109,7 +109,7 @@ public class Validations {
     }
 
     public static boolean validateLessonID(String LessonID) {
-        if (LessonID.charAt(0) == 'C') {
+        if (LessonID.charAt(0) == 'L') {
             String numberSubString = LessonID.substring(1);
             int ID = Integer.parseInt(numberSubString);
             return ID >= 10000 && ID <= 20000;
