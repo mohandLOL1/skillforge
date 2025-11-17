@@ -26,6 +26,8 @@ public class enrolled_students extends javax.swing.JFrame {
     public enrolled_students(String courseID, CourseService courseService) {
         initComponents();
         loadStudents(courseID, courseService);
+        setTitle("Enrolled Students");
+        setLocationRelativeTo(null);
     }
 
     private void loadStudents(String courseID, CourseService courseService) {
@@ -114,6 +116,7 @@ public class enrolled_students extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

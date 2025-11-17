@@ -20,15 +20,13 @@ public class InstructorDashboard extends javax.swing.JFrame {
     private CourseService cs;
 
     private String instructorID;
-    
 
-   
     public InstructorDashboard(String instructorID) {
         this.instructorID = instructorID;
         try {
             cs = new CourseService();
         } catch (IOException e) {
-           
+
             logger.log(java.util.logging.Level.SEVERE, null, e);
         }
 
@@ -36,8 +34,6 @@ public class InstructorDashboard extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setTitle("Instructor Dashboard");
     }
-
- 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,9 +52,10 @@ public class InstructorDashboard extends javax.swing.JFrame {
         editCourse = new javax.swing.JButton();
         editLesson = new javax.swing.JButton();
         enrolledStudents = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
+        setBackground(new java.awt.Color(0, 153, 204));
 
         jLabel1.setFont(new java.awt.Font("Segoe Print", 1, 24)); // NOI18N
         jLabel1.setText("manage courses");
@@ -112,6 +109,13 @@ public class InstructorDashboard extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Logout");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -135,7 +139,10 @@ public class InstructorDashboard extends javax.swing.JFrame {
                         .addComponent(enrolledStudents, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(100, 100, 100)
-                        .addComponent(jLabel1)))
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jButton1)))
                 .addContainerGap(110, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -155,9 +162,11 @@ public class InstructorDashboard extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editCourse)
                     .addComponent(editLesson))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(enrolledStudents)
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addContainerGap())
         );
 
         pack();
@@ -184,7 +193,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
 
             Lesson edited = new Lesson(lessonID, newTitle, newContent, courseID);
 
-            cs.editLesson(edited, courseID,this.instructorID);
+            cs.editLesson(edited, courseID, this.instructorID);
 
             JOptionPane.showMessageDialog(this, "Lesson updated successfully!");
         } catch (Exception e) {
@@ -200,7 +209,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             String title = JOptionPane.showInputDialog(this, "Lesson Title:");
             String content = JOptionPane.showInputDialog(this, "Lesson Content:");
 
-            cs.addLesson(title, content, courseID,this.instructorID);
+            cs.addLesson(title, content, courseID, this.instructorID);
 
             JOptionPane.showMessageDialog(this, "Lesson added successfully!");
         } catch (Exception e) {
@@ -214,8 +223,6 @@ public class InstructorDashboard extends javax.swing.JFrame {
         try {
             String title = javax.swing.JOptionPane.showInputDialog(this, "Course Title:");
             String desc = javax.swing.JOptionPane.showInputDialog(this, "Course Description:");
-            
-
 
             cs.createCourse(title, desc, instructorID);
             javax.swing.JOptionPane.showMessageDialog(this, "Course Added Successfully!");
@@ -229,7 +236,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
         try {
             String courseID = JOptionPane.showInputDialog(this, "Course ID to delete:");
 
-            cs.deleteCourse(courseID,this.instructorID);
+            cs.deleteCourse(courseID, this.instructorID);
 
             JOptionPane.showMessageDialog(this, "Course deleted successfully!");
         } catch (Exception e) {
@@ -243,7 +250,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             String courseID = JOptionPane.showInputDialog(this, "Course ID:");
             String lessonID = JOptionPane.showInputDialog(this, "Lesson ID:");
 
-            cs.removeLesson(courseID, lessonID,this.instructorID);
+            cs.removeLesson(courseID, lessonID, this.instructorID);
             JOptionPane.showMessageDialog(this, "Lesson deleted successfully!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -275,7 +282,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
             for (Student s : oldCourse.getStudents()) {
                 updated.addStudent(s);
             }
-            cs.editCourse(oldCourse.getCourseID(), newTitle, newDescription,this.instructorID);
+            cs.editCourse(oldCourse.getCourseID(), newTitle, newDescription, this.instructorID);
 
             JOptionPane.showMessageDialog(this, "Course updated successfully!");
         } catch (Exception e) {
@@ -293,10 +300,22 @@ public class InstructorDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_enrolledStudentsActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+
+        try {
+            // TODO add your handling code here:
+
+            Login lg = new Login();
+            lg.setVisible(true);
+        } catch (IOException ex) {
+            System.getLogger(InstructorDashboard.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -319,7 +338,6 @@ public class InstructorDashboard extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(() -> new InstructorDashboard("123").setVisible(true));
     }
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCourse;
     private javax.swing.JButton addLesson;
@@ -328,6 +346,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
     private javax.swing.JButton editCourse;
     private javax.swing.JButton editLesson;
     private javax.swing.JButton enrolledStudents;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

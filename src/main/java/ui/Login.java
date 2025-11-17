@@ -1,4 +1,3 @@
-
 package ui;
 
 import java.awt.Color;
@@ -201,7 +200,7 @@ public class Login extends javax.swing.JFrame {
 
     private void Login(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Login
         // TODO add your handling code here:
-         try {
+        try {
             String username = jTextField1.getText().trim();
             String password = new String(jPasswordField1.getPassword()).trim();
             boolean hasError = false;
