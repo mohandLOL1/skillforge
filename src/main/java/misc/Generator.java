@@ -21,7 +21,13 @@ public class Generator {
         return "I" + Integer.toString(ID);
     }
     
-    public static String generateCourseID(){ //generates an ID in the form of I12345
+    public static String AdminID(){ //generates an ID in the form of A12345
+        Random rand = new Random();
+        int ID = 10000 + rand.nextInt(10001);
+        return "A" + Integer.toString(ID);
+    }
+    
+    public static String generateCourseID(){ //generates an ID in the form of C12345
         Random rand = new Random();
         int ID = 10000 + rand.nextInt(10001);
         return "C" + Integer.toString(ID);
