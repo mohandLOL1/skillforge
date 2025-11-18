@@ -28,6 +28,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     public StudentDashboard(User user) {
         initComponents();
         setTitle("Student Dashboard");
+        setSize(720, 550);     
         setLocationRelativeTo(null);
         this.log=user;
         jTextField1.setText(user.getUsername());
@@ -117,8 +118,6 @@ public class StudentDashboard extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
         jToggleButton3 = new javax.swing.JToggleButton();
-        jPanel3 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
 
         jButton3.setBackground(new java.awt.Color(153, 153, 153));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -355,9 +354,8 @@ public class StudentDashboard extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jToggleButton2)
                 .addGap(19, 19, 19))
         );
@@ -415,9 +413,8 @@ public class StudentDashboard extends javax.swing.JFrame {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
                 .addComponent(jToggleButton1)
                 .addGap(15, 15, 15))
         );
@@ -426,6 +423,7 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(204, 204, 204));
 
+        jTable3.setBackground(new java.awt.Color(204, 204, 204));
         jTable3.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
@@ -475,36 +473,6 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab4", jPanel8);
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 425, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("tab5", jPanel3);
-
-        jPanel9.setBackground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 510, Short.MAX_VALUE)
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 425, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("tab6", jPanel9);
-
         getContentPane().add(jTabbedPane1);
         jTabbedPane1.setBounds(200, 60, 510, 460);
 
@@ -540,20 +508,42 @@ public class StudentDashboard extends javax.swing.JFrame {
        
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
         // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(4);
-        this.dispose();
-        try {
-            new Login().setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        int row = jTable3.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select a lesson first!");
+            return;
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        String lessonID = jTable3.getValueAt(row, 0).toString();
+        String courseID = jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString();
+
+        try {
+
+            jTable3.setValueAt("Yes", row, 2);
+
+            JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }//GEN-LAST:event_jToggleButton3ActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+        int row = jTable2.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select a course first!");
+            return;
+        }
+
+        String courseID = jTable2.getValueAt(row, 0).toString();
+
+        loadLessonsIntoTable(courseID);
+
+        jTabbedPane1.setSelectedIndex(3);
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
@@ -566,15 +556,11 @@ public class StudentDashboard extends javax.swing.JFrame {
         try {
             CourseService service = new CourseService();
             Set<Course> enrolled = service.enrolledcourses(studentID);
-            
-            
 
-           
-                if (service.studentInCourse(studentID, courseID)) {
-                    JOptionPane.showMessageDialog(this,"You are already enrolled in this course.");
-                    return;
-                }
-            
+            if (service.studentInCourse(studentID, courseID)) {
+                JOptionPane.showMessageDialog(this,"You are already enrolled in this course.");
+                return;
+            }
 
             CourseService.enrollStudent(studentID, courseID);
             JOptionPane.showMessageDialog(this, "Enrolled successfully!");
@@ -586,42 +572,19 @@ public class StudentDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-    int row = jTable2.getSelectedRow();
-      if (row == -1) {
-        JOptionPane.showMessageDialog(this, "Select a course first!");
-        return;
-      }
-
-    String courseID = jTable2.getValueAt(row, 0).toString(); 
-    
-    loadLessonsIntoTable(courseID);
-
-    jTabbedPane1.setSelectedIndex(3);
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
-
-    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
-        // TODO add your handling code here:
-        int row = jTable3.getSelectedRow();
-        if (row == -1) {
-          JOptionPane.showMessageDialog(this, "Select a lesson first!");
-          return;
+        this.dispose();
+        try {
+            new Login().setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
-       String lessonID = jTable3.getValueAt(row, 0).toString();
-       String courseID = jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString();
-
-       try {
-
-        jTable3.setValueAt("Yes", row, 2);
-
-        JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
-
-     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-    }
-    }//GEN-LAST:event_jToggleButton3ActionPerformed
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -660,13 +623,11 @@ public class StudentDashboard extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
