@@ -97,6 +97,16 @@ public class Validations {
             return false;
         }
     }
+    
+    public static boolean validateAdminID(String AdminID) {
+        if (AdminID.charAt(0) == 'A') {
+            String numberSubString = AdminID.substring(1);
+            int ID = Integer.parseInt(numberSubString);
+            return ID >= 10000 && ID <= 20000;
+        } else {
+            return false;
+        }
+    }
 
     public static boolean validateCourseID(String CourseID) {
         if (CourseID.charAt(0) == 'C') {
