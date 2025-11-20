@@ -22,11 +22,18 @@ public class StudentDashboard extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(StudentDashboard.class.getName());
     private User log;
+    private CourseService cs;
     /**
      * Creates new form StudentDashboard
      */
     public StudentDashboard(User user) {
         initComponents();
+        try {
+            cs = new CourseService();
+        } catch (IOException e) {
+
+            logger.log(java.util.logging.Level.SEVERE, null, e);
+        }
         setTitle("Student Dashboard");
         setSize(720, 550);     
         setLocationRelativeTo(null);
@@ -123,6 +130,8 @@ public class StudentDashboard extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         TakeQuiz = new javax.swing.JToggleButton();
         Back = new javax.swing.JToggleButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        Content = new javax.swing.JTextArea();
         jPanel9 = new javax.swing.JPanel();
         Download_certification = new javax.swing.JToggleButton();
         View_certification = new javax.swing.JToggleButton();
@@ -439,7 +448,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                 .addGap(24, 24, 24)
                 .addComponent(Viewlesson)
                 .addGap(15, 15, 15))
@@ -495,21 +504,21 @@ public class StudentDashboard extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
                 .addComponent(ViewContent)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(MarkCompleted)
-                .addGap(17, 17, 17))
+                .addGap(22, 22, 22))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(MarkCompleted)
-                    .addComponent(ViewContent))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(ViewContent)
+                    .addComponent(MarkCompleted))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab4", jPanel8);
@@ -532,6 +541,11 @@ public class StudentDashboard extends javax.swing.JFrame {
             }
         });
 
+        Content.setEditable(false);
+        Content.setColumns(20);
+        Content.setRows(5);
+        jScrollPane5.setViewportView(Content);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -542,11 +556,13 @@ public class StudentDashboard extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 319, Short.MAX_VALUE)
                 .addComponent(TakeQuiz)
                 .addGap(17, 17, 17))
+            .addComponent(jScrollPane5)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(382, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TakeQuiz)
                     .addComponent(Back))
@@ -739,8 +755,20 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void ViewContentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewContentActionPerformed
-        // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(4); 
+    int row = Lessons.getSelectedRow();
+
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a lesson first !");
+        return;
+    }
+    
+    String lessonID = Lessons.getValueAt(row, 0).toString();
+    
+    String content = cs.getLessonContent(lessonID);
+    
+    Content.setText(content);
+    
+    jTabbedPane1.setSelectedIndex(4); 
     }//GEN-LAST:event_ViewContentActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
@@ -805,6 +833,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     private javax.swing.JTable All_Courses;
     private javax.swing.JToggleButton Back;
     private javax.swing.JButton CertificateEarned;
+    private javax.swing.JTextArea Content;
     private javax.swing.JToggleButton Download_certification;
     private javax.swing.JToggleButton EnrollCourse;
     private javax.swing.JButton Home;
@@ -837,6 +866,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
