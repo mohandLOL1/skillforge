@@ -562,7 +562,7 @@ public class StudentDashboard extends javax.swing.JFrame {
                 return;
             }
 
-            CourseService.enrollStudent(studentID, courseID);
+            service.enrollStudent(studentID, courseID);
             JOptionPane.showMessageDialog(this, "Enrolled successfully!");
 
             loadEnrolledCourses();

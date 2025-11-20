@@ -1,8 +1,19 @@
 [ {
-  "username" : "mohand",
+  "username" : "moh",
   "email" : "mohandamr2019@gmail.com",
   "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
-  "id" : "I16551",
+  "courseEnrollments" : [ {
+    "courseID" : "C16306",
+    "percent" : 0.0,
+    "completedLessons" : [ ]
+  } ],
+  "id" : "S10648",
+  "type" : "student"
+}, {
+  "username" : "lol",
+  "email" : "mohandamr2019@gmail.com",
+  "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
+  "id" : "I10414",
   "type" : "instructor",
-  "createdCoursesIDs" : [ "C10193" ]
+  "createdCoursesIDs" : [ "C16306" ]
 } ]

@@ -223,7 +223,6 @@ public class InstructorDashboard extends javax.swing.JFrame {
         try {
             String title = javax.swing.JOptionPane.showInputDialog(this, "Course Title:");
             String desc = javax.swing.JOptionPane.showInputDialog(this, "Course Description:");
-
             cs.createCourse(title, desc, instructorID);
             javax.swing.JOptionPane.showMessageDialog(this, "Course Added Successfully!");
         } catch (Exception e) {
@@ -235,7 +234,6 @@ public class InstructorDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             String courseID = JOptionPane.showInputDialog(this, "Course ID to delete:");
-
             cs.deleteCourse(courseID, this.instructorID);
 
             JOptionPane.showMessageDialog(this, "Course deleted successfully!");
@@ -262,27 +260,15 @@ public class InstructorDashboard extends javax.swing.JFrame {
         try {
             String courseID = JOptionPane.showInputDialog(this, "Course ID to edit:");
 
-            Course oldCourse = cs.findCourse(courseID);
-            if (oldCourse == null) {
+            if (cs.containsCourse(courseID)) {
                 JOptionPane.showMessageDialog(this, "Course not found!");
                 return;
             }
+
             String newTitle = JOptionPane.showInputDialog(this, "New Title:");
             String newDescription = JOptionPane.showInputDialog(this, "New Description:");
 
-            Course updated = new Course(
-                    oldCourse.getCourseID(),
-                    newTitle,
-                    newDescription,
-                    oldCourse.getInstructorID()
-            );
-            for (Lesson l : oldCourse.getLessons()) {
-                updated.addLesson(l);
-            }
-            for (Student s : oldCourse.getStudents()) {
-                updated.addStudent(s);
-            }
-            cs.editCourse(oldCourse.getCourseID(), newTitle, newDescription, this.instructorID);
+            cs.editCourse(courseID, newTitle, newDescription, this.instructorID);
 
             JOptionPane.showMessageDialog(this, "Course updated successfully!");
         } catch (Exception e) {

@@ -3,7 +3,6 @@ package courses;
 import java.util.HashSet;
 import java.util.Set;
 import misc.Validations;
-import users.Student;
 
 public class Course {
 
@@ -12,7 +11,7 @@ public class Course {
     private String description;
     private String instructorID;
     private Set<Lesson> lessons;
-    private Set<Student> students;
+    private Set<CourseEnrollment> courseEnrollments;
 
     public Course() {
     }
@@ -24,7 +23,7 @@ public class Course {
         setDescription(description);
         setInstructorID(instructorID);
         this.lessons = new HashSet<>();
-        this.students = new HashSet<>();
+        this.courseEnrollments= new HashSet<>();
         
         
     }
@@ -83,12 +82,12 @@ public class Course {
         this.lessons.remove(lesson);
     }
     
-    public Set<Student> getStudents() {
-        return students;
+    public Set<CourseEnrollment> getCourseEnrollments() {
+        return courseEnrollments;
     }
     
-    public void addStudent(Student s){
-        this.students.add(s);
+    public void addCourseEnrollment(CourseEnrollment c){
+        this.courseEnrollments.add(c);
     }
 
    public String getCourseID() {

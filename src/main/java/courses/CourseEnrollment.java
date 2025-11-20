@@ -5,7 +5,8 @@ import java.util.Set;
 import misc.Validations;
 
 public class CourseEnrollment {
-
+    
+    private String studentID;
     private String courseID;
     private double percent;
     private Set<String> completedLessons;
@@ -14,10 +15,23 @@ public class CourseEnrollment {
         this.completedLessons = new HashSet<>();
     }
 
-    public CourseEnrollment(String courseID, double percent) {
+    public CourseEnrollment(String studentID, String courseID, double percent) {
+        setStudentID(studentID);
         setCourseID(courseID);
         setPercent(percent);
         this.completedLessons = new HashSet<>();
+    }
+
+    public String getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(String studentID) {
+        if(Validations.validateStudentID(studentID))
+            this.studentID = studentID;
+        else{
+            throw new IllegalArgumentException("Invalid student ID");
+        }
     }
 
     public String getCourseID() {

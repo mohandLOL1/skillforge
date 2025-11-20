@@ -11,16 +11,11 @@ import misc.Generator;
 
 public class CourseService {
 
-    private static final UserDataBase userdb = new UserDataBase("users.json");
     private static final CourseDataBase coursedb = new CourseDataBase("courses.json");
-    private static ArrayList<User> users;
     private static ArrayList<Course> courses;
     private static UserService userservice;
 
     public CourseService() throws IOException {
-        userdb.read();
-        coursedb.read();
-        users = userdb.returnAllRecords();
         courses = coursedb.returnAllRecords();
         userservice = new UserService();
     }
@@ -43,109 +38,85 @@ public class CourseService {
 
         return null;
     }
-    
-    public boolean instructorOwnsCourse(String courseID, String InstructorID){
+
+    public boolean instructorOwnsCourse(String courseID, String InstructorID) {
         Course c = findCourse(courseID);
-        if(c.getInstructorID().equals(InstructorID))
+        if (c.getInstructorID().equals(InstructorID)) {
             return true;
-        
+        }
+
         return false;
     }
 
-    public void createCourse(String title, String description, String instructorID) throws IOException {
-        
-        User tempUser = null;
-        
-        
+    public void createCourse(String title, String description, String instructorID) throws IOException, IllegalArgumentException {
 
-        for(User user : users){
-            if(user.getID().equals(instructorID)){
-                tempUser = user;
+        User tempUser = userservice.getUser(instructorID);
+
+        if (tempUser instanceof Instructor) {
+
+            String courseID = Generator.generateCourseID();
+            while (containsCourse(courseID)) {
+                courseID = Generator.generateCourseID();  //generates unique course ID
             }
-        }
+            ((Instructor) tempUser).addCreatedCourse(courseID);
+            Course c = new Course(courseID, title, description, instructorID);
 
-        if (tempUser != null) {
-            if (tempUser instanceof Instructor) {
-                String newCourseID = Generator.generateCourseID();
+            userservice.saveUsers();
+            courses.add(c);
+            coursedb.write();
 
-                while (containsCourse(newCourseID)) {
-                    newCourseID = Generator.generateCourseID();
-                }
-
-                Course newCourse = new Course(newCourseID, title, description, instructorID);
-                courses.add(newCourse);
-
-                ((Instructor) tempUser).addCreatedCourse(newCourseID);
-                
-
-                coursedb.write();
-                userdb.write();
-            } else {
-                throw new IllegalArgumentException("User isn't an instructor");
-            }
         } else {
-            throw new IllegalArgumentException("Couldn't find instructor");
+            throw new IllegalArgumentException("User isn't an instructor");
         }
+
     }
 
     public void deleteCourse(String courseID, String instructorID) throws IOException {
-        
-        
 
         Course c = findCourse(courseID);
-        if(c== null){
+        if (c == null) {
             throw new IllegalArgumentException("Couldn't find course");
         }
-        if(instructorOwnsCourse(courseID,instructorID)){
+        if (instructorOwnsCourse(courseID, instructorID)) {
             courses.remove(c);
             coursedb.write();
-        }
-        else{
+        } else {
             throw new IllegalArgumentException("Cannot delete unowned course");
         }
-              
-       
-        
+
     }
 
     public void editCourse(String courseID, String title, String description, String instructorID) throws IOException {
         Course oldCourse = findCourse(courseID);
-        if(oldCourse == null){
+        if (oldCourse == null) {
             throw new IllegalArgumentException("Couldn't find course");
         }
-        if(instructorOwnsCourse(courseID,instructorID)){
+        if (instructorOwnsCourse(courseID, instructorID)) {
             oldCourse.setTitle(title);
             oldCourse.setDescription(description);
+        } else {
+            throw new IllegalArgumentException("Can only edit owned course");
         }
-        else{
-            throw new IllegalArgumentException("Can only edit owned course");          
-        }
-
-        
     }
 
-    public static void enrollStudent(String studentID, String courseID) throws IOException {
+    public void enrollStudent(String studentID, String courseID) throws IOException {
 
-        Student student = new Student();
-        Course course = new Course();
-        for (User u : users) {
-            if (u.getID().equals(studentID)) {
-                student = (Student) u;
-
-            }
+        User user = userservice.getUser(studentID);
+        if (user instanceof Student) {
+            
+            Course course = findCourse(courseID);
+            
+            CourseEnrollment courseEnrollment = new CourseEnrollment(user.getID(), courseID, 0.0);
+            
+            
+            course.addCourseEnrollment(courseEnrollment);
+            ((Student)user).addCourseEnrollment(courseEnrollment);
+            
+            userservice.saveUsers();
+            coursedb.write();
+        } else {
+            throw new IllegalArgumentException("User isn't a student, cannot enroll in course");
         }
-        for (Course c : courses) {
-            if (c.getCourseID().equals(courseID)) {
-                course = c;
-            }
-        }
-        CourseEnrollment courseEnrollment = new CourseEnrollment(courseID, 0.0);
-
-        student.addCourseEnrollment(courseEnrollment);
-        userdb.write();
-        course.addStudent(student);
-        coursedb.write();
-
     }
 
     public ArrayList<Course> returnAllCourses() {
@@ -192,31 +163,32 @@ public class CourseService {
     }
 
     public void addLesson(String title, String content, String courseID, String InstructorID) throws IOException {
-        
-        
+
         String lessonID = Generator.generateLessonID();
         Lesson lesson = new Lesson(lessonID, title, content, courseID);
         Course course = findCourse(courseID);
-        
-        if(course == null){
+
+        if (course == null) {
             throw new IllegalArgumentException("Cannot find course");
         }
-        if(!course.getInstructorID().equals(InstructorID))
+        if (!course.getInstructorID().equals(InstructorID)) {
             throw new IllegalArgumentException("Cannot edit unowned course");
-        
+        }
+
         course.addLesson(lesson);
         coursedb.write();
     }
 
-    public void removeLesson(String courseID, String lessonID,String InstructorID) throws IOException {
+    public void removeLesson(String courseID, String lessonID, String InstructorID) throws IOException {
         Course course = findCourse(courseID);
         if (course == null) {
             throw new IllegalArgumentException("Couldn't find course");
         }
-        
-        if(!course.getInstructorID().equals(InstructorID))
+
+        if (!course.getInstructorID().equals(InstructorID)) {
             throw new IllegalArgumentException("Cannot edit unowned course");
-        
+        }
+
         Lesson lesson = findLessonInCourse(lessonID, course);
 
         if (lesson == null) {
@@ -227,10 +199,23 @@ public class CourseService {
         coursedb.write();
     }
 
-    public Set<Student> enrolledStudents(String courseID) {
+    public ArrayList<Student> enrolledStudents(String courseID) {
 
         Course course = findCourse(courseID);
-        return course.getStudents();
+        Set<CourseEnrollment> enrollments = course.getCourseEnrollments();
+        if(enrollments.isEmpty())
+            throw new IllegalArgumentException("No enrollments found");
+        
+           ArrayList<Student> students = new ArrayList<>();
+      
+        for(CourseEnrollment enrollment : enrollments){
+           students.add( (Student) userservice.getUser(enrollment.getStudentID()));
+        }   
+        
+        return students;
+        
+       
+       
     }
 
     public Set<Course> enrolledcourses(String studentID) {
@@ -253,48 +238,49 @@ public class CourseService {
         return enrolledCourses;
     }
 
-    
- public ArrayList<Lesson> getLessons(String courseID) {
-    Course course = findCourse(courseID);
-    if (course == null) {
-        throw new IllegalArgumentException("Course not found");
+    public ArrayList<Lesson> getLessons(String courseID) {
+        Course course = findCourse(courseID);
+        if (course == null) {
+            throw new IllegalArgumentException("Course not found");
+        }
+
+        return new ArrayList<>(course.getLessons());
     }
 
-    return new ArrayList<>(course.getLessons());
-    }
-    
     public Set<String> completedLessons(String studentID, String courseID) {
 
-    User user = userservice.getUser(studentID);
+        User user = userservice.getUser(studentID);
 
-    if (user == null) {
-        throw new IllegalArgumentException("User not found");
-    }
-    if (!(user instanceof Student)) {
-        throw new IllegalArgumentException("User is not a student");
-    }
-
-    Student student = (Student) user;
-
-    for (CourseEnrollment ce : student.getCourseEnrollments()) {
-        if (ce.getCourseID().equals(courseID)) {
-            return ce.getCompletedLessons();  
+        if (user == null) {
+            throw new IllegalArgumentException("User not found");
         }
+        if (!(user instanceof Student)) {
+            throw new IllegalArgumentException("User is not a student");
+        }
+
+        Student student = (Student) user;
+
+        for (CourseEnrollment ce : student.getCourseEnrollments()) {
+            if (ce.getCourseID().equals(courseID)) {
+                return ce.getCompletedLessons();
+            }
+        }
+        return new HashSet<>();
     }
-    return new HashSet<>();  
-}
-    
-    public boolean studentInCourse(String studentID,String courseID){
+
+    public boolean studentInCourse(String studentID, String courseID) {
         Student s = (Student) userservice.getUser(studentID);
-        if(s.getCourseEnrollments().isEmpty())
+        if (s.getCourseEnrollments().isEmpty()) {
             return false;
-        
-        Set<CourseEnrollment> temp = s.getCourseEnrollments();
-        for(CourseEnrollment c : temp){
-            if(c.getCourseID().equals(courseID))
-                return true;
         }
-        
+
+        Set<CourseEnrollment> temp = s.getCourseEnrollments();
+        for (CourseEnrollment c : temp) {
+            if (c.getCourseID().equals(courseID)) {
+                return true;
+            }
+        }
+
         return false;
     }
 }

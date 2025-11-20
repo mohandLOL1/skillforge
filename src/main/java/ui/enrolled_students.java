@@ -4,7 +4,7 @@
  */
 package ui;
 
-import java.util.Set;
+import java.util.ArrayList;
 import services.CourseService;
 import users.Student;
 
@@ -33,7 +33,7 @@ public class enrolled_students extends javax.swing.JFrame {
     private void loadStudents(String courseID, CourseService courseService) {
 
         try {
-            Set<Student> enrolled = courseService.enrolledStudents(courseID);
+            ArrayList<Student> enrolled = courseService.enrolledStudents(courseID);
 
             javax.swing.table.DefaultTableModel model
                     = new javax.swing.table.DefaultTableModel(
