@@ -18,10 +18,10 @@ public class UserService {
         users = userdb.returnAllRecords();
     }
     
-    public User validateLogin(String username, String password){
+    public User validateLogin(String username, String password,String Type){
         String hashedPassword = SHA256.hash(password);
         for(User user : users){
-            if(user.getUsername().equals(username) && user.getPasswordHash().equals(hashedPassword)){
+            if(user.getUsername().equals(username) && user.getPasswordHash().equals(hashedPassword)&& user.getType().equalsIgnoreCase(Type)){
                 return user;
             }
         }
