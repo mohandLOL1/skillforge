@@ -330,4 +330,23 @@ public class CourseService {
 
         return false;
     }
+    
+    public String getLessonContent(String lessonID) {
+        try {
+            reload();
+        } catch (IOException ex) {
+            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        for (Course c : courses) {
+        if (c.getLessons() == null) 
+            continue;
+
+        for (Lesson l : c.getLessons()) {
+            if (l.getLessonID().equals(lessonID)) {
+                return l.getContent();
+            }
+        }
+    }
+        return null;
+    }
 }
