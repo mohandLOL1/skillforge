@@ -239,11 +239,19 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Please fill all required fields.", "Input Error", JOptionPane.WARNING_MESSAGE);
                 return;
             }
+            
+            String Type="";
+            if(Student.isSelected())
+              Type="Student";
+            if(Instructor.isSelected())
+              Type="Instructor";
+            if(Admin.isSelected())
+              Type="Admin";
 
-            User user = userservice.validateLogin(username, password);
+            User user = userservice.validateLogin(username, password,Type);
 
             if (user != null) {
-                JOptionPane.showMessageDialog(null, "Login successful!");
+                JOptionPane.showMessageDialog(null, "Login successful !");
                 this.dispose();
                 if (Student.isSelected()) {
 
@@ -253,10 +261,10 @@ public class Login extends javax.swing.JFrame {
                     new InstructorDashboard(user.getID()).setVisible(true);
                 }
                 else {
-                    new admin().setVisible(true);
+                    new AdminDashboard().setVisible(true);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Invalid username or password!");
+                JOptionPane.showMessageDialog(null, "Invalid username or password !");
             }
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
