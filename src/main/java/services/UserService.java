@@ -1,7 +1,6 @@
 
 package services;
 
-import courses.Course;
 import filehandler.UserDataBase;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,9 +93,13 @@ public class UserService {
        throw new IllegalArgumentException("Couldn't find user with that ID");
     } 
     
-    public static ArrayList<User> returnAllUsers(){
+    public ArrayList<User> returnAllUsers(){
         ArrayList<User> copies = new ArrayList<>(users);
         return copies;
+    }
+    
+    public void saveUsers() throws IOException{
+        this.userdb.write();
     }
     
     
