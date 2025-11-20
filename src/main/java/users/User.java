@@ -35,6 +35,8 @@ public abstract class User {
     public abstract String getID();
 
     public abstract void setUserID(String userID);
+    
+    public abstract String getType();
 
     public String getUsername() {
         return username;
