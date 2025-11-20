@@ -37,7 +37,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     }
     
      public void loadTable() throws IOException {
-        DefaultTableModel m = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel m = (DefaultTableModel) All_Courses.getModel();
         m.setRowCount(0);
         CourseService service = new CourseService();
         
@@ -48,7 +48,7 @@ public class StudentDashboard extends javax.swing.JFrame {
      }
      
      public void loadEnrolledCourses() throws IOException {
-      DefaultTableModel m = (DefaultTableModel) jTable2.getModel();
+      DefaultTableModel m = (DefaultTableModel) Selected_Courses.getModel();
        m.setRowCount(0);
 
       CourseService service = new CourseService();
@@ -64,7 +64,7 @@ public class StudentDashboard extends javax.swing.JFrame {
      
      private void loadLessonsIntoTable(String courseID) {
     try {
-        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        DefaultTableModel model = (DefaultTableModel) Lessons.getModel();
         model.setRowCount(0);
 
         CourseService service = new CourseService();
@@ -94,9 +94,10 @@ public class StudentDashboard extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        View_available_courses = new javax.swing.JButton();
+        View_enrolled_courses = new javax.swing.JButton();
+        Home = new javax.swing.JButton();
+        CertificateEarned = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -105,19 +106,28 @@ public class StudentDashboard extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        Logout = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jToggleButton2 = new javax.swing.JToggleButton();
+        All_Courses = new javax.swing.JTable();
+        EnrollCourse = new javax.swing.JToggleButton();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        Selected_Courses = new javax.swing.JTable();
+        Viewlesson = new javax.swing.JToggleButton();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jToggleButton3 = new javax.swing.JToggleButton();
+        Lessons = new javax.swing.JTable();
+        MarkCompleted = new javax.swing.JToggleButton();
+        ViewContent = new javax.swing.JToggleButton();
+        jPanel3 = new javax.swing.JPanel();
+        TakeQuiz = new javax.swing.JToggleButton();
+        Back = new javax.swing.JToggleButton();
+        jPanel9 = new javax.swing.JPanel();
+        Download_certification = new javax.swing.JToggleButton();
+        View_certification = new javax.swing.JToggleButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        certification = new javax.swing.JTable();
 
         jButton3.setBackground(new java.awt.Color(153, 153, 153));
         jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -166,31 +176,40 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(0, 0, 0));
 
-        jButton1.setBackground(new java.awt.Color(153, 153, 153));
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("View available  courses");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        View_available_courses.setBackground(new java.awt.Color(153, 153, 153));
+        View_available_courses.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        View_available_courses.setText("View available  courses");
+        View_available_courses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                View_available_coursesActionPerformed(evt);
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(153, 153, 153));
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setText("View enrolled  courses");
-        jButton2.setMinimumSize(new java.awt.Dimension(183, 27));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        View_enrolled_courses.setBackground(new java.awt.Color(153, 153, 153));
+        View_enrolled_courses.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        View_enrolled_courses.setText("View enrolled  courses");
+        View_enrolled_courses.setMinimumSize(new java.awt.Dimension(183, 27));
+        View_enrolled_courses.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                View_enrolled_coursesActionPerformed(evt);
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(153, 153, 153));
-        jButton5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton5.setText("Home");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        Home.setBackground(new java.awt.Color(153, 153, 153));
+        Home.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Home.setText("Home");
+        Home.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                HomeActionPerformed(evt);
+            }
+        });
+
+        CertificateEarned.setBackground(new java.awt.Color(153, 153, 153));
+        CertificateEarned.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        CertificateEarned.setText("Certificate Earned");
+        CertificateEarned.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CertificateEarnedActionPerformed(evt);
             }
         });
 
@@ -200,22 +219,25 @@ public class StudentDashboard extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(View_available_courses, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Home, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(View_enrolled_courses, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(CertificateEarned, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addComponent(jButton5)
+                .addComponent(Home)
                 .addGap(60, 60, 60)
-                .addComponent(jButton1)
+                .addComponent(View_available_courses)
                 .addGap(59, 59, 59)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(194, Short.MAX_VALUE))
+                .addComponent(View_enrolled_courses, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(CertificateEarned)
+                .addContainerGap(119, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel4);
@@ -246,12 +268,12 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         jTextField3.setEditable(false);
 
-        jButton4.setBackground(new java.awt.Color(153, 153, 153));
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton4.setText("Logout");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        Logout.setBackground(new java.awt.Color(102, 102, 102));
+        Logout.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Logout.setText("Logout");
+        Logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                LogoutActionPerformed(evt);
             }
         });
 
@@ -274,7 +296,7 @@ public class StudentDashboard extends javax.swing.JFrame {
                             .addComponent(jTextField3)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Logout, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(99, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -293,7 +315,7 @@ public class StudentDashboard extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(117, 117, 117)
-                .addComponent(jButton4)
+                .addComponent(Logout)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -303,9 +325,9 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         jScrollPane1.setBackground(new java.awt.Color(204, 204, 204));
 
-        jTable1.setBackground(new java.awt.Color(204, 204, 204));
-        jTable1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        All_Courses.setBackground(new java.awt.Color(204, 204, 204));
+        All_Courses.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        All_Courses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -321,23 +343,25 @@ public class StudentDashboard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setSelectionBackground(new java.awt.Color(204, 204, 204));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(60);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(60);
-            jTable1.getColumnModel().getColumn(1).setMinWidth(140);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(140);
-            jTable1.getColumnModel().getColumn(3).setMinWidth(70);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(70);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(70);
+        All_Courses.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        jScrollPane1.setViewportView(All_Courses);
+        if (All_Courses.getColumnModel().getColumnCount() > 0) {
+            All_Courses.getColumnModel().getColumn(0).setMinWidth(60);
+            All_Courses.getColumnModel().getColumn(0).setPreferredWidth(60);
+            All_Courses.getColumnModel().getColumn(0).setMaxWidth(60);
+            All_Courses.getColumnModel().getColumn(1).setMinWidth(140);
+            All_Courses.getColumnModel().getColumn(1).setMaxWidth(140);
+            All_Courses.getColumnModel().getColumn(3).setMinWidth(70);
+            All_Courses.getColumnModel().getColumn(3).setPreferredWidth(70);
+            All_Courses.getColumnModel().getColumn(3).setMaxWidth(70);
         }
 
-        jToggleButton2.setText("Enroll Course");
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+        EnrollCourse.setBackground(new java.awt.Color(102, 102, 102));
+        EnrollCourse.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        EnrollCourse.setText("Enroll Course");
+        EnrollCourse.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
+                EnrollCourseActionPerformed(evt);
             }
         });
 
@@ -348,7 +372,7 @@ public class StudentDashboard extends javax.swing.JFrame {
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToggleButton2)
+                .addComponent(EnrollCourse)
                 .addGap(14, 14, 14))
         );
         jPanel6Layout.setVerticalGroup(
@@ -356,7 +380,7 @@ public class StudentDashboard extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 379, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToggleButton2)
+                .addComponent(EnrollCourse)
                 .addGap(19, 19, 19))
         );
 
@@ -364,9 +388,9 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(204, 204, 204));
 
-        jTable2.setBackground(new java.awt.Color(204, 204, 204));
-        jTable2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        Selected_Courses.setBackground(new java.awt.Color(204, 204, 204));
+        Selected_Courses.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        Selected_Courses.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -382,21 +406,23 @@ public class StudentDashboard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
-        if (jTable2.getColumnModel().getColumnCount() > 0) {
-            jTable2.getColumnModel().getColumn(0).setMinWidth(60);
-            jTable2.getColumnModel().getColumn(0).setPreferredWidth(60);
-            jTable2.getColumnModel().getColumn(0).setMaxWidth(60);
-            jTable2.getColumnModel().getColumn(1).setMinWidth(140);
-            jTable2.getColumnModel().getColumn(1).setMaxWidth(140);
-            jTable2.getColumnModel().getColumn(3).setMinWidth(70);
-            jTable2.getColumnModel().getColumn(3).setMaxWidth(70);
+        jScrollPane2.setViewportView(Selected_Courses);
+        if (Selected_Courses.getColumnModel().getColumnCount() > 0) {
+            Selected_Courses.getColumnModel().getColumn(0).setMinWidth(60);
+            Selected_Courses.getColumnModel().getColumn(0).setPreferredWidth(60);
+            Selected_Courses.getColumnModel().getColumn(0).setMaxWidth(60);
+            Selected_Courses.getColumnModel().getColumn(1).setMinWidth(140);
+            Selected_Courses.getColumnModel().getColumn(1).setMaxWidth(140);
+            Selected_Courses.getColumnModel().getColumn(3).setMinWidth(70);
+            Selected_Courses.getColumnModel().getColumn(3).setMaxWidth(70);
         }
 
-        jToggleButton1.setText("View lesson");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        Viewlesson.setBackground(new java.awt.Color(102, 102, 102));
+        Viewlesson.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Viewlesson.setText("View lesson");
+        Viewlesson.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                ViewlessonActionPerformed(evt);
             }
         });
 
@@ -406,16 +432,16 @@ public class StudentDashboard extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToggleButton1)
+                .addComponent(Viewlesson)
                 .addGap(18, 18, 18))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
                 .addGap(24, 24, 24)
-                .addComponent(jToggleButton1)
+                .addComponent(Viewlesson)
                 .addGap(15, 15, 15))
         );
 
@@ -423,8 +449,8 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(204, 204, 204));
 
-        jTable3.setBackground(new java.awt.Color(204, 204, 204));
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        Lessons.setBackground(new java.awt.Color(204, 204, 204));
+        Lessons.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -443,12 +469,23 @@ public class StudentDashboard extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(Lessons);
 
-        jToggleButton3.setText("Mark Completed");
-        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+        MarkCompleted.setBackground(new java.awt.Color(102, 102, 102));
+        MarkCompleted.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        MarkCompleted.setText("Mark Completed");
+        MarkCompleted.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton3ActionPerformed(evt);
+                MarkCompletedActionPerformed(evt);
+            }
+        });
+
+        ViewContent.setBackground(new java.awt.Color(102, 102, 102));
+        ViewContent.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        ViewContent.setText("View Content");
+        ViewContent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ViewContentActionPerformed(evt);
             }
         });
 
@@ -458,8 +495,10 @@ public class StudentDashboard extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jToggleButton3)
+                .addGap(14, 14, 14)
+                .addComponent(ViewContent)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(MarkCompleted)
                 .addGap(17, 17, 17))
         );
         jPanel8Layout.setVerticalGroup(
@@ -467,11 +506,119 @@ public class StudentDashboard extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 388, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jToggleButton3)
-                .addContainerGap(8, Short.MAX_VALUE))
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(MarkCompleted)
+                    .addComponent(ViewContent))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab4", jPanel8);
+
+        TakeQuiz.setBackground(new java.awt.Color(102, 102, 102));
+        TakeQuiz.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        TakeQuiz.setText("Take Quiz");
+        TakeQuiz.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TakeQuizActionPerformed(evt);
+            }
+        });
+
+        Back.setBackground(new java.awt.Color(102, 102, 102));
+        Back.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Back.setText("Back");
+        Back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BackActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(Back)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 319, Short.MAX_VALUE)
+                .addComponent(TakeQuiz)
+                .addGap(17, 17, 17))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(382, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(TakeQuiz)
+                    .addComponent(Back))
+                .addGap(16, 16, 16))
+        );
+
+        jTabbedPane1.addTab("tab5", jPanel3);
+
+        Download_certification.setBackground(new java.awt.Color(102, 102, 102));
+        Download_certification.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        Download_certification.setText("Download certification");
+        Download_certification.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Download_certificationActionPerformed(evt);
+            }
+        });
+
+        View_certification.setBackground(new java.awt.Color(102, 102, 102));
+        View_certification.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        View_certification.setText("View certification");
+        View_certification.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                View_certificationActionPerformed(evt);
+            }
+        });
+
+        certification.setBackground(new java.awt.Color(204, 204, 204));
+        certification.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "certificate ID", "course ID", "issue date"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(certification);
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(View_certification)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Download_certification)
+                .addGap(14, 14, 14))
+            .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Download_certification)
+                    .addComponent(View_certification))
+                .addGap(16, 16, 16))
+        );
+
+        jTabbedPane1.addTab("tab6", jPanel9);
 
         getContentPane().add(jTabbedPane1);
         jTabbedPane1.setBounds(200, 60, 510, 460);
@@ -479,7 +626,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void View_available_coursesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_available_coursesActionPerformed
         // TODO add your handling code here:
         jTabbedPane1.setSelectedIndex(1);
          try {
@@ -487,9 +634,9 @@ public class StudentDashboard extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_View_available_coursesActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void View_enrolled_coursesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_enrolled_coursesActionPerformed
         // TODO add your handling code here:
         jTabbedPane1.setSelectedIndex(2);  
         try {
@@ -497,60 +644,65 @@ public class StudentDashboard extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_View_enrolled_coursesActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void HomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeActionPerformed
         // TODO add your handling code here:
         jTabbedPane1.setSelectedIndex(0);
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_HomeActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
        
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+    private void MarkCompletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarkCompletedActionPerformed
         // TODO add your handling code here:
-        int row = jTable3.getSelectedRow();
+        int row = Lessons.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Select a lesson first!");
+            JOptionPane.showMessageDialog(this, "Select a lesson first !");
             return;
         }
 
-        String lessonID = jTable3.getValueAt(row, 0).toString();
-        String courseID = jTable2.getValueAt(jTable2.getSelectedRow(), 0).toString();
+        String lessonID = Lessons.getValueAt(row, 0).toString();
+        String courseID = Selected_Courses.getValueAt(Selected_Courses.getSelectedRow(), 0).toString();
 
         try {
 
-            jTable3.setValueAt("Yes", row, 2);
+            Lessons.setValueAt("Yes", row, 2);
 
-            JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
+            JOptionPane.showMessageDialog(this, "Lesson marked as completed !");
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
-    }//GEN-LAST:event_jToggleButton3ActionPerformed
+    }//GEN-LAST:event_MarkCompletedActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void ViewlessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewlessonActionPerformed
         // TODO add your handling code here:
-        int row = jTable2.getSelectedRow();
+        int row = Selected_Courses.getSelectedRow();
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Select a course first!");
+            JOptionPane.showMessageDialog(this, "Select a course first !");
             return;
         }
 
-        String courseID = jTable2.getValueAt(row, 0).toString();
+        String courseID = Selected_Courses.getValueAt(row, 0).toString();
 
         loadLessonsIntoTable(courseID);
 
         jTabbedPane1.setSelectedIndex(3);
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_ViewlessonActionPerformed
 
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+    private void EnrollCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrollCourseActionPerformed
         // TODO add your handling code here:
-        jTable1.setRowSelectionInterval(0, 0);
-        int row = jTable1.getSelectedRow();
+     
+        int row = All_Courses.getSelectedRow();
+        
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select a course first !");
+            return;
+        }
 
-        String courseID = jTable1.getValueAt(row, 0).toString();
+        String courseID = All_Courses.getValueAt(row, 0).toString();
         String studentID = log.getID();
 
         try {
@@ -570,9 +722,9 @@ public class StudentDashboard extends javax.swing.JFrame {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this,"Error: " + ex.getMessage());
         }
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
+    }//GEN-LAST:event_EnrollCourseActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void LogoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LogoutActionPerformed
         // TODO add your handling code here:
         this.dispose();
         try {
@@ -580,11 +732,49 @@ public class StudentDashboard extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_LogoutActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField2ActionPerformed
+
+    private void ViewContentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewContentActionPerformed
+        // TODO add your handling code here:
+        jTabbedPane1.setSelectedIndex(4); 
+    }//GEN-LAST:event_ViewContentActionPerformed
+
+    private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
+        // TODO add your handling code here:
+        jTabbedPane1.setSelectedIndex(3); 
+    }//GEN-LAST:event_BackActionPerformed
+
+    private void TakeQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TakeQuizActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_TakeQuizActionPerformed
+
+    private void CertificateEarnedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CertificateEarnedActionPerformed
+        // TODO add your handling code here:
+        jTabbedPane1.setSelectedIndex(5); 
+    }//GEN-LAST:event_CertificateEarnedActionPerformed
+
+    private void Download_certificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Download_certificationActionPerformed
+        // TODO add your handling code here:
+        int row = certification.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select Certificate first !");
+            return;
+        }
+    }//GEN-LAST:event_Download_certificationActionPerformed
+
+    private void View_certificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_certificationActionPerformed
+        // TODO add your handling code here:
+        int row = certification.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select Certificate first !");
+            return;
+        }
+    }//GEN-LAST:event_View_certificationActionPerformed
 
     /**
      * @param args the command line arguments
@@ -612,34 +802,44 @@ public class StudentDashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JTable All_Courses;
+    private javax.swing.JToggleButton Back;
+    private javax.swing.JButton CertificateEarned;
+    private javax.swing.JToggleButton Download_certification;
+    private javax.swing.JToggleButton EnrollCourse;
+    private javax.swing.JButton Home;
+    private javax.swing.JTable Lessons;
+    private javax.swing.JButton Logout;
+    private javax.swing.JToggleButton MarkCompleted;
+    private javax.swing.JTable Selected_Courses;
+    private javax.swing.JToggleButton TakeQuiz;
+    private javax.swing.JToggleButton ViewContent;
+    private javax.swing.JButton View_available_courses;
+    private javax.swing.JToggleButton View_certification;
+    private javax.swing.JButton View_enrolled_courses;
+    private javax.swing.JToggleButton Viewlesson;
+    private javax.swing.JTable certification;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
     // End of variables declaration//GEN-END:variables
 }
