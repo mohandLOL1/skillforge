@@ -7,6 +7,8 @@ import users.*;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import misc.Generator;
 
 public class CourseService {
@@ -19,8 +21,18 @@ public class CourseService {
         courses = coursedb.returnAllRecords();
         userservice = new UserService();
     }
-
+    
+    private static void reload() throws IOException {
+      coursedb.read();                
+      courses = coursedb.returnAllRecords();
+    }
+    
     public boolean containsCourse(String courseID) {
+        try {
+            reload();
+        } catch (IOException ex) {
+            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for (Course course : courses) {
             if (course.getCourseID().equals(courseID)) {
                 return true;
@@ -30,6 +42,11 @@ public class CourseService {
     }
 
     public Course findCourse(String courseID) {
+        try {
+            reload();
+        } catch (IOException ex) {
+            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for (Course course : courses) {
             if (course.getCourseID().equals(courseID)) {
                 return course;
@@ -120,7 +137,11 @@ public class CourseService {
     }
 
     public ArrayList<Course> returnAllCourses() {
-
+        try {
+            reload();
+        } catch (IOException ex) {
+            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         ArrayList<Course> copies = new ArrayList<>(courses);
         return copies;
 
@@ -200,7 +221,11 @@ public class CourseService {
     }
 
     public ArrayList<Student> enrolledStudents(String courseID) {
-
+        try {
+            reload();
+        } catch (IOException ex) {
+            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Course course = findCourse(courseID);
         Set<CourseEnrollment> enrollments = course.getCourseEnrollments();
         if(enrollments.isEmpty())
@@ -219,6 +244,11 @@ public class CourseService {
     }
 
     public Set<Course> enrolledcourses(String studentID) {
+        try {
+            reload();
+        } catch (IOException ex) {
+            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         User user = userservice.getUser(studentID);
 
         if (user == null) {
@@ -232,13 +262,21 @@ public class CourseService {
         Set<CourseEnrollment> courseEnrollments = s.getCourseEnrollments();
         Set<Course> enrolledCourses = new HashSet<>();
         for (CourseEnrollment enrollment : courseEnrollments) {
-            enrolledCourses.add(findCourse(enrollment.getCourseID()));
+          Course c = findCourse(enrollment.getCourseID());
+          if (c != null) {
+            enrolledCourses.add(c);
+          }
         }
 
         return enrolledCourses;
     }
 
     public ArrayList<Lesson> getLessons(String courseID) {
+        try {
+            reload();
+        } catch (IOException ex) {
+            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Course course = findCourse(courseID);
         if (course == null) {
             throw new IllegalArgumentException("Course not found");
@@ -248,7 +286,11 @@ public class CourseService {
     }
 
     public Set<String> completedLessons(String studentID, String courseID) {
-
+        try {
+            reload();
+        } catch (IOException ex) {
+            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         User user = userservice.getUser(studentID);
 
         if (user == null) {
@@ -269,6 +311,11 @@ public class CourseService {
     }
 
     public boolean studentInCourse(String studentID, String courseID) {
+        try {
+            reload();
+        } catch (IOException ex) {
+            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Student s = (Student) userservice.getUser(studentID);
         if (s.getCourseEnrollments().isEmpty()) {
             return false;
