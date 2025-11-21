@@ -1,11 +1,9 @@
 package ui;
 
-import java.awt.Color;
 import java.io.IOException;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import services.CourseService;
 import services.UserService;
-import users.Instructor;
 import users.User;
 
 /**
@@ -16,12 +14,14 @@ public class Login extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
     private UserService userservice;
+    private CourseService courseService;
 
     /**
      * Creates new form Login
      */
     public Login() throws IOException {
         userservice = new UserService();
+        courseService = new CourseService();
 
         initComponents();
         Student.setSelected(true);
@@ -261,7 +261,7 @@ public class Login extends javax.swing.JFrame {
                     new InstructorDashboard(user.getID()).setVisible(true);
                 }
                 else {
-                    new AdminDashboard().setVisible(true);
+                    new AdminDashboard(courseService).setVisible(true);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Invalid username or password !");
