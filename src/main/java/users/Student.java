@@ -1,7 +1,9 @@
 package users;
 
+import certification.CertificateRecord;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import courses.CourseEnrollment;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import misc.Generator;
@@ -10,6 +12,7 @@ import misc.Validations;
 public class Student extends User {
     public String type = "student";
     private Set<CourseEnrollment> courseEnrollments;
+    private ArrayList<CertificateRecord> certificates = new ArrayList<>();
     
     @JsonProperty("type")
     public void setType(String type) {
@@ -48,8 +51,17 @@ public class Student extends User {
     public Set<CourseEnrollment> getCourseEnrollments() {
         return this.courseEnrollments;
     }
+    
+    public ArrayList<CertificateRecord> getCertificates() {
+        return certificates;
+    }
+
+    public void addCertificate(CertificateRecord cert) {
+        certificates.add(cert);
+    }
 
     @JsonProperty("type")
+    @Override
     public String getType() {
         return "student";
     }
