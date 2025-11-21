@@ -21,12 +21,12 @@ public class CourseService {
         courses = coursedb.returnAllRecords();
         userservice = new UserService();
     }
-    
+
     private static void reload() throws IOException {
-      coursedb.read();                
-      courses = coursedb.returnAllRecords();
+        coursedb.read();
+        courses = coursedb.returnAllRecords();
     }
-    
+
     public boolean containsCourse(String courseID) {
         try {
             reload();
@@ -97,6 +97,9 @@ public class CourseService {
         if (instructorOwnsCourse(courseID, instructorID)) {
             courses.remove(c);
             coursedb.write();
+            Instructor instructor = (Instructor) userservice.getUser(instructorID);
+            instructor.removeCreatedCourse(courseID);
+
         } else {
             throw new IllegalArgumentException("Cannot delete unowned course");
         }
@@ -120,15 +123,14 @@ public class CourseService {
 
         User user = userservice.getUser(studentID);
         if (user instanceof Student) {
-            
+
             Course course = findCourse(courseID);
-            
+
             CourseEnrollment courseEnrollment = new CourseEnrollment(user.getID(), courseID, 0.0);
-            
-            
+
             course.addCourseEnrollment(courseEnrollment);
-            ((Student)user).addCourseEnrollment(courseEnrollment);
-            
+            ((Student) user).addCourseEnrollment(courseEnrollment);
+
             userservice.saveUsers();
             coursedb.write();
         } else {
@@ -228,19 +230,18 @@ public class CourseService {
         }
         Course course = findCourse(courseID);
         Set<CourseEnrollment> enrollments = course.getCourseEnrollments();
-        if(enrollments.isEmpty())
+        if (enrollments.isEmpty()) {
             throw new IllegalArgumentException("No enrollments found");
-        
-           ArrayList<Student> students = new ArrayList<>();
-      
-        for(CourseEnrollment enrollment : enrollments){
-           students.add( (Student) userservice.getUser(enrollment.getStudentID()));
-        }   
-        
+        }
+
+        ArrayList<Student> students = new ArrayList<>();
+
+        for (CourseEnrollment enrollment : enrollments) {
+            students.add((Student) userservice.getUser(enrollment.getStudentID()));
+        }
+
         return students;
-        
-       
-       
+
     }
 
     public Set<Course> enrolledcourses(String studentID) {
@@ -262,10 +263,10 @@ public class CourseService {
         Set<CourseEnrollment> courseEnrollments = s.getCourseEnrollments();
         Set<Course> enrolledCourses = new HashSet<>();
         for (CourseEnrollment enrollment : courseEnrollments) {
-          Course c = findCourse(enrollment.getCourseID());
-          if (c != null) {
-            enrolledCourses.add(c);
-          }
+            Course c = findCourse(enrollment.getCourseID());
+            if (c != null) {
+                enrolledCourses.add(c);
+            }
         }
 
         return enrolledCourses;
@@ -330,7 +331,7 @@ public class CourseService {
 
         return false;
     }
-    
+
     public String getLessonContent(String lessonID) {
         try {
             reload();
@@ -338,30 +339,34 @@ public class CourseService {
             Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
         }
         for (Course c : courses) {
-        if (c.getLessons() == null) 
-            continue;
+            if (c.getLessons() == null) {
+                continue;
+            }
 
-        for (Lesson l : c.getLessons()) {
-            if (l.getLessonID().equals(lessonID)) {
-                return l.getContent();
+            for (Lesson l : c.getLessons()) {
+                if (l.getLessonID().equals(lessonID)) {
+                    return l.getContent();
+                }
             }
         }
-    }
         return null;
     }
-    
-    public void approveCourse(String courseID){
+
+    public void approveCourse(String courseID) {
         Course c = findCourse(courseID);
         c.setStatus("APPROVED");
         return;
     }
-    public void rejectCourse(String courseID){
+
+    public void rejectCourse(String courseID, String instructorID) {
         Course c = findCourse(courseID);
-        c.setStatus("REJECTED");
-        return;   
+        try {
+            deleteCourse(courseID, instructorID);
+        } catch (IOException ex) {
+            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return;
     }
-    
-    
-    
-   
+
 }
