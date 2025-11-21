@@ -1,6 +1,9 @@
 
 package services;
 
+import certification.CertificateRecord;
+import courses.Course;
+import courses.CourseEnrollment;
 import filehandler.UserDataBase;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -103,7 +106,98 @@ public class UserService {
     }
     
     
+    public CertificateRecord generateCertificate(String studentID, String courseID) throws IOException {
     
+    userdb.read();
+    users = userdb.returnAllRecords();
+
+    User user = getUser(studentID);
+    if (!(user instanceof Student student)) {
+        throw new IllegalArgumentException("User is not a student");
+    }
+
+    CourseService courseService = new CourseService();
+    Course course = courseService.findCourse(courseID);
+
+    if (course == null) {
+        throw new IllegalArgumentException("Course not found");
+    }
+
+    CourseEnrollment enrollment = null;
+    for (CourseEnrollment ce : student.getCourseEnrollments()) {
+        if (ce.getCourseID().equals(courseID)) {
+            enrollment = ce;
+            break;
+        }
+    }
+
+    if (enrollment == null) {
+        throw new IllegalArgumentException("Student is not enrolled in this course");
+    }
+
+    int Lessons = course.getLessons().size();
+    int completedLessons = enrollment.getCompletedLessons().size();
+
+    if (Lessons == 0) {
+        throw new IllegalArgumentException("Course has no lessons, certificate cannot be issued");
+    }
+
+    if (completedLessons < Lessons) {
+        throw new IllegalArgumentException("Student has not completed all lessons");
+    }
+
+    String certID = Generator.generateCertificateID();
+    String issueDate = java.time.LocalDate.now().toString();
+
+    CertificateRecord record =new CertificateRecord(certID, studentID,courseID, issueDate);
+
+    student.addCertificate(record);
+
+    userdb.write();
+
+    return record;
     
+   }
     
+    public void addCertificateToStudent(String certID, String studentID, String courseID, String issueDate) throws IOException {
+
+    userdb.read();
+    ArrayList<User> users = userdb.returnAllRecords();  
+
+    for (User user : users) {
+
+        if (user.getID().equals(studentID) && user instanceof Student student) {
+
+            for (CertificateRecord rec : student.getCertificates()) {
+                if (rec.getCourseID().equals(courseID)) {
+                    throw new IllegalArgumentException("Certificate already exists for course" );
+                }
+            }
+
+            CertificateRecord record =new CertificateRecord(certID, studentID, courseID, issueDate);
+
+            student.addCertificate(record);
+            userdb.write(); 
+            return;
+        }
+    }
+
+    throw new IllegalArgumentException("Student not found");
+}
+
+    
+    public ArrayList<CertificateRecord> getCertificatesByStudentID(String studentID) throws IOException {
+
+    for (User user : users) {
+
+        if (user.getID().equals(studentID) && user instanceof Student student) {
+
+            return new ArrayList<>(student.getCertificates());
+        }
+    }
+    
+    return new ArrayList<>();
+    }
+    
+     
 }
