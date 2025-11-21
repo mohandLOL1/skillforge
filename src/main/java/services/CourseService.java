@@ -353,12 +353,12 @@ public class CourseService {
     public void approveCourse(String courseID){
         Course c = findCourse(courseID);
         c.setStatus("APPROVED");
-        return;
+
     }
     public void rejectCourse(String courseID){
         Course c = findCourse(courseID);
         c.setStatus("REJECTED");
-        return;   
+     
     }
     
     

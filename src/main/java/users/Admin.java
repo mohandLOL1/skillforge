@@ -21,7 +21,7 @@ public class Admin extends User {
     @JsonProperty("id")
     @Override
     public void setUserID(String userID) {
-        if (Validations.validateStudentID(userID)) {
+        if (Validations.validateAdminID(userID)) {
             this.userID = userID;
         } else {
             throw new IllegalArgumentException();

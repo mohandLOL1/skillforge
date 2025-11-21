@@ -490,7 +490,7 @@ public class Signup extends javax.swing.JFrame {
         if(instructorType.isSelected())
           usertype="Instructor";
         if(AdminType.isSelected())
-          usertype="Admin";
+          usertype="admin";
         
         if (name.isEmpty()) {
             Name.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.RED, 2));
