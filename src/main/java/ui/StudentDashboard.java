@@ -3,15 +3,24 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ui;
+import certification.Certificate;
+import certification.CertificateRecord;
+import certification.Pdf_Certificate;
 import courses.Course;
+import courses.CourseEnrollment;
 import courses.Lesson;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import services.CourseService;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import services.UserService;
 import users.User;
 
 /**
@@ -85,8 +94,26 @@ public class StudentDashboard extends javax.swing.JFrame {
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, e.getMessage());
     }
-}
+    
+  }
+    private void loadcertificatesIntoTable(String StudentID) {
+     try {
+        DefaultTableModel model = (DefaultTableModel) certification.getModel();
+        model.setRowCount(0);
 
+        UserService service = new UserService();
+        ArrayList<CertificateRecord> list = service.getCertificatesByStudentID(log.getID());
+        
+        for (CertificateRecord Cert : list) {
+            model.addRow(new Object[]{Cert.getCertificateID(), Cert.getCourseID(),Cert.getIssueDate()});
+        }
+    }catch (Exception e) {
+        JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+    
+  }
+
+     
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -122,6 +149,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         Selected_Courses = new javax.swing.JTable();
         Viewlesson = new javax.swing.JToggleButton();
+        Generate_Certificate = new javax.swing.JToggleButton();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         Lessons = new javax.swing.JTable();
@@ -435,23 +463,36 @@ public class StudentDashboard extends javax.swing.JFrame {
             }
         });
 
+        Generate_Certificate.setBackground(new java.awt.Color(102, 102, 102));
+        Generate_Certificate.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        Generate_Certificate.setText("Generate Certificate");
+        Generate_Certificate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Generate_CertificateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Viewlesson)
-                .addGap(18, 18, 18))
             .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Viewlesson)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Generate_Certificate)
+                .addGap(15, 15, 15))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
-                .addGap(24, 24, 24)
-                .addComponent(Viewlesson)
-                .addGap(15, 15, 15))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Viewlesson)
+                    .addComponent(Generate_Certificate))
+                .addGap(21, 21, 21))
         );
 
         jTabbedPane1.addTab("tab3", jPanel7);
@@ -685,7 +726,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         try {
 
             Lessons.setValueAt("Yes", row, 2);
-
+            
             JOptionPane.showMessageDialog(this, "Lesson marked as completed !");
 
         } catch (Exception e) {
@@ -783,7 +824,8 @@ public class StudentDashboard extends javax.swing.JFrame {
 
     private void CertificateEarnedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CertificateEarnedActionPerformed
         // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(5); 
+        jTabbedPane1.setSelectedIndex(5);
+        loadcertificatesIntoTable(log.getID());
     }//GEN-LAST:event_CertificateEarnedActionPerformed
 
     private void Download_certificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Download_certificationActionPerformed
@@ -793,16 +835,85 @@ public class StudentDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select Certificate first !");
             return;
         }
+        
+        String certificateID = certification.getValueAt(row, 0).toString();
+        File source = new File("certificates/" + certificateID + ".pdf");
+
+      if (!source.exists()) {
+        JOptionPane.showMessageDialog(this, "Certificate file not found!");
+        return;
+       }
+
+       JFileChooser chooser = new JFileChooser();
+       chooser.setSelectedFile(new File(certificateID + ".pdf"));
+
+       int option = chooser.showSaveDialog(this);
+        
+      if (option == JFileChooser.APPROVE_OPTION) {
+        File dest = chooser.getSelectedFile();
+        try {
+            Files.copy(source.toPath(), dest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            JOptionPane.showMessageDialog(this, "Downloaded successfully !");
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        }
+     }
     }//GEN-LAST:event_Download_certificationActionPerformed
 
     private void View_certificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_certificationActionPerformed
         // TODO add your handling code here:
         int row = certification.getSelectedRow();
+        
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Select Certificate first !");
             return;
         }
+        
+        String certificateID = certification.getValueAt(row, 0).toString();
+
+        File file = new File("certificates/" + certificateID + ".pdf");
+
+        if (!file.exists()) {
+          JOptionPane.showMessageDialog(this, "Certificate file not found!");
+          return;
+        }
+
+       try {
+        Desktop.getDesktop().open(file);
+      } catch (Exception ex) {
+        JOptionPane.showMessageDialog(this, "Cannot open file: " + ex.getMessage());
+      }
     }//GEN-LAST:event_View_certificationActionPerformed
+
+    private void Generate_CertificateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Generate_CertificateActionPerformed
+        // TODO add your handling code here:
+        int row = Selected_Courses.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Select Course first !");
+            return;
+        }
+        try {
+        String studentID = log.getID();  
+        String courseID = Selected_Courses.getValueAt(row, 0).toString();     
+
+        UserService service = new UserService();
+
+        CertificateRecord cert = service.generateCertificate(studentID, courseID);
+        
+        Certificate c = new Certificate(cert.getCertificateID(),cert.getStudentID(),cert.getCourseID(),cert.getIssueDate());
+        
+        service.addCertificateToStudent(cert.getCertificateID(),studentID,courseID,cert.getIssueDate());
+
+        String pdfPath = Pdf_Certificate.createPDF(c);
+
+        JOptionPane.showMessageDialog(this,"Certificate Generated !","Success",JOptionPane.INFORMATION_MESSAGE);
+
+    } catch (Exception ex) {
+        
+        JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+        
+      }
+    }//GEN-LAST:event_Generate_CertificateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -836,6 +947,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     private javax.swing.JTextArea Content;
     private javax.swing.JToggleButton Download_certification;
     private javax.swing.JToggleButton EnrollCourse;
+    private javax.swing.JToggleButton Generate_Certificate;
     private javax.swing.JButton Home;
     private javax.swing.JTable Lessons;
     private javax.swing.JButton Logout;
