@@ -11,7 +11,10 @@ import misc.Validations;
 public class Admin extends User {
 
     public String type = "admin";
-
+    
+    public Admin(){
+    }
+    
     public Admin(String userID, String username, String email, String passwordHash) {
         super(username, email, passwordHash);
         setUserID(userID);
