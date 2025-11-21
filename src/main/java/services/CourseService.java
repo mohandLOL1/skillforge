@@ -352,25 +352,33 @@ public class CourseService {
         return null;
     }
 
-    public void approveCourse(String courseID) {
+    public void approveCourse(String courseID) throws IOException {
         Course c = findCourse(courseID);
         c.setStatus("APPROVED");
+        coursedb.write();
 
     }
 
     public void rejectCourse(String courseID, String instructorID) {
         Course c = findCourse(courseID);
 
-
-
         try {
             deleteCourse(courseID, instructorID);
         } catch (IOException ex) {
             Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return;
-
     }
-
+    
+    public ArrayList<Course> getPendingCourses(){
+        ArrayList<Course> pendingCourses = new ArrayList<>();
+        if(courses.isEmpty())
+            return pendingCourses;
+        
+        for(Course course : courses){
+            if(course.getStatus().equals("PENDING"))
+                pendingCourses.add(course);
+        }
+        
+        return pendingCourses;
+    }
 }

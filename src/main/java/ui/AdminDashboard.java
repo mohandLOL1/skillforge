@@ -1,25 +1,47 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package ui;
 
+import courses.Course;
 import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import services.CourseService;
 
-/**
- *
- * @author moesn
- */
 public class AdminDashboard extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AdminDashboard.class.getName());
+    private CourseService courseservice;
 
     /**
      * Creates new form admin
      */
     public AdminDashboard() {
+        try {
+            courseservice = new CourseService();
+        } catch (IOException ex) {
+            System.getLogger(AdminDashboard.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
         initComponents();
+        loadPendingCourses();
         setTitle("Admin Dashboard");
+    }
+
+    private void loadPendingCourses() {
+        // Get only pending courses from your service
+        ArrayList<Course> pendingCourses = courseservice.getPendingCourses();
+        // Prepare the table model
+        javax.swing.table.DefaultTableModel model
+                = (javax.swing.table.DefaultTableModel) courseTable.getModel();
+        // Clear existing rows
+        model.setRowCount(0);
+        // Add each pending course to the table
+        for (Course course : pendingCourses) {
+            model.addRow(new Object[]{
+                course.getCourseID(),
+                course.getTitle(),
+                course.getDescription(),
+                course.getInstructorID()
+            });
+        }
     }
 
     /**
@@ -32,7 +54,7 @@ public class AdminDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        courseTable = new javax.swing.JTable();
         acceptCourse = new javax.swing.JButton();
         declineCourse = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -40,8 +62,8 @@ public class AdminDashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 204, 255));
 
-        jTable1.setBackground(new java.awt.Color(204, 204, 204));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        courseTable.setBackground(new java.awt.Color(204, 204, 204));
+        courseTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -52,7 +74,7 @@ public class AdminDashboard extends javax.swing.JFrame {
                 "Course ID", "Course Title", "Course Descripton", "Instructor ID"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(courseTable);
 
         acceptCourse.setText("Accept Course");
         acceptCourse.addActionListener(new java.awt.event.ActionListener() {
@@ -114,11 +136,36 @@ public class AdminDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void acceptCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptCourseActionPerformed
-        // TODO add your handling code here:
+    int selectedRow = courseTable.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a course first.", "No selection", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    String courseId = courseTable.getValueAt(selectedRow, 0).toString();
+
+        try {
+            courseservice.approveCourse(courseId);
+        } catch (IOException ex) {
+            System.getLogger(AdminDashboard.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+    JOptionPane.showMessageDialog(this, "Course " + courseId + " approved.", "Success", JOptionPane.INFORMATION_MESSAGE);
+    loadPendingCourses();
     }//GEN-LAST:event_acceptCourseActionPerformed
 
     private void declineCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineCourseActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = courseTable.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a course first.", "No selection", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+
+    String courseId = courseTable.getValueAt(selectedRow, 0).toString();
+    String instructorID = courseTable.getValueAt(selectedRow, 3).toString();
+
+    courseservice.rejectCourse(courseId, instructorID);
+    JOptionPane.showMessageDialog(this, "Course " + courseId + " rejected.", "Success", JOptionPane.INFORMATION_MESSAGE);
+    loadPendingCourses();
     }//GEN-LAST:event_declineCourseActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -160,9 +207,9 @@ public class AdminDashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton acceptCourse;
+    private javax.swing.JTable courseTable;
     private javax.swing.JButton declineCourse;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }
