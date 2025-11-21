@@ -39,4 +39,10 @@ public class Generator {
         return "L" + Integer.toString(ID);
     }
     
+    public static String generateCertificateID() { 
+    Random rand = new Random();
+    int ID = 10000 + rand.nextInt(10001);
+    return "CERT" + ID;
+    }
+    
 }

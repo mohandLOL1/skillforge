@@ -117,6 +117,17 @@ public class Validations {
             return false;
         }
     }
+    
+    public static boolean validatecertificateID(String certificateID) {
+        if (certificateID.startsWith("CERT")) {
+            String numberSubString = certificateID.substring(4);
+            int ID = Integer.parseInt(numberSubString);
+            return ID >= 10000 && ID <= 20000;
+        } else {
+            return false;
+        }
+    }
+    
 
     public static boolean validateLessonID(String LessonID) {
         if (LessonID.charAt(0) == 'L') {
