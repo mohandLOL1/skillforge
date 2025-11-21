@@ -39,5 +39,5 @@ public class CertificateRecord {
     public String getStudentID() {
         return studentID;
     }
-    
 }
+    

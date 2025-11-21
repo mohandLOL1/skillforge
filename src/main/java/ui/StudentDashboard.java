@@ -5,7 +5,6 @@
 package ui;
 import certification.Certificate;
 import certification.CertificateRecord;
-import certification.Pdf_Certificate;
 import courses.Course;
 import courses.CourseEnrollment;
 import courses.Lesson;
@@ -904,7 +903,6 @@ public class StudentDashboard extends javax.swing.JFrame {
         
         service.addCertificateToStudent(cert.getCertificateID(),studentID,courseID,cert.getIssueDate());
 
-        String pdfPath = Pdf_Certificate.createPDF(c);
 
         JOptionPane.showMessageDialog(this,"Certificate Generated !","Success",JOptionPane.INFORMATION_MESSAGE);
 

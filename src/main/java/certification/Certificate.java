@@ -7,10 +7,6 @@ package certification;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import misc.Validations;
 
-/**
- *
- * @author m
- */
 public class Certificate {
     private String certificateID;
     private String courseID;

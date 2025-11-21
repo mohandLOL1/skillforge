@@ -13,7 +13,8 @@ import misc.Validations;
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Student.class, name = "student"),
-        @JsonSubTypes.Type(value = Instructor.class, name = "instructor")
+        @JsonSubTypes.Type(value = Instructor.class, name = "instructor"),
+        @JsonSubTypes.Type(value = Admin.class, name = "admin")
 })
 
 public abstract class User {
