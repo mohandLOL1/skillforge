@@ -12,6 +12,7 @@ public class Course {
     private String instructorID;
     private Set<Lesson> lessons;
     private Set<CourseEnrollment> courseEnrollments;
+    private String status;
 
     public Course() {
     }
@@ -24,8 +25,7 @@ public class Course {
         setInstructorID(instructorID);
         this.lessons = new HashSet<>();
         this.courseEnrollments= new HashSet<>();
-        
-        
+        this.status = "PENDING";       
     }
 
     
@@ -76,6 +76,14 @@ public class Course {
     
     public void addLesson(Lesson lesson) {
         this.lessons.add(lesson);
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status; 
     }
     
     public void removeLesson(Lesson lesson){
