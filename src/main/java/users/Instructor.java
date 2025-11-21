@@ -38,6 +38,11 @@ public class Instructor extends User {
         }
     }
 
+    public void removeCreatedCourse(String courseID) {
+
+        this.createdCoursesIDs.remove(courseID);
+    }
+
     public Set<String> getCreatedCoursesIDs() {
         return createdCoursesIDs;
     }
