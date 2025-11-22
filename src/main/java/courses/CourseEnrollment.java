@@ -31,6 +31,11 @@ public class CourseEnrollment {
         return new ArrayList<>(quizAttempts);
     }
 
+    public void setQuizAttempts(ArrayList<StudentQuizAttempt> quizAttempts) {
+        this.quizAttempts = quizAttempts;
+    }
+    
+
 // add a new attempt
     public void addQuizAttempt(StudentQuizAttempt attempt) {
         if (attempt != null) {

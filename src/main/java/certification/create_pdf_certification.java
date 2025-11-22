@@ -2,6 +2,7 @@ package certification;
 
 import java.io.File;
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -10,7 +11,6 @@ import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import org.apache.pdfbox.pdmodel.graphics.state.PDExtendedGraphicsState;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.util.Matrix;
 
 public class create_pdf_certification {
 
@@ -24,6 +24,7 @@ public class create_pdf_certification {
             float pageWidth = page.getMediaBox().getWidth();
             float pageHeight = page.getMediaBox().getHeight();
 
+            // Main text
             try (PDPageContentStream content = new PDPageContentStream(doc, page)) {
 
                 String title = "Certificate of Completion";
@@ -53,7 +54,7 @@ public class create_pdf_certification {
                 content.endText();
             }
 
-
+            // Watermark
             try (PDPageContentStream wm = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
 
                 PDExtendedGraphicsState gs = new PDExtendedGraphicsState();
@@ -65,50 +66,20 @@ public class create_pdf_certification {
                 wm.setFont(PDType1Font.HELVETICA_BOLD, 90);
                 wm.setNonStrokingColor(Color.LIGHT_GRAY);
 
-                wm.setTextMatrix(Matrix.getRotateInstance(Math.toRadians(45), pageWidth / 3, pageHeight / 14));
+                // Use AffineTransform instead of old Matrix
+                AffineTransform transform = new AffineTransform();
+                transform.rotate(Math.toRadians(45), pageWidth / 3, pageHeight / 14);
+                wm.setTextMatrix(transform);
                 wm.showText("SkillForge");
                 wm.endText();
             }
 
-
+            // Signature
             try (PDPageContentStream sig = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
 
                 PDImageXObject signature = PDImageXObject.createFromFile("signet.png", doc);
 
                 float sigWidth = 150;
                 float sigHeight = 90;
-                float x = pageWidth - sigWidth - 50;
-                float y = 25;
+                float x
 
-                sig.drawImage(signature, x, y, sigWidth, sigHeight);
-            }
-
-
-            try (PDPageContentStream border = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
-
-                border.setStrokingColor(212 / 255f, 175 / 255f, 55 / 255f);
-
-                border.setLineWidth(4f);
-                float margin = 10;
-                border.addRect(margin, margin, pageWidth - 2 * margin, pageHeight - 2 * margin);
-                border.stroke();
-
-                border.setLineWidth(2f);
-                float innerMargin = margin + 6;
-                border.addRect(innerMargin, innerMargin, pageWidth - 2 * innerMargin, pageHeight - 2 * innerMargin);
-                border.stroke();
-            }
-
-            File folder = new File("certificates");
-            if (!folder.exists()) folder.mkdir();
-
-            String path = "certificates/" + cert.getCertificateID() + ".pdf";
-            doc.save(path);
-            return path;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-}
