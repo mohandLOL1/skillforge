@@ -15,10 +15,11 @@ public class AdminDashboard extends javax.swing.JFrame {
      * Creates new form admin
      */
     public AdminDashboard(CourseService courseservice) {
-    this.courseservice = courseservice;
-    initComponents();       // create components first
-    setTitle("Admin Dashboard");
-    loadPendingCourses(); 
+        this.courseservice = courseservice;
+        initComponents();       // create components first
+        setTitle("Admin Dashboard");
+        setLocationRelativeTo(null);
+        loadPendingCourses();
     }
 
     private void loadPendingCourses() {
@@ -132,40 +133,40 @@ public class AdminDashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void acceptCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptCourseActionPerformed
-    int selectedRow = courseTable.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Please select a course first.", "No selection", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
+        int selectedRow = courseTable.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a course first.", "No selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    String courseId = courseTable.getValueAt(selectedRow, 0).toString();
+        String courseId = courseTable.getValueAt(selectedRow, 0).toString();
 
         try {
             courseservice.approveCourse(courseId);
         } catch (IOException ex) {
             System.getLogger(AdminDashboard.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
-    JOptionPane.showMessageDialog(this, "Course " + courseId + " approved.", "Success", JOptionPane.INFORMATION_MESSAGE);
-    loadPendingCourses();
+        JOptionPane.showMessageDialog(this, "Course " + courseId + " approved.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        loadPendingCourses();
     }//GEN-LAST:event_acceptCourseActionPerformed
 
     private void declineCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineCourseActionPerformed
         int selectedRow = courseTable.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Please select a course first.", "No selection", JOptionPane.WARNING_MESSAGE);
-        return;
-    }
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a course first.", "No selection", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
-    String courseId = courseTable.getValueAt(selectedRow, 0).toString();
-    String instructorID = courseTable.getValueAt(selectedRow, 3).toString();
+        String courseId = courseTable.getValueAt(selectedRow, 0).toString();
+        String instructorID = courseTable.getValueAt(selectedRow, 3).toString();
 
         try {
             courseservice.rejectCourse(courseId, instructorID);
         } catch (IOException ex) {
             System.getLogger(AdminDashboard.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
         }
-    JOptionPane.showMessageDialog(this, "Course " + courseId + " rejected.", "Success", JOptionPane.INFORMATION_MESSAGE);
-    loadPendingCourses();
+        JOptionPane.showMessageDialog(this, "Course " + courseId + " rejected.", "Success", JOptionPane.INFORMATION_MESSAGE);
+        loadPendingCourses();
     }//GEN-LAST:event_declineCourseActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

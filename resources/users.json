@@ -19,4 +19,31 @@
   "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
   "id" : "A15254",
   "type" : "admin"
+}, {
+  "username" : "snmoe",
+  "email" : "mo@gmail.com",
+  "passwordHash" : "11d7f1d044d1f23c84a1a2729436c6772862510f2b6f6810ccd127d8e1cc7a15",
+  "id" : "I18008",
+  "type" : "instructor",
+  "createdCoursesIDs" : [ "C18432" ]
+}, {
+  "username" : "gooner",
+  "email" : "fapman@gmail.com",
+  "passwordHash" : "11d7f1d044d1f23c84a1a2729436c6772862510f2b6f6810ccd127d8e1cc7a15",
+  "courseEnrollments" : [ {
+    "studentID" : "S11527",
+    "courseID" : "C18432",
+    "percent" : 0.0,
+    "completedLessons" : [ ],
+    "quizAttempts" : [ ]
+  } ],
+  "certificates" : [ ],
+  "id" : "S11527",
+  "type" : "student"
+}, {
+  "username" : "fapper",
+  "email" : "as@gmail.com",
+  "passwordHash" : "11d7f1d044d1f23c84a1a2729436c6772862510f2b6f6810ccd127d8e1cc7a15",
+  "id" : "A13143",
+  "type" : "admin"
 } ]

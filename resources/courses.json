@@ -14,4 +14,24 @@
   "lessons" : [ ],
   "courseEnrollments" : [ ],
   "status" : "APPROVED"
+}, {
+  "courseID" : "C18432",
+  "title" : "bomba",
+  "description" : "bombaclat",
+  "instructorID" : "I18008",
+  "lessons" : [ {
+    "lessonID" : "L16321",
+    "title" : "data types",
+    "content" : "integer",
+    "courseID" : "C18432",
+    "quiz" : null
+  } ],
+  "courseEnrollments" : [ {
+    "studentID" : "S11527",
+    "courseID" : "C18432",
+    "percent" : 0.0,
+    "completedLessons" : [ ],
+    "quizAttempts" : [ ]
+  } ],
+  "status" : "APPROVED"
 } ]
