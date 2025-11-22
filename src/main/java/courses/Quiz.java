@@ -1,32 +1,36 @@
 package courses;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Quiz {
 
     private String lessonID;
-    private Map<Question, Integer> correctAnswers; // stores selected option index per question
+    private List<Question> questions;
+
+    public Quiz()
+    {
+
+    }
 
     public Quiz(String lessonID) {
         this.lessonID = lessonID;
-        this.correctAnswers = new HashMap<>();
+        this.questions = new ArrayList<>();
+    }
+
+    public void addQuestion(Question question) {
+        questions.add(question);
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public int getNumberOfQuestions() {
+        return questions.size();
     }
 
     public String getLessonID() {
         return lessonID;
     }
-
-    public void addQuestion(Question question, int correctOptionIndex) {
-        correctAnswers.put(question, correctOptionIndex);
-    }
-
-    public Map<Question, Integer> getCorrectAnswers() {
-        return correctAnswers;
-    }
-
-    public int getNumberOfQuestions() {
-        return correctAnswers.size();
-    }
-
 }

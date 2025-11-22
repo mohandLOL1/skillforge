@@ -23,7 +23,7 @@ public class CourseService {
         userservice = new UserService();
     }
 
-    private static void reload() throws IOException {
+    public static void reload() throws IOException {
         coursedb.read();
         courses = coursedb.returnAllRecords();
     }
@@ -189,7 +189,7 @@ public class CourseService {
     public void addLesson(String title, String content, String courseID, String InstructorID) throws IOException {
 
         String lessonID = Generator.generateLessonID();
-        Lesson lesson = new Lesson(lessonID, title, content, courseID);
+        //Lesson lesson = new Lesson(lessonID, title, content, courseID);
         Course course = findCourse(courseID);
 
         if (course == null) {
@@ -199,7 +199,7 @@ public class CourseService {
             throw new IllegalArgumentException("Cannot edit unowned course");
         }
 
-        course.addLesson(lesson);
+        //course.addLesson(lesson);
         coursedb.write();
     }
 
@@ -405,4 +405,27 @@ public class CourseService {
         
         return approvedCourses;
     }
+    
+    public CourseEnrollment getStudentEnrollment(String studentID, String lessonID){
+        Student student = (Student) userservice.getUser(studentID);
+        Set<CourseEnrollment> enrollments = student.getCourseEnrollments();
+        for (CourseEnrollment enrollment : enrollments) {
+        // Find the course of this enrollment
+        Course course = findCourse(enrollment.getCourseID());
+        if (course != null) {
+            // Check if the course has the lesson
+            for (Lesson lesson : course.getLessons()) {
+                if (lesson.getLessonID().equals(lessonID)) {
+                    return enrollment; // Found the enrollment for this lesson
+                }
+            }
+        }
+    }
+        return null;
+        
+        
+    }
+    
+
+
 }

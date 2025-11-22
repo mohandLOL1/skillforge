@@ -1,20 +1,21 @@
 package courses;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import misc.Validations;
 
 public class CourseEnrollment {
-    
+
     private String studentID;
     private String courseID;
     private double percent;
     private Set<String> completedLessons;
-   
+    private ArrayList<StudentQuizAttempt> quizAttempts;
 
     public CourseEnrollment() {
         this.completedLessons = new HashSet<>();
+        this.quizAttempts = new ArrayList<>(); 
     }
 
     public CourseEnrollment(String studentID, String courseID, double percent) {
@@ -22,6 +23,21 @@ public class CourseEnrollment {
         setCourseID(courseID);
         setPercent(percent);
         this.completedLessons = new HashSet<>();
+        this.quizAttempts = new ArrayList<>();  // initialize here too
+    }
+
+// getter that returns a copy to avoid exposing internal list
+    public ArrayList<StudentQuizAttempt> getQuizAttempts() {
+        return new ArrayList<>(quizAttempts);
+    }
+
+// add a new attempt
+    public void addQuizAttempt(StudentQuizAttempt attempt) {
+        if (attempt != null) {
+            quizAttempts.add(attempt);
+        } else {
+            throw new IllegalArgumentException("Quiz attempt cannot be null");
+        }
     }
 
     public String getStudentID() {
@@ -29,9 +45,9 @@ public class CourseEnrollment {
     }
 
     public void setStudentID(String studentID) {
-        if(Validations.validateStudentID(studentID))
+        if (Validations.validateStudentID(studentID)) {
             this.studentID = studentID;
-        else{
+        } else {
             throw new IllegalArgumentException("Invalid student ID");
         }
     }
@@ -76,11 +92,5 @@ public class CourseEnrollment {
         }
 
     }
-    
-    
 
- 
 }
-
-
-

@@ -1,41 +1,82 @@
 package courses;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentQuizAttempt {
+
     private String studentID;
     private String lessonID;
-    private Quiz quiz;
-    private Map<Question, Integer> studentAnswers; // student answer for each question
+    private List<Question> quizQuestions;   // the questions for this attempt
+    private List<Integer> studentAnswers;   // stores the selected option index for each question
     private int score;
     private boolean passed;
-
-    public StudentQuizAttempt(String studentID, String lessonID, Quiz quiz, Map<Question, Integer> studentAnswers) {
-        this.quiz = quiz;
+    
+    public StudentQuizAttempt(){
+        
+    }
+    public StudentQuizAttempt(String studentID, String lessonID, List<Question> quizQuestions) {
         this.studentID = studentID;
         this.lessonID = lessonID;
-        this.studentAnswers = studentAnswers;
+        this.quizQuestions = quizQuestions;
+        this.studentAnswers = new ArrayList<>();
         this.score = 0;
         this.passed = false;
     }
 
-    public void recordAnswer(Question question, int selectedOption) {
-        studentAnswers.put(question, selectedOption);
-    }
-    
-     public void calculateScore(Quiz quiz) {
-        score = 0;
-        for (Map.Entry<Question, Integer> entry : studentAnswers.entrySet()) {
-            Integer correctOption = quiz.getCorrectAnswers().get(entry.getKey());
-            if (correctOption != null && correctOption.equals(entry.getValue())) {
-                score++;
-            }
-        }
-        passed = score >= quiz.getNumberOfQuestions(); // or set your passing threshold
+    public String getStudentID() {
+        return studentID;
     }
 
-   
-    public int getScore() { return score; }
-    public boolean isPassed() { return passed; }
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
+    }
+
+    public String getLessonID() {
+        return lessonID;
+    }
+
+    public void setLessonID(String lessonID) {
+        this.lessonID = lessonID;
+    }
+
+    public void setQuizQuestions(List<Question> quizQuestions) {
+        this.quizQuestions = quizQuestions;
+    }
+
+    public List<Question> getQuizQuestions() {
+        return quizQuestions;
+    }
+
+
+    public List<Integer> getStudentAnswers() {
+        return studentAnswers;
+    }
+
+    public void setStudentAnswers(List<Integer> studentAnswers) {
+        this.studentAnswers = studentAnswers;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public boolean isPassed() {
+        return passed;
+    }
+
+    public void setPassed(boolean passed) {
+        this.passed = passed;
+    }
+    
+    public int getAnswerForQuestion(int index){
+        return studentAnswers.get(index);
+    }
+    
+    
+    
 }
