@@ -1,6 +1,7 @@
 package courses;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import misc.Validations;
 
@@ -10,6 +11,7 @@ public class CourseEnrollment {
     private String courseID;
     private double percent;
     private Set<String> completedLessons;
+   
 
     public CourseEnrollment() {
         this.completedLessons = new HashSet<>();
@@ -74,5 +76,11 @@ public class CourseEnrollment {
         }
 
     }
+    
+    
 
+ 
 }
+
+
+

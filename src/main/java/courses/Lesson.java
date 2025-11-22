@@ -8,6 +8,8 @@ public class Lesson{
     private String title;
     private String content;
     private String courseID;
+    private Quiz quiz;
+    
     public Lesson(){
     }
     public Lesson(String lessonID, String title, String content,String courseID){
