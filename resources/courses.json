@@ -5,7 +5,7 @@
   "instructorID" : "I17649",
   "lessons" : [ ],
   "courseEnrollments" : [ ],
-  "status" : "PENDING"
+  "status" : "APPROVED"
 }, {
   "courseID" : "C19868",
   "title" : "l",
@@ -13,5 +13,5 @@
   "instructorID" : "I17649",
   "lessons" : [ ],
   "courseEnrollments" : [ ],
-  "status" : "PENDING"
+  "status" : "APPROVED"
 } ]

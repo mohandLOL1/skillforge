@@ -12,7 +12,7 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.util.Matrix;
 
-public class create_pdf_certification {
+public class CreatePdfCertification {
 
     public static String createPDF(Certificate cert) {
         try (PDDocument doc = new PDDocument()) {

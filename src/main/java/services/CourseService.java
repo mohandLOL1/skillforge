@@ -186,11 +186,12 @@ public class CourseService {
 
     }
 
-    public void addLesson(String title, String content, String courseID, String InstructorID) throws IOException {
+    public Lesson addLesson(String title, String content, String courseID, String InstructorID) throws IOException {
 
         String lessonID = Generator.generateLessonID();
-        //Lesson lesson = new Lesson(lessonID, title, content, courseID);
+        Lesson lesson = new Lesson(lessonID, title, content, courseID);
         Course course = findCourse(courseID);
+       
 
         if (course == null) {
             throw new IllegalArgumentException("Cannot find course");
@@ -199,8 +200,10 @@ public class CourseService {
             throw new IllegalArgumentException("Cannot edit unowned course");
         }
 
-        //course.addLesson(lesson);
+        course.addLesson(lesson);
         coursedb.write();
+        return lesson;
+       
     }
 
     public void removeLesson(String courseID, String lessonID, String InstructorID) throws IOException {

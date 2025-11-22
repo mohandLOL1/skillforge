@@ -4,9 +4,8 @@
  */
 package ui;
 import certification.Certificate;
-import certification.create_pdf_certification;
+import certification.CreatePdfCertification;
 import courses.Course;
-import courses.CourseEnrollment;
 import courses.Lesson;
 import java.awt.Desktop;
 import java.io.File;
@@ -884,7 +883,6 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_View_certificationActionPerformed
 
     private void Generate_CertificateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Generate_CertificateActionPerformed
-        // TODO add your handling code here:
         int row = Selected_Courses.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Select Course first !");
@@ -902,7 +900,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         
         service.addCertificateToStudent(cert.getCertificateID(),studentID,courseID,cert.getIssueDate());
         
-        String pdfPath = create_pdf_certification.createPDF(cert);
+        String pdfPath = CreatePdfCertification.createPDF(cert);
         
         JOptionPane.showMessageDialog(this,"Certificate Generated !","Success",JOptionPane.INFORMATION_MESSAGE);
 

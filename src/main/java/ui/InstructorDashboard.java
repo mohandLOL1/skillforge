@@ -336,16 +336,17 @@ public class InstructorDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void insightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insightButtonActionPerformed
-        // TODO add your handling code here:
-        try{
-            String courseID = JOptionPane.showInputDialog(this, "Enter course ID for Insights");
-            if(courseID == null || courseID.trim().isEmpty())
-                return;
-            
-        }
-        catch(Exception e){
-            
-        }
+   String courseID = JOptionPane.showInputDialog(this, "Enter course ID for Insights");
+    if(courseID == null || courseID.trim().isEmpty())
+        return;
+    if(cs.containsCourse(courseID)){
+
+    ChartFrame chartFrame = new ChartFrame(courseID);
+    chartFrame.setVisible(true);
+    }
+    else{
+        JOptionPane.showMessageDialog(this, "ID not found");
+    }
     }//GEN-LAST:event_insightButtonActionPerformed
 
     /**
