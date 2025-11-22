@@ -4,6 +4,19 @@
   "description" : "l",
   "instructorID" : "I17137",
   "lessons" : [ ],
-  "courseEnrollments" : [ ],
+  "courseEnrollments" : [ {
+    "studentID" : "S10734",
+    "courseID" : "C19713",
+    "percent" : 0.0,
+    "completedLessons" : [ ]
+  } ],
   "status" : "APPROVED"
+}, {
+  "courseID" : "C10189",
+  "title" : "l",
+  "description" : "l",
+  "instructorID" : "I17137",
+  "lessons" : [ ],
+  "courseEnrollments" : [ ],
+  "status" : "PENDING"
 } ]

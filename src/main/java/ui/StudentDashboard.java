@@ -54,13 +54,12 @@ public class StudentDashboard extends javax.swing.JFrame {
      public void loadTable() throws IOException {
         DefaultTableModel m = (DefaultTableModel) All_Courses.getModel();
         m.setRowCount(0);
-        CourseService service = new CourseService();
         
-        ArrayList<Course> available = service.returnAllCourses();
+        ArrayList<Course> available = cs.getApprovedCourses();
         for (Course c : available) {
           m.addRow(new Object[]{c.getCourseID(),c.getTitle(),c.getDescription(),c.getInstructorID()});
     }
-     }
+    }
      
      public void loadEnrolledCourses() throws IOException {
       DefaultTableModel m = (DefaultTableModel) Selected_Courses.getModel();

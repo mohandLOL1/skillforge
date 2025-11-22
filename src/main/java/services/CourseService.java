@@ -360,7 +360,7 @@ public class CourseService {
 
     }
 
-    public void rejectCourse(String courseID, String instructorID) {
+    public void rejectCourse(String courseID, String instructorID) throws IOException {
     Course c = findCourse(courseID);
     if (c != null) {
         courses.remove(c);
@@ -375,6 +375,7 @@ public class CourseService {
         if (user instanceof Instructor) {
             ((Instructor) user).removeCreatedCourse(courseID);
         }
+        userservice.saveUsers();
     }
     }
     
@@ -389,5 +390,19 @@ public class CourseService {
         }
         
         return pendingCourses;
+    }
+    
+    
+    public ArrayList<Course> getApprovedCourses(){
+        ArrayList<Course> approvedCourses = new ArrayList<>();
+        if(courses.isEmpty())
+            return approvedCourses;
+        
+        for(Course course : courses){
+            if(course.getStatus().equals("APPROVED"))
+                approvedCourses.add(course);
+        }
+        
+        return approvedCourses;
     }
 }

@@ -159,7 +159,11 @@ public class AdminDashboard extends javax.swing.JFrame {
     String courseId = courseTable.getValueAt(selectedRow, 0).toString();
     String instructorID = courseTable.getValueAt(selectedRow, 3).toString();
 
-    courseservice.rejectCourse(courseId, instructorID);
+        try {
+            courseservice.rejectCourse(courseId, instructorID);
+        } catch (IOException ex) {
+            System.getLogger(AdminDashboard.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     JOptionPane.showMessageDialog(this, "Course " + courseId + " rejected.", "Success", JOptionPane.INFORMATION_MESSAGE);
     loadPendingCourses();
     }//GEN-LAST:event_declineCourseActionPerformed
