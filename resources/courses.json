@@ -1,26 +1,16 @@
 [ {
-  "courseID" : "C19713",
-  "title" : "l",
-  "description" : "l",
-  "instructorID" : "I17137",
-  "lessons" : [ {
-    "lessonID" : "L10680",
-    "title" : "M",
-    "content" : "M",
-    "courseID" : "C19713"
-  } ],
-  "courseEnrollments" : [ {
-    "studentID" : "S10734",
-    "courseID" : "C19713",
-    "percent" : 0.0,
-    "completedLessons" : [ ]
-  } ],
-  "status" : "APPROVED"
+  "courseID" : "C14374",
+  "title" : "m",
+  "description" : "m",
+  "instructorID" : "I17649",
+  "lessons" : [ ],
+  "courseEnrollments" : [ ],
+  "status" : "PENDING"
 }, {
-  "courseID" : "C10189",
+  "courseID" : "C19868",
   "title" : "l",
   "description" : "l",
-  "instructorID" : "I17137",
+  "instructorID" : "I17649",
   "lessons" : [ ],
   "courseEnrollments" : [ ],
   "status" : "PENDING"

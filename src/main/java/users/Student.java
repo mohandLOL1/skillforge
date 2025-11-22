@@ -21,12 +21,14 @@ public class Student extends User {
 
     public Student() {
         courseEnrollments = new HashSet<>();
+        certificates = new ArrayList<>();
     }
 
     public Student(String userID, String username, String email, String passwordHash) {
         super(username, email, passwordHash);
         setUserID(userID);
         courseEnrollments = new HashSet<>();
+        certificates = new ArrayList<>();
     }
 
     @JsonProperty("id")

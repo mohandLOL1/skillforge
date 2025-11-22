@@ -4,10 +4,6 @@
  */
 package certification;
 
-/**
- *
- * @author m
- */
 public class CertificateRecord {
     
     private String certificateID;

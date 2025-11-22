@@ -10,7 +10,11 @@ public class Quiz {
 
     public Quiz()
     {
-
+    }
+    
+    public Quiz(String lessonID, ArrayList<Question> questions) {
+        this.lessonID = lessonID;
+        this.questions = questions;
     }
 
     public Quiz(String lessonID) {

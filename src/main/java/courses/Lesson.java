@@ -74,11 +74,7 @@ public class Lesson {
         this.content = content;
     }
 
-    public String getcourseID() {
-        return courseID;
-    }
+   
 
-    public void setcourseID(String courseID) {
-        this.courseID = courseID;
-    }
+   
 }
