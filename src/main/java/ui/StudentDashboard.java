@@ -4,7 +4,7 @@
  */
 package ui;
 import certification.Certificate;
-import certification.CertificateRecord;
+import certification.create_pdf_certification;
 import courses.Course;
 import courses.CourseEnrollment;
 import courses.Lesson;
@@ -100,9 +100,9 @@ public class StudentDashboard extends javax.swing.JFrame {
         model.setRowCount(0);
 
         UserService service = new UserService();
-        ArrayList<CertificateRecord> list = service.getCertificatesByStudentID(log.getID());
+        ArrayList<Certificate> list = service.getCertificatesByStudentID(log.getID());
         
-        for (CertificateRecord Cert : list) {
+        for (Certificate Cert : list) {
             model.addRow(new Object[]{Cert.getCertificateID(), Cert.getCourseID(),Cert.getIssueDate()});
         }
     }catch (Exception e) {
@@ -896,13 +896,14 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         UserService service = new UserService();
 
-        CertificateRecord cert = service.generateCertificate(studentID, courseID);
+        Certificate cert = service.generateCertificate(studentID, courseID);
         
         Certificate c = new Certificate(cert.getCertificateID(),cert.getStudentID(),cert.getCourseID(),cert.getIssueDate());
         
         service.addCertificateToStudent(cert.getCertificateID(),studentID,courseID,cert.getIssueDate());
-
-
+        
+        String pdfPath = create_pdf_certification.createPDF(cert);
+        
         JOptionPane.showMessageDialog(this,"Certificate Generated !","Success",JOptionPane.INFORMATION_MESSAGE);
 
     } catch (Exception ex) {
