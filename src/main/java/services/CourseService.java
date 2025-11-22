@@ -361,13 +361,21 @@ public class CourseService {
     }
 
     public void rejectCourse(String courseID, String instructorID) {
-        Course c = findCourse(courseID);
-
+    Course c = findCourse(courseID);
+    if (c != null) {
+        courses.remove(c);
         try {
-            deleteCourse(courseID, instructorID);
+            coursedb.write();
         } catch (IOException ex) {
             Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        // Optionally remove from instructor's created courses
+        User user = userservice.getUser(instructorID);
+        if (user instanceof Instructor) {
+            ((Instructor) user).removeCreatedCourse(courseID);
+        }
+    }
     }
     
     public ArrayList<Course> getPendingCourses(){

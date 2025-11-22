@@ -12,6 +12,11 @@ public class CourseDataBase extends JSONDataBaseManager<Course> {
 
     public CourseDataBase(String filename){
         super(filename);
+        try {
+            read();
+        } catch (IOException ex) {
+            System.getLogger(CourseDataBase.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
  
     }
 
