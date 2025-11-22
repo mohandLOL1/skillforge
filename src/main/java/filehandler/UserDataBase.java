@@ -11,9 +11,16 @@ import users.User;
 
 public class UserDataBase extends JSONDataBaseManager<User> {
 
-    public UserDataBase(String filename) {
+    public UserDataBase(String filename){
 
         super(filename);
+        
+        try {
+            read();
+        } catch (IOException ex) {
+            System.getLogger(CourseDataBase.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+  
 
     }
 

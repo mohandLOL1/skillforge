@@ -15,11 +15,10 @@ public class AdminDashboard extends javax.swing.JFrame {
      * Creates new form admin
      */
     public AdminDashboard(CourseService courseservice) {
-        
-        this.courseservice = courseservice;
-        loadPendingCourses();
-        initComponents();
-        setTitle("Admin Dashboard");
+    this.courseservice = courseservice;
+    initComponents();       // create components first
+    setTitle("Admin Dashboard");
+    loadPendingCourses(); 
     }
 
     private void loadPendingCourses() {

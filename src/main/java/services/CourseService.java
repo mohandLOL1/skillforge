@@ -18,6 +18,7 @@ public class CourseService {
     private static UserService userservice;
 
     public CourseService() throws IOException {
+        coursedb.read();
         courses = coursedb.returnAllRecords();
         userservice = new UserService();
     }

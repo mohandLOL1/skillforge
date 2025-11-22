@@ -10,8 +10,9 @@ import java.io.File;
 
 public class CourseDataBase extends JSONDataBaseManager<Course> {
 
-    public CourseDataBase(String filename) {
+    public CourseDataBase(String filename){
         super(filename);
+ 
     }
 
     @Override
