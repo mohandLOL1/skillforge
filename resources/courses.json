@@ -3,7 +3,12 @@
   "title" : "l",
   "description" : "l",
   "instructorID" : "I17137",
-  "lessons" : [ ],
+  "lessons" : [ {
+    "lessonID" : "L10680",
+    "title" : "M",
+    "content" : "M",
+    "courseID" : "C19713"
+  } ],
   "courseEnrollments" : [ {
     "studentID" : "S10734",
     "courseID" : "C19713",

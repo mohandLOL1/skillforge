@@ -6,6 +6,9 @@ import java.util.Objects;
 public class Question {
     private String questionText;
     private List<String> options;
+    
+            
+       
  
     
     public Question(){
@@ -20,6 +23,4 @@ public class Question {
     public String getQuestionText() { return questionText; }
     public List<String> getOptions() { return options; }
    
-
-
 }
