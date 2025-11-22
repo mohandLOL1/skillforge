@@ -1,6 +1,6 @@
 package services;
 
-import certification.CertificateRecord;
+import certification.Certificate;
 import courses.Course;
 import courses.CourseEnrollment;
 import filehandler.UserDataBase;
@@ -100,7 +100,7 @@ public class UserService {
         this.userdb.write();
     }
 
-    public CertificateRecord generateCertificate(String studentID, String courseID) throws IOException {
+    public Certificate generateCertificate(String studentID, String courseID) throws IOException {
 
         userdb.read();
         users = userdb.returnAllRecords();
@@ -143,7 +143,7 @@ public class UserService {
         String certID = Generator.generateCertificateID();
         String issueDate = java.time.LocalDate.now().toString();
 
-        CertificateRecord record = new CertificateRecord(certID, studentID, courseID, issueDate);
+        Certificate record = new Certificate(certID, studentID, courseID, issueDate);
 
         student.addCertificate(record);
 
@@ -162,13 +162,13 @@ public class UserService {
 
             if (user.getID().equals(studentID) && user instanceof Student student) {
 
-                for (CertificateRecord rec : student.getCertificates()) {
+                for (Certificate rec : student.getCertificates()) {
                     if (rec.getCourseID().equals(courseID)) {
                         throw new IllegalArgumentException("Certificate already exists for course");
                     }
                 }
 
-                CertificateRecord record = new CertificateRecord(certID, studentID, courseID, issueDate);
+                Certificate record = new Certificate(certID, studentID, courseID, issueDate);
 
                 student.addCertificate(record);
                 userdb.write();
@@ -179,7 +179,7 @@ public class UserService {
         throw new IllegalArgumentException("Student not found");
     }
 
-    public ArrayList<CertificateRecord> getCertificatesByStudentID(String studentID) throws IOException {
+    public ArrayList<Certificate> getCertificatesByStudentID(String studentID) throws IOException {
 
         for (User user : users) {
 
