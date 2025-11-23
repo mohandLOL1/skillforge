@@ -980,7 +980,7 @@ public class StudentDashboard extends javax.swing.JFrame {
             String prevLessonID = model.getValueAt(row - 1, 0).toString();
 
             try {
-                StudentQuizAttempt prevAttempt = qs.getAttempt(log, prevLessonID);
+                StudentQuizAttempt prevAttempt = qs.getPassedAttempt(log, prevLessonID);
 
                 if (prevAttempt == null || !prevAttempt.isPassed()) { JOptionPane.showMessageDialog( this, "You must pass the previous lesson quiz first !","Access Denied",JOptionPane.WARNING_MESSAGE );
                     return;
@@ -1019,7 +1019,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         StudentQuizAttempt existAttempt = null;
         
         try {
-            existAttempt = qs.getAttempt(log, lessonID);
+            existAttempt = qs.getPassedAttempt(log, lessonID);
         } catch (Exception ex) {
             Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
