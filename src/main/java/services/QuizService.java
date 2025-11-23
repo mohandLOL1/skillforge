@@ -1,3 +1,4 @@
+
 package services;
 
 import courses.*;
@@ -62,7 +63,7 @@ public class QuizService {
 
         lesson.setQuiz(quiz);
         quizzes.add(quiz);
-
+        courseService.saveCourses();
         courseService.reload(); // save updated course data
         return quiz;
     }
