@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import users.*;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -192,7 +191,6 @@ public class CourseService {
         String lessonID = Generator.generateLessonID();
         Lesson lesson = new Lesson(lessonID, title, content, courseID);
         Course course = findCourse(courseID);
-       
 
         if (course == null) {
             throw new IllegalArgumentException("Cannot find course");
@@ -204,6 +202,7 @@ public class CourseService {
         course.addLesson(lesson);
         coursedb.write();
         return lesson;
+
     }
 
     public void removeLesson(String courseID, String lessonID, String InstructorID) throws IOException {
@@ -364,91 +363,107 @@ public class CourseService {
     }
 
     public void rejectCourse(String courseID, String instructorID) throws IOException {
-    Course c = findCourse(courseID);
-    if (c != null) {
-        courses.remove(c);
-        try {
-            coursedb.write();
-        } catch (IOException ex) {
-            Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+        Course c = findCourse(courseID);
+        if (c != null) {
+            courses.remove(c);
+            try {
+                coursedb.write();
+            } catch (IOException ex) {
+                Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            // Optionally remove from instructor's created courses
+            User user = userservice.getUser(instructorID);
+            if (user instanceof Instructor) {
+                ((Instructor) user).removeCreatedCourse(courseID);
+            }
+            userservice.saveUsers();
+        }
+    }
+
+    public ArrayList<Course> getPendingCourses() {
+        ArrayList<Course> pendingCourses = new ArrayList<>();
+        if (courses.isEmpty()) {
+            return pendingCourses;
         }
 
-        // Optionally remove from instructor's created courses
-        User user = userservice.getUser(instructorID);
-        if (user instanceof Instructor) {
-            ((Instructor) user).removeCreatedCourse(courseID);
-        }
-        userservice.saveUsers();
-    }
-    }
-    
-    public ArrayList<Course> getPendingCourses(){
-        ArrayList<Course> pendingCourses = new ArrayList<>();
-        if(courses.isEmpty())
-            return pendingCourses;
-        
-        for(Course course : courses){
-            if(course.getStatus().equals("PENDING"))
+        for (Course course : courses) {
+            if (course.getStatus().equals("PENDING")) {
                 pendingCourses.add(course);
+            }
         }
-        
+
         return pendingCourses;
     }
-    
-    
-    public ArrayList<Course> getApprovedCourses(){
+
+    public ArrayList<Course> getApprovedCourses() {
         ArrayList<Course> approvedCourses = new ArrayList<>();
-        if(courses.isEmpty())
+        if (courses.isEmpty()) {
             return approvedCourses;
-        
-        for(Course course : courses){
-            if(course.getStatus().equals("APPROVED"))
-                approvedCourses.add(course);
         }
-        
+
+        for (Course course : courses) {
+            if (course.getStatus().equals("APPROVED")) {
+                approvedCourses.add(course);
+            }
+        }
+
         return approvedCourses;
     }
-    
-    public CourseEnrollment getStudentEnrollment(String studentID, String lessonID){
+
+    public CourseEnrollment getStudentEnrollment(String studentID, String lessonID) {
         Student student = (Student) userservice.getUser(studentID);
         Set<CourseEnrollment> enrollments = student.getCourseEnrollments();
         for (CourseEnrollment enrollment : enrollments) {
-        // Find the course of this enrollment
-        Course course = findCourse(enrollment.getCourseID());
-        if (course != null) {
-            // Check if the course has the lesson
-            for (Lesson lesson : course.getLessons()) {
-                if (lesson.getLessonID().equals(lessonID)) {
-                    return enrollment; // Found the enrollment for this lesson
+            // Find the course of this enrollment
+            Course course = findCourse(enrollment.getCourseID());
+            if (course != null) {
+                // Check if the course has the lesson
+                for (Lesson lesson : course.getLessons()) {
+                    if (lesson.getLessonID().equals(lessonID)) {
+                        return enrollment; // Found the enrollment for this lesson
+                    }
                 }
             }
         }
-    }
         return null;
-        
-        
+
     }
-    
-    public void completeLessonForStudent(String studentID, String lessonID) throws IOException{
-        CourseEnrollment courseEnrollment = getStudentEnrollment(studentID,lessonID);
-        courseEnrollment.addCompletedLesson(lessonID);
-        userservice.saveUsers();
-        coursedb.write();
-        
-    }
-    
-    private Lesson findLessonByID(String lessonID) {
-        for (Course course : courses) {
-            Set<Lesson> lessons = course.getLessons();
-            for (Lesson lesson : lessons) {
-                if (lesson.getLessonID().equals(lessonID)) return lesson;
+
+    public CourseEnrollment getCourseEnrollment(String studentID, String courseID) {
+
+        User user = userservice.getUser(studentID);
+        if (user == null || !(user instanceof Student)) {
+            throw new IllegalArgumentException("Invalid student ID or user is not a student");
+        }
+        Student student = (Student) user;
+
+        for (CourseEnrollment enrollment : student.getCourseEnrollments()) {
+            if (enrollment.getCourseID().equals(courseID)) {
+                return enrollment;
             }
         }
-        return null;
+
+        return null; 
     }
-    
-    public void saveCourses() throws IOException{
-        coursedb.write();
+
+    public void setCompletionPercentageForStudent(String studentID, String courseID) {
+        CourseEnrollment ce = getStudentEnrollment(studentID, courseID);
+        if (ce == null) {
+            return;
+        }
+
+        ArrayList<Lesson> lessons = getLessons(courseID);
+        if (lessons.isEmpty()) {
+            ce.setPercent(0);
+            return;
+        }
+
+        int totalLessons = lessons.size();
+        int completedLessons = ce.getCompletedLessons().size();
+
+        double percent = ((double) completedLessons / totalLessons) * 100;
+        ce.setPercent(percent);
     }
-    
+
 }
