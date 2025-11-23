@@ -16,13 +16,13 @@ public class AnalyticsService {
         this.courseService = new CourseService();
     }
 
-   /* public ArrayList<Double> getAverageCourseScore(String courseID) {
+    public ArrayList<Double> getAverageCourseScore(String courseID) {
 
         ArrayList<Double> lessonAverages = new ArrayList<>();
 
         Course course = courseService.findCourse(courseID);
         ArrayList<Lesson> lessons = courseService.getLessons(courseID);
-        //Set<CourseEnrollment> courseEnrollments = course.getCourseEnrollments();
+        ArrayList<CourseEnrollment> courseEnrollments = courseService.getCourseEnrollments(courseID);
 
         if (courseEnrollments.isEmpty()) {
             return new ArrayList<>();
@@ -61,31 +61,27 @@ public class AnalyticsService {
         return lessonAverages;
     }
 
-
     public Double getAverageCourseCompletion(String courseID) {
 
         Double courseAveragescompletion = 0.0;
-        int counter=0;
+        int counter = 0;
         Course course = courseService.findCourse(courseID);
         if (course == null) {
             throw new IllegalArgumentException("course not found");
         }
 
-        //Set<CourseEnrollment> courseEnrollments = course.getCourseEnrollments();
+        ArrayList<CourseEnrollment> courseEnrollments = courseService.getCourseEnrollments(courseID);
 
         if (courseEnrollments.isEmpty()) {
             return 0.0;
         }
-        
-        for(CourseEnrollment ce:courseEnrollments){
-            courseAveragescompletion+=ce.getPercent();
+
+        for (CourseEnrollment ce : courseEnrollments) {
+            courseAveragescompletion += ce.getPercent();
             counter++;
         }
-        courseAveragescompletion=courseAveragescompletion/counter;
+        courseAveragescompletion = courseAveragescompletion / counter;
         return courseAveragescompletion;
     }
 
 }
-*/
-}
-
