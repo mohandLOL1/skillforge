@@ -17,7 +17,7 @@ public class QuizService {
         reload(); // ensure quizzes are loaded fresh at startup
     }
 
-    /** 
+    /**
      * Reload courses from database and rebuild quizzes list
      */
     private void reload() throws IOException {
@@ -31,7 +31,9 @@ public class QuizService {
      */
     private void loadQuizzes() {
         List<Course> courses = courseService.returnAllCourses();
-        if (courses == null || courses.isEmpty()) return;
+        if (courses == null || courses.isEmpty()) {
+            return;
+        }
 
         for (Course course : courses) {
             Set<Lesson> lessons = course.getLessons();
@@ -49,7 +51,9 @@ public class QuizService {
     public Quiz createQuiz(String lessonID, List<Question> questions) throws IOException {
         reload(); // ensure fresh data
         Lesson lesson = findLessonByID(lessonID);
-        if (lesson == null) throw new IllegalArgumentException("Lesson not found");
+        if (lesson == null) {
+            throw new IllegalArgumentException("Lesson not found");
+        }
 
         Quiz quiz = new Quiz(lessonID);
         for (Question q : questions) {
@@ -58,7 +62,7 @@ public class QuizService {
 
         lesson.setQuiz(quiz);
         quizzes.add(quiz);
-        courseService.saveCourses();
+
         courseService.reload(); // save updated course data
         return quiz;
     }
@@ -69,12 +73,12 @@ public class QuizService {
     public Quiz findQuizByLessonID(String lessonID) throws IOException {
         reload(); // ensure fresh data
         for (Quiz q : quizzes) {
-            if (q.getLessonID().equals(lessonID)) return q;
+            if (q.getLessonID().equals(lessonID)) {
+                return q;
+            }
         }
         return null;
     }
-    
-    
 
     /**
      * Create a new student quiz attempt and attach it to the enrollment
@@ -82,7 +86,9 @@ public class QuizService {
     public StudentQuizAttempt createStudentQuizAttempt(String studentID, String lessonID) throws IOException {
         reload();
         Quiz quiz = findQuizByLessonID(lessonID);
-        if (quiz == null) throw new IllegalArgumentException("Quiz not found");
+        if (quiz == null) {
+            throw new IllegalArgumentException("Quiz not found");
+        }
 
         StudentQuizAttempt attempt = new StudentQuizAttempt(studentID, lessonID, quiz.getQuestions());
 
@@ -116,7 +122,9 @@ public class QuizService {
     public void assessQuizAttempt(StudentQuizAttempt attempt) throws IOException {
         reload();
         Quiz quiz = findQuizByLessonID(attempt.getLessonID());
-        if (quiz == null) throw new IllegalArgumentException("Quiz not found");
+        if (quiz == null) {
+            throw new IllegalArgumentException("Quiz not found");
+        }
 
         List<Question> questions = quiz.getQuestions();
         int correctCount = 0;
@@ -142,11 +150,15 @@ public class QuizService {
     public void removeQuiz(String lessonID) throws IOException {
         reload();
         Quiz quiz = findQuizByLessonID(lessonID);
-        if (quiz == null) return;
+        if (quiz == null) {
+            return;
+        }
 
         quizzes.remove(quiz);
         Lesson lesson = findLessonByID(lessonID);
-        if (lesson != null) lesson.setQuiz(null);
+        if (lesson != null) {
+            lesson.setQuiz(null);
+        }
 
         courseService.reload(); // persist changes
     }
@@ -156,12 +168,16 @@ public class QuizService {
      */
     private Lesson findLessonByID(String lessonID) {
         List<Course> courses = courseService.returnAllCourses();
-        if (courses == null) return null;
+        if (courses == null) {
+            return null;
+        }
 
         for (Course course : courses) {
             Set<Lesson> lessons = course.getLessons();
             for (Lesson lesson : lessons) {
-                if (lesson.getLessonID().equals(lessonID)) return lesson;
+                if (lesson.getLessonID().equals(lessonID)) {
+                    return lesson;
+                }
             }
         }
         return null;

@@ -3,10 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package ui;
+
 import certification.Certificate;
 import certification.CreatePdfCertification;
 import courses.Course;
 import courses.Lesson;
+import courses.Question;
+import courses.Quiz;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import services.QuizService;
 import services.UserService;
 import users.User;
 
@@ -26,10 +30,12 @@ import users.User;
  * @author amr
  */
 public class StudentDashboard extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(StudentDashboard.class.getName());
     private User log;
     private CourseService cs;
+    private QuizService qs;
+
     /**
      * Creates new form StudentDashboard
      */
@@ -37,80 +43,82 @@ public class StudentDashboard extends javax.swing.JFrame {
         initComponents();
         try {
             cs = new CourseService();
+            qs = new QuizService();
         } catch (IOException e) {
 
             logger.log(java.util.logging.Level.SEVERE, null, e);
         }
         setTitle("Student Dashboard");
-        setSize(720, 550);     
+        setSize(720, 550);
         setLocationRelativeTo(null);
-        this.log=user;
+        this.log = user;
         jTextField1.setText(user.getUsername());
         jTextField2.setText(user.getEmail());
         jTextField3.setText(user.getID());
     }
-    
-     public void loadTable() throws IOException {
+
+    public void loadTable() throws IOException {
         DefaultTableModel m = (DefaultTableModel) All_Courses.getModel();
         m.setRowCount(0);
-        
+
         ArrayList<Course> available = cs.getApprovedCourses();
         for (Course c : available) {
-          m.addRow(new Object[]{c.getCourseID(),c.getTitle(),c.getDescription(),c.getInstructorID()});
+            m.addRow(new Object[]{c.getCourseID(), c.getTitle(), c.getDescription(), c.getInstructorID()});
+        }
     }
-    }
-     
-     public void loadEnrolledCourses() throws IOException {
-      DefaultTableModel m = (DefaultTableModel) Selected_Courses.getModel();
-       m.setRowCount(0);
 
-      CourseService service = new CourseService();
-      Set<Course> enrolled = service.enrolledcourses(log.getID());
-      
-      if(enrolled.isEmpty()){
-          return;
-      }
-      
-      for (Course c : enrolled) {
-        m.addRow(new Object[]{c.getCourseID(),c.getTitle(),c.getDescription(),c.getInstructorID()});
-    }}
-     
-     private void loadLessonsIntoTable(String courseID) {
-    try {
-        DefaultTableModel model = (DefaultTableModel) Lessons.getModel();
-        model.setRowCount(0);
+    public void loadEnrolledCourses() throws IOException {
+        DefaultTableModel m = (DefaultTableModel) Selected_Courses.getModel();
+        m.setRowCount(0);
 
         CourseService service = new CourseService();
-        ArrayList<Lesson> lessons = service.getLessons(courseID);
-        Set<String> completed = service.completedLessons(log.getID(),courseID);
+        Set<Course> enrolled = service.enrolledcourses(log.getID());
 
-        for (Lesson L : lessons) {
-            model.addRow(new Object[]{L.getLessonID(), L.getTitle(),completed.contains(L.getLessonID()) ? "Yes" : "No"
-            });
+        if (enrolled.isEmpty()) {
+            return;
         }
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, e.getMessage());
+
+        for (Course c : enrolled) {
+            m.addRow(new Object[]{c.getCourseID(), c.getTitle(), c.getDescription(), c.getInstructorID()});
+        }
     }
-    
-  }
+
+    private void loadLessonsIntoTable(String courseID) {
+        try {
+            DefaultTableModel model = (DefaultTableModel) Lessons.getModel();
+            model.setRowCount(0);
+
+            CourseService service = new CourseService();
+            ArrayList<Lesson> lessons = service.getLessons(courseID);
+            Set<String> completed = service.completedLessons(log.getID(), courseID);
+
+            for (Lesson L : lessons) {
+                model.addRow(new Object[]{L.getLessonID(), L.getTitle(), completed.contains(L.getLessonID()) ? "Yes" : "No"
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+
+    }
+
     private void loadcertificatesIntoTable(String StudentID) {
-     try {
-        DefaultTableModel model = (DefaultTableModel) certification.getModel();
-        model.setRowCount(0);
+        try {
+            DefaultTableModel model = (DefaultTableModel) certification.getModel();
+            model.setRowCount(0);
 
-        UserService service = new UserService();
-        ArrayList<Certificate> list = service.getCertificatesByStudentID(log.getID());
-        
-        for (Certificate Cert : list) {
-            model.addRow(new Object[]{Cert.getCertificateID(), Cert.getCourseID(),Cert.getIssueDate()});
+            UserService service = new UserService();
+            ArrayList<Certificate> list = service.getCertificatesByStudentID(log.getID());
+
+            for (Certificate Cert : list) {
+                model.addRow(new Object[]{Cert.getCertificateID(), Cert.getCourseID(), Cert.getIssueDate()});
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
         }
-    }catch (Exception e) {
-        JOptionPane.showMessageDialog(this, e.getMessage());
-    }
-    
-  }
 
-     
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -683,8 +691,8 @@ public class StudentDashboard extends javax.swing.JFrame {
     private void View_available_coursesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_available_coursesActionPerformed
         // TODO add your handling code here:
         jTabbedPane1.setSelectedIndex(1);
-         try {
-           loadTable();
+        try {
+            loadTable();
         } catch (IOException ex) {
             Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -692,9 +700,9 @@ public class StudentDashboard extends javax.swing.JFrame {
 
     private void View_enrolled_coursesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_enrolled_coursesActionPerformed
         // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(2);  
+        jTabbedPane1.setSelectedIndex(2);
         try {
-          loadEnrolledCourses();  
+            loadEnrolledCourses();
         } catch (IOException ex) {
             Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -706,7 +714,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_HomeActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void MarkCompletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarkCompletedActionPerformed
@@ -723,7 +731,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         try {
 
             Lessons.setValueAt("Yes", row, 2);
-            cs.completeLessonForStudent(log.getID(), lessonID);
+
             JOptionPane.showMessageDialog(this, "Lesson marked as completed !");
 
         } catch (Exception e) {
@@ -748,9 +756,9 @@ public class StudentDashboard extends javax.swing.JFrame {
 
     private void EnrollCourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrollCourseActionPerformed
         // TODO add your handling code here:
-     
+
         int row = All_Courses.getSelectedRow();
-        
+
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Select a course first !");
             return;
@@ -764,7 +772,7 @@ public class StudentDashboard extends javax.swing.JFrame {
             Set<Course> enrolled = service.enrolledcourses(studentID);
 
             if (service.studentInCourse(studentID, courseID)) {
-                JOptionPane.showMessageDialog(this,"You are already enrolled in this course.");
+                JOptionPane.showMessageDialog(this, "You are already enrolled in this course.");
                 return;
             }
 
@@ -774,7 +782,7 @@ public class StudentDashboard extends javax.swing.JFrame {
             loadEnrolledCourses();
 
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this,"Error: " + ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
     }//GEN-LAST:event_EnrollCourseActionPerformed
 
@@ -793,30 +801,68 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void ViewContentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewContentActionPerformed
-    int row = Lessons.getSelectedRow();
+        int row = Lessons.getSelectedRow();
 
-    if (row == -1) {
-        JOptionPane.showMessageDialog(this, "Please select a lesson first !");
-        return;
-    }
-    
-    String lessonID = Lessons.getValueAt(row, 0).toString();
-    
-    String content = cs.getLessonContent(lessonID);
-    
-    Content.setText(content);
-    
-    jTabbedPane1.setSelectedIndex(4); 
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a lesson first !");
+            return;
+        }
+
+        String lessonID = Lessons.getValueAt(row, 0).toString();
+
+        String content = cs.getLessonContent(lessonID);
+
+        Content.setText(content);
+
+        jTabbedPane1.setSelectedIndex(4);
     }//GEN-LAST:event_ViewContentActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
         // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(3); 
+        jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_BackActionPerformed
 
     private void TakeQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TakeQuizActionPerformed
         // TODO add your handling code here:
-        
+        int row = Lessons.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a lesson first!");
+            return;
+        }
+        String lessonID = Lessons.getValueAt(row, 0).toString();
+        Quiz quiz = null;
+        try {
+            quiz = qs.findQuizByLessonID(lessonID);
+        } catch (IOException ex) {
+            System.getLogger(StudentDashboard.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        if (quiz == null || quiz.getNumberOfQuestions() == 0) {
+            JOptionPane.showMessageDialog(this, "No quiz available for this lesson.");
+            return;
+        }
+
+        int score = 0;
+        for (Question q : quiz.getQuestions()) {
+            StringBuilder message = new StringBuilder(q.getQuestionText() + "\n");
+            List<String> options = q.getOptions();
+            for (int i = 0; i < options.size(); i++) {
+                message.append(i + 1).append(". ").append(options.get(i)).append("\n");
+            }
+            String input = JOptionPane.showInputDialog(this, message.toString(), "Quiz", JOptionPane.QUESTION_MESSAGE);
+            if (input == null) {
+                JOptionPane.showMessageDialog(this, "Quiz cancelled!");
+                return;
+            }
+            try {
+                int answer = Integer.parseInt(input) - 1;
+                if (answer == q.getCorrectOptionIndex()) {
+                    score++;
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Invalid input. Skipping question.");
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + score + " / " + quiz.getNumberOfQuestions());
     }//GEN-LAST:event_TakeQuizActionPerformed
 
     private void CertificateEarnedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CertificateEarnedActionPerformed
@@ -832,54 +878,54 @@ public class StudentDashboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select Certificate first !");
             return;
         }
-        
+
         String certificateID = certification.getValueAt(row, 0).toString();
         File source = new File("certificates/" + certificateID + ".pdf");
 
-      if (!source.exists()) {
-        JOptionPane.showMessageDialog(this, "Certificate file not found!");
-        return;
-       }
-
-       JFileChooser chooser = new JFileChooser();
-       chooser.setSelectedFile(new File(certificateID + ".pdf"));
-
-       int option = chooser.showSaveDialog(this);
-        
-      if (option == JFileChooser.APPROVE_OPTION) {
-        File dest = chooser.getSelectedFile();
-        try {
-            Files.copy(source.toPath(), dest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-            JOptionPane.showMessageDialog(this, "Downloaded successfully !");
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+        if (!source.exists()) {
+            JOptionPane.showMessageDialog(this, "Certificate file not found!");
+            return;
         }
-     }
+
+        JFileChooser chooser = new JFileChooser();
+        chooser.setSelectedFile(new File(certificateID + ".pdf"));
+
+        int option = chooser.showSaveDialog(this);
+
+        if (option == JFileChooser.APPROVE_OPTION) {
+            File dest = chooser.getSelectedFile();
+            try {
+                Files.copy(source.toPath(), dest.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                JOptionPane.showMessageDialog(this, "Downloaded successfully !");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
+            }
+        }
     }//GEN-LAST:event_Download_certificationActionPerformed
 
     private void View_certificationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_View_certificationActionPerformed
         // TODO add your handling code here:
         int row = certification.getSelectedRow();
-        
+
         if (row == -1) {
             JOptionPane.showMessageDialog(this, "Select Certificate first !");
             return;
         }
-        
+
         String certificateID = certification.getValueAt(row, 0).toString();
 
         File file = new File("certificates/" + certificateID + ".pdf");
 
         if (!file.exists()) {
-          JOptionPane.showMessageDialog(this, "Certificate file not found!");
-          return;
+            JOptionPane.showMessageDialog(this, "Certificate file not found!");
+            return;
         }
 
-       try {
-        Desktop.getDesktop().open(file);
-      } catch (Exception ex) {
-        JOptionPane.showMessageDialog(this, "Cannot open file: " + ex.getMessage());
-      }
+        try {
+            Desktop.getDesktop().open(file);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Cannot open file: " + ex.getMessage());
+        }
     }//GEN-LAST:event_View_certificationActionPerformed
 
     private void Generate_CertificateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Generate_CertificateActionPerformed
@@ -889,53 +935,31 @@ public class StudentDashboard extends javax.swing.JFrame {
             return;
         }
         try {
-        String studentID = log.getID();  
-        String courseID = Selected_Courses.getValueAt(row, 0).toString();     
+            String studentID = log.getID();
+            String courseID = Selected_Courses.getValueAt(row, 0).toString();
 
-        UserService service = new UserService();
+            UserService service = new UserService();
 
-        Certificate cert = service.generateCertificate(studentID, courseID);
-        
-        Certificate c = new Certificate(cert.getCertificateID(),cert.getStudentID(),cert.getCourseID(),cert.getIssueDate());
-        
-        service.addCertificateToStudent(cert.getCertificateID(),studentID,courseID,cert.getIssueDate());
-        
-        String pdfPath = CreatePdfCertification.createPDF(cert);
-        
-        JOptionPane.showMessageDialog(this,"Certificate Generated !","Success",JOptionPane.INFORMATION_MESSAGE);
+            Certificate cert = service.generateCertificate(studentID, courseID);
 
-    } catch (Exception ex) {
-        
-        JOptionPane.showMessageDialog(this,ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
-        
-      }
+            Certificate c = new Certificate(cert.getCertificateID(), cert.getStudentID(), cert.getCourseID(), cert.getIssueDate());
+
+            service.addCertificateToStudent(cert.getCertificateID(), studentID, courseID, cert.getIssueDate());
+
+            String pdfPath = CreatePdfCertification.createPDF(cert);
+
+            JOptionPane.showMessageDialog(this, "Certificate Generated !", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (Exception ex) {
+
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+        }
     }//GEN-LAST:event_Generate_CertificateActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        //java.awt.EventQueue.invokeLater(() -> new StudentDashboard(User user).setVisible(true));
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable All_Courses;
     private javax.swing.JToggleButton Back;
