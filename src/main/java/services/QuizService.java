@@ -141,6 +141,13 @@ public class QuizService {
         int score = (int) ((correctCount * 100.0) / questions.size());
         attempt.setScore(score);
         attempt.setPassed(score >= 60); // configurable pass threshold
+        
+        if (score>=60) {
+            CourseEnrollment enroll = courseService.getStudentEnrollment(attempt.getStudentID(), attempt.getLessonID());
+            if (enroll != null) {
+                enroll.addCompletedLesson(attempt.getLessonID());
+            }
+        }
 
         courseService.saveCourses();
         courseService.reload();
