@@ -113,7 +113,7 @@ public class QuizService {
     /**
      * Assess a student's quiz attempt
      */
-    public void assessQuizAttempt(StudentQuizAttempt attempt) throws IOException {
+    public double assessQuizAttempt(StudentQuizAttempt attempt) throws IOException {
         reload();
         Quiz quiz = findQuizByLessonID(attempt.getLessonID());
         if (quiz == null) throw new IllegalArgumentException("Quiz not found");
@@ -132,8 +132,12 @@ public class QuizService {
         int score = (int) ((correctCount * 100.0) / questions.size());
         attempt.setScore(score);
         attempt.setPassed(score >= 60); // configurable pass threshold
+        
+        
+        courseService.saveCourses();
+        courseService.reload(); 
 
-        courseService.reload(); // save attempt to enrollment
+        return attempt.getScore();
     }
 
     /**
