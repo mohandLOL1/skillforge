@@ -17,20 +17,58 @@
       } ]
     }
   }, {
-    "lessonID" : "L19592",
-    "title" : "firstLesson",
-    "content" : "k",
+    "lessonID" : "L16783",
+    "title" : "lesson3",
+    "content" : "lesason 3",
     "courseID" : "C15614",
     "quiz" : {
-      "lessonID" : "L19592",
+      "lessonID" : "L16783",
       "questions" : [ {
-        "questionText" : "first question",
-        "options" : [ "67", "677", "6777", "677" ],
+        "questionText" : "m",
+        "options" : [ "m", "m", "m", "m" ],
+        "correctOptionIndex" : 0
+      } ]
+    }
+  }, {
+    "lessonID" : "L10904",
+    "title" : "lesson4",
+    "content" : "lesson4",
+    "courseID" : "C15614",
+    "quiz" : {
+      "lessonID" : "L10904",
+      "questions" : [ {
+        "questionText" : "x",
+        "options" : [ "x", "x", "x", "x" ],
         "correctOptionIndex" : 0
       } ]
     }
   } ],
-  "courseEnrollmentsIDs" : [ "CE16525" ],
+  "courseEnrollmentsIDs" : [ "CE16525", "CE12427" ],
+  "status" : "APPROVED"
+}, {
+  "courseID" : "C16943",
+  "title" : "second course",
+  "description" : "btngan",
+  "instructorID" : "I14043",
+  "lessons" : [ {
+    "lessonID" : "L16813",
+    "title" : "btngan 1",
+    "content" : "btngannnnn'",
+    "courseID" : "C16943",
+    "quiz" : {
+      "lessonID" : "L16813",
+      "questions" : [ {
+        "questionText" : "btngan",
+        "options" : [ "btngan 1", "btngan 2", "btngan 3", "btngan 4" ],
+        "correctOptionIndex" : 1
+      }, {
+        "questionText" : "x",
+        "options" : [ "x", "xx", "xxx", "xxxx" ],
+        "correctOptionIndex" : 1
+      } ]
+    }
+  } ],
+  "courseEnrollmentsIDs" : [ "CE15675", "CE13179" ],
   "status" : "APPROVED"
 } ]
 

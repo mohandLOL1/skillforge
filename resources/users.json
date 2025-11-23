@@ -6,7 +6,7 @@
     "courseEnrollmentID" : "CE16525",
     "studentID" : "S17313",
     "courseID" : "C15614",
-    "percent" : 100.0,
+    "percent" : 66.66666666666666,
     "completedLessons" : [ "L19592", "L17497" ],
     "quizAttempts" : [ {
       "studentID" : "S17313",
@@ -32,6 +32,25 @@
       "studentAnswers" : [ 1 ],
       "score" : 100,
       "passed" : true
+    }, {
+      "studentID" : "S17313",
+      "lessonID" : "L17497",
+      "studentAnswers" : [ 1 ],
+      "score" : 100,
+      "passed" : true
+    } ]
+  }, {
+    "courseEnrollmentID" : "CE15675",
+    "studentID" : "S17313",
+    "courseID" : "C16943",
+    "percent" : 100.0,
+    "completedLessons" : [ "L16813" ],
+    "quizAttempts" : [ {
+      "studentID" : "S17313",
+      "lessonID" : "L16813",
+      "studentAnswers" : [ 1, 1 ],
+      "score" : 100,
+      "passed" : true
     } ]
   } ],
   "certificates" : [ {
@@ -48,12 +67,13 @@
   "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
   "id" : "I14043",
   "type" : "instructor",
-  "createdCoursesIDs" : [ "C15614" ]
+  "createdCoursesIDs" : [ "C16943", "C15614" ]
 }, {
   "username" : "xxxxx",
   "email" : "mohandamr2019@gmail.com",
   "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
   "id" : "A11155",
   "type" : "admin"
+
 } ]
 

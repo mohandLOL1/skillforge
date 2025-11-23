@@ -1024,7 +1024,7 @@ public class StudentDashboard extends javax.swing.JFrame {
             Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (existAttempt != null) {
+        if (existAttempt != null && existAttempt.isPassed()) {
             JOptionPane.showMessageDialog(this, "You have already taken this quiz !");
             return;
         }
