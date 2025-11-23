@@ -22,7 +22,7 @@ public class AnalyticsService {
 
         Course course = courseService.findCourse(courseID);
         ArrayList<Lesson> lessons = courseService.getLessons(courseID);
-        Set<CourseEnrollment> courseEnrollments = course.getCourseEnrollments();
+        ArrayList<String> courseEnrollments = course.getCourseEnrollments();
         
         if(courseEnrollments.isEmpty())
             return new ArrayList<>();

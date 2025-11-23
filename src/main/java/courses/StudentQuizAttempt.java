@@ -10,8 +10,11 @@ public class StudentQuizAttempt {
     private List<Question> quizQuestions;   // the questions for this attempt
     private List<Integer> studentAnswers;   // stores the selected option index for each question
     private int score;
-    private boolean passed;
+    private boolean passed;  
     
+   
+           
+  
     public StudentQuizAttempt(){
         
     }

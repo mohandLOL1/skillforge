@@ -1,5 +1,6 @@
 package courses;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import misc.Validations;
@@ -11,7 +12,7 @@ public class Course {
     private String description;
     private String instructorID;
     private Set<Lesson> lessons;
-    private Set<CourseEnrollment> courseEnrollments;
+    private ArrayList<String> courseEnrollmentsIDs;
     private String status;
 
     public Course() {
@@ -24,7 +25,7 @@ public class Course {
         setDescription(description);
         setInstructorID(instructorID);
         this.lessons = new HashSet<>();
-        this.courseEnrollments= new HashSet<>();
+        this.courseEnrollmentsIDs = new ArrayList<>();
         this.status = "PENDING";       
     }
 
@@ -90,12 +91,12 @@ public class Course {
         this.lessons.remove(lesson);
     }
     
-    public Set<CourseEnrollment> getCourseEnrollments() {
-        return courseEnrollments;
+    public ArrayList<String> getCourseEnrollments() {
+        return courseEnrollmentsIDs;
     }
     
-    public void addCourseEnrollment(CourseEnrollment c){
-        this.courseEnrollments.add(c);
+    public void addCourseEnrollment(String string){
+        this.courseEnrollmentsIDs.add(string);
     }
 
    public String getCourseID() {

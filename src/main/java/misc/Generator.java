@@ -44,5 +44,9 @@ public class Generator {
     int ID = 10000 + rand.nextInt(10001);
     return "CERT" + ID;
     }
-    
+    public static String generateCourseEnrollmentID(){
+    Random rand = new Random();
+    int ID = 10000 + rand.nextInt(10001);
+    return "CE" + ID;
+  }
 }

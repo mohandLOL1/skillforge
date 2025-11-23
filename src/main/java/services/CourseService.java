@@ -126,10 +126,10 @@ public class CourseService {
         if (user instanceof Student) {
 
             Course course = findCourse(courseID);
+            String courseEnrollmentID = Generator.generateCourseEnrollmentID();
+            CourseEnrollment courseEnrollment = new CourseEnrollment(courseEnrollmentID, user.getID(), courseID, 0.0);
 
-            CourseEnrollment courseEnrollment = new CourseEnrollment(user.getID(), courseID, 0.0);
-
-            course.addCourseEnrollment(courseEnrollment);
+            course.addCourseEnrollment(courseEnrollmentID);
             ((Student) user).addCourseEnrollment(courseEnrollment);
 
             userservice.saveUsers();
@@ -232,19 +232,20 @@ public class CourseService {
             Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
         }
         Course course = findCourse(courseID);
-        Set<CourseEnrollment> enrollments = course.getCourseEnrollments();
+        ArrayList<String> enrollments = course.getCourseEnrollments();
+        
         if (enrollments.isEmpty()) {
             throw new IllegalArgumentException("No enrollments found");
         }
-
+        
         ArrayList<Student> students = new ArrayList<>();
 
-        for (CourseEnrollment enrollment : enrollments) {
-            students.add((Student) userservice.getUser(enrollment.getStudentID()));
+        for(String enrollmentID : enrollments){
+            students.add(userservice.getEnrolledStudentFromEnrollment(enrollmentID));
         }
-
+        
         return students;
-
+        
     }
 
     public Set<Course> enrolledcourses(String studentID) {

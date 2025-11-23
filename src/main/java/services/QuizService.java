@@ -153,15 +153,17 @@ public class QuizService {
             int totalLessons = course.getLessons().size();
             int completedLessons = enroll.getCompletedLessons().size();
             double percent = ((double) completedLessons / totalLessons) * 100;
-            enroll.setPercent(percent);          
+            enroll.setPercent(percent);
+            
         }
         
          
-         
+        
         
         userservice.saveUsers();
         courseService.saveCourses();
-        courseService.reload();
+        
+        
 
         return attempt.getScore();
     }

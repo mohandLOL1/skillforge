@@ -6,6 +6,7 @@ import courses.CourseEnrollment;
 import filehandler.UserDataBase;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Set;
 import misc.Generator;
 import misc.SHA256;
 import users.*;
@@ -190,6 +191,27 @@ public class UserService {
         }
 
         return new ArrayList<>();
+    }
+
+    public Student getEnrolledStudentFromEnrollment(String enrollmentID) {
+        if(users.isEmpty())
+            throw new IllegalArgumentException("No users found");
+        for(User user : users){
+            
+            if(user instanceof Student){
+                
+                Set<CourseEnrollment> courseEnrollmentsForStudent = ((Student) user).getCourseEnrollments();
+                
+                if(courseEnrollmentsForStudent.isEmpty())
+                    return null;
+                
+                for(CourseEnrollment enrollment : courseEnrollmentsForStudent)
+                    if(enrollment.getID().equals(enrollmentID))
+                        return (Student) user; 
+            }
+       }
+        
+        return null;
     }
 
 }

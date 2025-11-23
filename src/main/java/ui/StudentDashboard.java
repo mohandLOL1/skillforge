@@ -1109,6 +1109,7 @@ public class StudentDashboard extends javax.swing.JFrame {
             double score = qs.assessQuizAttempt(attempt);
 
             if (attempt.isPassed()) {
+                
                 JOptionPane.showMessageDialog(this, "You Passed! Score: " + score + "%");
             } else {
                 JOptionPane.showMessageDialog(this, "Failed! Score: " + score + "%");
