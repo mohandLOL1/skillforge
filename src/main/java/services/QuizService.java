@@ -213,7 +213,7 @@ public class QuizService {
         return null;
     }
     
-    public StudentQuizAttempt getAttempt(User log, String lessonID) throws IOException {
+    public StudentQuizAttempt getPassedAttempt(User log, String lessonID) throws IOException {
 
         if (!(log instanceof Student)) {
             return null;
@@ -228,7 +228,7 @@ public class QuizService {
         for (CourseEnrollment ce : st.getCourseEnrollments()) {
             if (ce.getQuizAttempts() != null) {
                 for (StudentQuizAttempt attempt : ce.getQuizAttempts()) {
-                    if (attempt.getLessonID().equals(lessonID)) {
+                    if (attempt.getLessonID().equals(lessonID) && attempt.isPassed()) {
                         return attempt;
                     }
                 }
@@ -239,8 +239,4 @@ public class QuizService {
         return null; 
     }
     
-    public StudentQuizAttempt returnPassedAttempt(String lessonID){
-     
-        return null;
-    }
 }

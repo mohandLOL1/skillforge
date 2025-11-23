@@ -6,8 +6,8 @@
     "courseEnrollmentID" : "CE16525",
     "studentID" : "S17313",
     "courseID" : "C15614",
-    "percent" : 66.66666666666666,
-    "completedLessons" : [ "L19592", "L17497" ],
+    "percent" : 100.0,
+    "completedLessons" : [ "L19592", "L10904", "L17497", "L16783" ],
     "quizAttempts" : [ {
       "studentID" : "S17313",
       "lessonID" : "L19592",
@@ -38,6 +38,30 @@
       "studentAnswers" : [ 1 ],
       "score" : 100,
       "passed" : true
+    }, {
+      "studentID" : "S17313",
+      "lessonID" : "L16783",
+      "studentAnswers" : [ 3 ],
+      "score" : 0,
+      "passed" : false
+    }, {
+      "studentID" : "S17313",
+      "lessonID" : "L16783",
+      "studentAnswers" : [ 0 ],
+      "score" : 100,
+      "passed" : true
+    }, {
+      "studentID" : "S17313",
+      "lessonID" : "L10904",
+      "studentAnswers" : [ 1 ],
+      "score" : 0,
+      "passed" : false
+    }, {
+      "studentID" : "S17313",
+      "lessonID" : "L10904",
+      "studentAnswers" : [ 2 ],
+      "score" : 0,
+      "passed" : false
     } ]
   }, {
     "courseEnrollmentID" : "CE15675",
@@ -79,6 +103,19 @@
   "email" : "mohandamr@gmail.com",
   "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
   "courseEnrollments" : [ {
+    "courseEnrollmentID" : "CE13179",
+    "studentID" : "S15366",
+    "courseID" : "C16943",
+    "percent" : 100.0,
+    "completedLessons" : [ "L16813" ],
+    "quizAttempts" : [ {
+      "studentID" : "S15366",
+      "lessonID" : "L16813",
+      "studentAnswers" : [ 1, 1 ],
+      "score" : 100,
+      "passed" : true
+    } ]
+  }, {
     "courseEnrollmentID" : "CE12427",
     "studentID" : "S15366",
     "courseID" : "C15614",
@@ -106,19 +143,6 @@
       "studentID" : "S15366",
       "lessonID" : "L19592",
       "studentAnswers" : [ 0 ],
-      "score" : 100,
-      "passed" : true
-    } ]
-  }, {
-    "courseEnrollmentID" : "CE13179",
-    "studentID" : "S15366",
-    "courseID" : "C16943",
-    "percent" : 100.0,
-    "completedLessons" : [ "L16813" ],
-    "quizAttempts" : [ {
-      "studentID" : "S15366",
-      "lessonID" : "L16813",
-      "studentAnswers" : [ 1, 1 ],
       "score" : 100,
       "passed" : true
     } ]
