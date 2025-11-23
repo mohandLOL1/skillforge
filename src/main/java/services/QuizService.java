@@ -234,9 +234,13 @@ public class QuizService {
                 }
             }
         }
+        
         userservice.saveUsers();
         return null; 
     }
-
-
+    
+    public StudentQuizAttempt returnPassedAttempt(String lessonID){
+     
+        return null;
+    }
 }

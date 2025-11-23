@@ -10,9 +10,7 @@ import org.jfree.chart.plot.PlotOrientation;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Set;
 import services.AnalyticsService;
 import services.CourseService;
 
@@ -22,46 +20,36 @@ public class ChartFrame extends JFrame {
     private CourseService courseService;
 
     public ChartFrame(String courseID) {
-
         try {
             courseService = new CourseService();
             analyticsService = new AnalyticsService();
 
             setTitle("Analytics Dashboard - Course: " + courseID);
-            setSize(800, 600);
+            setSize(900, 650);
             setLocationRelativeTo(null);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-            // Create datasets
-            DefaultCategoryDataset completionDataset = new DefaultCategoryDataset();
+            // DATASETS
             DefaultCategoryDataset quizDataset = new DefaultCategoryDataset();
+            DefaultCategoryDataset courseCompletionDataset = new DefaultCategoryDataset();
 
-            Course course = courseService.findCourse(courseID);
-            Set<Lesson> lessons = course.getLessons();
+            // Fetch lessons
+            ArrayList<Lesson> lessons = courseService.getLessons(courseID);
 
-            int[] completionPercent = {80, 50, 100};
-           // ArrayList<Double> quizAvg = analyticsService.getAverageCourseScore(courseID);
+            // Fetch analytics
+            ArrayList<Double> quizAverages = analyticsService.getAverageCourseScore(courseID);
+            double overallCompletion = analyticsService.getAverageCourseCompletion(courseID);
 
-            ArrayList<Lesson> lessonList = new ArrayList<>(lessons);
-
-            for (int i = 0; i < lessonList.size(); i++) {
-                Lesson lesson = lessonList.get(i);
-
-                // Use lesson.getName() or any string that identifies the lesson
-                completionDataset.addValue(completionPercent[i], "Completion %", lesson.getTitle());
-               // quizDataset.addValue(quizAvg.get(i), "Quiz Average", lesson.getTitle());
+            // Build quiz dataset
+            for (int i = 0; i < lessons.size(); i++) {
+                Lesson lesson = lessons.get(i);
+                quizDataset.addValue(quizAverages.get(i), "Average Score", lesson.getTitle());
             }
 
-            // Create charts
-            JFreeChart completionChart = ChartFactory.createBarChart(
-                    "Lesson Completion",
-                    "Lesson",
-                    "Completion %",
-                    completionDataset,
-                    PlotOrientation.VERTICAL,
-                    false, true, false
-            );
+            // Build overall course completion dataset (single bar)
+            courseCompletionDataset.addValue(overallCompletion, "Completion", "Course Completion");
 
+            // CHARTS
             JFreeChart quizChart = ChartFactory.createLineChart(
                     "Quiz Average per Lesson",
                     "Lesson",
@@ -71,17 +59,48 @@ public class ChartFrame extends JFrame {
                     false, true, false
             );
 
-            // Add charts to panels
+            var plot = quizChart.getCategoryPlot();
+            var renderer = (org.jfree.chart.renderer.category.LineAndShapeRenderer) plot.getRenderer();
+
+// Thicker line
+            renderer.setSeriesStroke(
+                    0,
+                    new java.awt.BasicStroke(3.0f) // thickness
+            );
+
+// Optional: make data points visible
+            renderer.setDefaultShapesVisible(true);
+
+// Optional: improve rendering quality
+            quizChart.setAntiAlias(true);
+            plot.setOutlineVisible(false);
+
+            JFreeChart completionChart = ChartFactory.createBarChart(
+                    "Overall Course Completion",
+                    "Course",
+                    "Completion %",
+                    courseCompletionDataset,
+                    PlotOrientation.VERTICAL,
+                    false, true, false
+            );
+
+            var quizAxis = quizChart.getCategoryPlot().getRangeAxis();
+            quizAxis.setRange(0, 100);
+            quizAxis.setStandardTickUnits(org.jfree.chart.axis.NumberAxis.createIntegerTickUnits());
+
+            var completionAxis = completionChart.getCategoryPlot().getRangeAxis();
+            completionAxis.setRange(0, 100);
+            completionAxis.setStandardTickUnits(org.jfree.chart.axis.NumberAxis.createIntegerTickUnits());
+
+            // LAYOUT
             JPanel panel = new JPanel(new GridLayout(2, 1));
-            panel.add(new ChartPanel(completionChart));
             panel.add(new ChartPanel(quizChart));
+            panel.add(new ChartPanel(completionChart));
 
             add(panel);
-        } catch (Exception e) {
-            // Print the stack trace so you can see what went wrong
-            e.printStackTrace();
 
-            // Optional: show a dialog to the user
+        } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(this,
                     "An error occurred while generating charts:\n" + e.getMessage(),
                     "Error",
@@ -89,7 +108,6 @@ public class ChartFrame extends JFrame {
         }
     }
 
-    // Test run
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new ChartFrame("COURSE123").setVisible(true);
