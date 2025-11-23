@@ -253,11 +253,9 @@ public class InstructorDashboard extends javax.swing.JFrame {
 
             Lesson newLesson = cs.addLesson(title, content, courseID, this.instructorID);
             JOptionPane.showMessageDialog(this, "Lesson added successfully!");
-            int response = JOptionPane.showConfirmDialog(this, "Do you want to add a quiz for this lesson?", "Add Quiz", JOptionPane.YES_NO_OPTION);
-            if (response == JOptionPane.YES_OPTION) {
-                AddQuiz addQuizFrame = new AddQuiz(newLesson.getLessonID());
-                addQuizFrame.setVisible(true);
-            }
+
+            AddQuiz addQuizFrame = new AddQuiz(newLesson.getLessonID());
+            addQuizFrame.setVisible(true);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
