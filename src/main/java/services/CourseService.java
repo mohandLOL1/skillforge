@@ -465,5 +465,9 @@ public class CourseService {
         double percent = ((double) completedLessons / totalLessons) * 100;
         ce.setPercent(percent);
     }
+    
+    public void saveCourses() throws IOException{
+        coursedb.write();
+    }
 
 }
