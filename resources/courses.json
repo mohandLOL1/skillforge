@@ -1,0 +1,52 @@
+[ {
+  "courseID" : "C17652",
+  "title" : "m",
+  "description" : "m",
+  "instructorID" : "I10275",
+  "lessons" : [ {
+    "lessonID" : "L14437",
+    "title" : "lesson1",
+    "content" : "m",
+    "courseID" : "C17652",
+    "quiz" : {
+      "lessonID" : "L14437",
+      "questions" : [ {
+        "questionText" : "l1",
+        "options" : [ "l", "l1", "l2", "l3" ],
+        "correctOptionIndex" : 0
+      }, {
+        "questionText" : "s",
+        "options" : [ "s", "s1", "s2", "s3" ],
+        "correctOptionIndex" : 2
+      } ]
+    }
+  }, {
+    "lessonID" : "L17962",
+    "title" : "lesson2",
+    "content" : "k",
+    "courseID" : "C17652",
+    "quiz" : {
+      "lessonID" : "L17962",
+      "questions" : [ {
+        "questionText" : "r",
+        "options" : [ "r1", "r2", "r3", "r4" ],
+        "correctOptionIndex" : 2
+      } ]
+    }
+  }, {
+    "lessonID" : "L14713",
+    "title" : "lesson3",
+    "content" : "l",
+    "courseID" : "C17652",
+    "quiz" : {
+      "lessonID" : "L14713",
+      "questions" : [ {
+        "questionText" : "o",
+        "options" : [ "o1", "o2", "o3", "o4" ],
+        "correctOptionIndex" : 0
+      } ]
+    }
+  } ],
+  "courseEnrollmentsIDs" : [ "CE19773" ],
+  "status" : "APPROVED"
+} ]

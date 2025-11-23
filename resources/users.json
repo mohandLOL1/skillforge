@@ -1,0 +1,47 @@
+[ {
+  "username" : "kkk",
+  "email" : "mohandamr2019@gmail.com",
+  "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
+  "courseEnrollments" : [ {
+    "courseEnrollmentID" : "CE19773",
+    "studentID" : "S12245",
+    "courseID" : "C17652",
+    "percent" : 0.0,
+    "completedLessons" : [ ],
+    "quizAttempts" : [ {
+      "studentID" : "S12245",
+      "lessonID" : "L14437",
+      "studentAnswers" : [ 0, 0 ],
+      "score" : 50,
+      "passed" : false
+    }, {
+      "studentID" : "S12245",
+      "lessonID" : "L14437",
+      "studentAnswers" : [ 0, 1 ],
+      "score" : 50,
+      "passed" : false
+    }, {
+      "studentID" : "S12245",
+      "lessonID" : "L14437",
+      "studentAnswers" : [ 2, 0 ],
+      "score" : 0,
+      "passed" : false
+    } ]
+  } ],
+  "certificates" : [ ],
+  "id" : "S12245",
+  "type" : "student"
+}, {
+  "username" : "kkkk",
+  "email" : "mohandamr2019@gmail.com",
+  "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
+  "id" : "I10275",
+  "type" : "instructor",
+  "createdCoursesIDs" : [ "C17652" ]
+}, {
+  "username" : "kkkkk",
+  "email" : "mohandamr2019@gmail.com",
+  "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
+  "id" : "A14358",
+  "type" : "admin"
+} ]
