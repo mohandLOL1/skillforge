@@ -723,7 +723,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         try {
 
             Lessons.setValueAt("Yes", row, 2);
-            cs.completeLessonForStudent(log.getID(), lessonID);
+            //cs.completeLessonForStudent(log.getID(), lessonID);
             JOptionPane.showMessageDialog(this, "Lesson marked as completed !");
 
         } catch (Exception e) {
