@@ -10,6 +10,7 @@ import courses.Course;
 import courses.Lesson;
 import courses.Question;
 import courses.Quiz;
+import courses.StudentQuizAttempt;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,10 @@ public class StudentDashboard extends javax.swing.JFrame {
     private User log;
     private CourseService cs;
     private QuizService qs;
+    private Quiz quiz;
+    private int currentIndex = 0;
+    private StudentQuizAttempt attempt;
+    private String quizLessonID;
 
     /**
      * Creates new form StudentDashboard
@@ -101,6 +106,40 @@ public class StudentDashboard extends javax.swing.JFrame {
         }
 
     }
+    
+    
+    private void showQuestion() {
+        var q = quiz.getQuestions().get(currentIndex);
+
+        Question.setText(q.getQuestionText());
+        A.setText(q.getOptions().get(0));
+        B.setText(q.getOptions().get(1));
+        C.setText(q.getOptions().get(2));
+        D.setText(q.getOptions().get(3));
+
+        buttonGroup1.clearSelection();
+
+        if (currentIndex == quiz.getQuestions().size() - 1) {
+            Next.setEnabled(false);
+            Submit.setEnabled(true);
+        } else {
+            Next.setEnabled(true);
+            Submit.setEnabled(false);
+        }
+    }
+    
+    private void loadQuiz(String lessonID) {
+        try {
+            qs = new services.QuizService();
+            quiz = qs.findQuizByLessonID(lessonID);
+            attempt = qs.createStudentQuizAttempt(log.getID(), lessonID);
+            quizLessonID = lessonID;
+            currentIndex = 0;
+            showQuestion();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Failed to load quiz data.");
+        }
+    }
 
     private void loadcertificatesIntoTable(String StudentID) {
         try {
@@ -129,6 +168,7 @@ public class StudentDashboard extends javax.swing.JFrame {
     private void initComponents() {
 
         jButton3 = new javax.swing.JButton();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -158,13 +198,27 @@ public class StudentDashboard extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         Lessons = new javax.swing.JTable();
-        MarkCompleted = new javax.swing.JToggleButton();
         ViewContent = new javax.swing.JToggleButton();
         jPanel3 = new javax.swing.JPanel();
         TakeQuiz = new javax.swing.JToggleButton();
         Back = new javax.swing.JToggleButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         Content = new javax.swing.JTextArea();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        Question = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        a = new javax.swing.JRadioButton();
+        b = new javax.swing.JRadioButton();
+        c = new javax.swing.JRadioButton();
+        d = new javax.swing.JRadioButton();
+        A = new javax.swing.JTextField();
+        B = new javax.swing.JTextField();
+        C = new javax.swing.JTextField();
+        D = new javax.swing.JTextField();
+        Next = new javax.swing.JButton();
+        Submit = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
         Download_certification = new javax.swing.JToggleButton();
         View_certification = new javax.swing.JToggleButton();
@@ -210,7 +264,7 @@ public class StudentDashboard extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2);
@@ -358,7 +412,7 @@ public class StudentDashboard extends javax.swing.JFrame {
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(117, 117, 117)
                 .addComponent(Logout)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab1", jPanel5);
@@ -492,7 +546,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Viewlesson)
@@ -526,15 +580,6 @@ public class StudentDashboard extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(Lessons);
 
-        MarkCompleted.setBackground(new java.awt.Color(102, 102, 102));
-        MarkCompleted.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        MarkCompleted.setText("Mark Completed");
-        MarkCompleted.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                MarkCompletedActionPerformed(evt);
-            }
-        });
-
         ViewContent.setBackground(new java.awt.Color(102, 102, 102));
         ViewContent.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         ViewContent.setText("View Content");
@@ -552,19 +597,15 @@ public class StudentDashboard extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ViewContent)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(MarkCompleted)
-                .addGap(22, 22, 22))
+                .addGap(22, 386, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ViewContent)
-                    .addComponent(MarkCompleted))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addComponent(ViewContent)
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab4", jPanel8);
@@ -616,6 +657,141 @@ public class StudentDashboard extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("tab5", jPanel3);
+
+        jPanel11.setBackground(new java.awt.Color(0, 0, 0));
+
+        Question.setEditable(false);
+
+        jLabel6.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Question :");
+
+        jPanel13.setBackground(new java.awt.Color(102, 102, 102));
+
+        buttonGroup1.add(a);
+
+        buttonGroup1.add(b);
+
+        buttonGroup1.add(c);
+
+        buttonGroup1.add(d);
+
+        A.setEditable(false);
+
+        B.setEditable(false);
+
+        C.setEditable(false);
+
+        D.setEditable(false);
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(c, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(b, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(a, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(d, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(A, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+                    .addComponent(B)
+                    .addComponent(C)
+                    .addComponent(D))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(a)
+                    .addComponent(A, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(b)
+                    .addComponent(B, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(c)
+                    .addComponent(C, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(d)
+                    .addComponent(D, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(51, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Question, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(128, Short.MAX_VALUE))
+            .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap(17, Short.MAX_VALUE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Question, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        Next.setBackground(new java.awt.Color(102, 102, 102));
+        Next.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        Next.setText("Next");
+        Next.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextActionPerformed(evt);
+            }
+        });
+
+        Submit.setBackground(new java.awt.Color(102, 102, 102));
+        Submit.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
+        Submit.setText("Submit");
+        Submit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SubmitActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel10Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Next)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Submit)))
+                .addGap(31, 31, 31))
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Submit)
+                    .addComponent(Next))
+                .addGap(0, 54, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("tab6", jPanel10);
 
         Download_certification.setBackground(new java.awt.Color(102, 102, 102));
         Download_certification.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -680,7 +856,7 @@ public class StudentDashboard extends javax.swing.JFrame {
                 .addGap(16, 16, 16))
         );
 
-        jTabbedPane1.addTab("tab6", jPanel9);
+        jTabbedPane1.addTab("tab7", jPanel9);
 
         getContentPane().add(jTabbedPane1);
         jTabbedPane1.setBounds(200, 60, 510, 460);
@@ -716,29 +892,6 @@ public class StudentDashboard extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
 
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void MarkCompletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MarkCompletedActionPerformed
-        // TODO add your handling code here:
-        int row = Lessons.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Select a lesson first !");
-            return;
-        }
-
-        String lessonID = Lessons.getValueAt(row, 0).toString();
-        String courseID = Selected_Courses.getValueAt(Selected_Courses.getSelectedRow(), 0).toString();
-
-        try {
-
-            Lessons.setValueAt("Yes", row, 2);
-
-            //cs.completeLessonForStudent(log.getID(), lessonID);
-            JOptionPane.showMessageDialog(this, "Lesson marked as completed !");
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-        }
-    }//GEN-LAST:event_MarkCompletedActionPerformed
 
     private void ViewlessonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewlessonActionPerformed
         // TODO add your handling code here:
@@ -826,49 +979,22 @@ public class StudentDashboard extends javax.swing.JFrame {
     private void TakeQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TakeQuizActionPerformed
         // TODO add your handling code here:
         int row = Lessons.getSelectedRow();
+
         if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a lesson first!");
-            return;
-        }
-        String lessonID = Lessons.getValueAt(row, 0).toString();
-        Quiz quiz = null;
-        try {
-            quiz = qs.findQuizByLessonID(lessonID);
-        } catch (IOException ex) {
-            System.getLogger(StudentDashboard.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        }
-        if (quiz == null || quiz.getNumberOfQuestions() == 0) {
-            JOptionPane.showMessageDialog(this, "No quiz available for this lesson.");
+            JOptionPane.showMessageDialog(this, "Please select a lesson first !");
             return;
         }
 
-        int score = 0;
-        for (Question q : quiz.getQuestions()) {
-            StringBuilder message = new StringBuilder(q.getQuestionText() + "\n");
-            List<String> options = q.getOptions();
-            for (int i = 0; i < options.size(); i++) {
-                message.append(i + 1).append(". ").append(options.get(i)).append("\n");
-            }
-            String input = JOptionPane.showInputDialog(this, message.toString(), "Quiz", JOptionPane.QUESTION_MESSAGE);
-            if (input == null) {
-                JOptionPane.showMessageDialog(this, "Quiz cancelled!");
-                return;
-            }
-            try {
-                int answer = Integer.parseInt(input) - 1;
-                if (answer == q.getCorrectOptionIndex()) {
-                    score++;
-                }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Invalid input. Skipping question.");
-            }
-        }
-        JOptionPane.showMessageDialog(this, "Quiz finished! Your score: " + score + " / " + quiz.getNumberOfQuestions());
+        String lessonID = Lessons.getValueAt(row, 0).toString();
+        
+        loadQuiz(lessonID);
+    
+       jTabbedPane1.setSelectedIndex(5);
     }//GEN-LAST:event_TakeQuizActionPerformed
 
     private void CertificateEarnedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CertificateEarnedActionPerformed
         // TODO add your handling code here:
-        jTabbedPane1.setSelectedIndex(5);
+        jTabbedPane1.setSelectedIndex(6);
         loadcertificatesIntoTable(log.getID());
     }//GEN-LAST:event_CertificateEarnedActionPerformed
 
@@ -958,35 +1084,118 @@ public class StudentDashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_Generate_CertificateActionPerformed
 
+    private void SubmitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SubmitActionPerformed
+        // TODO add your handling code here:
+
+        int selected = -1;
+
+        if (a.isSelected()) {
+            selected = 0;
+        } else if (b.isSelected()) {
+            selected = 1;
+        } else if (c.isSelected()) {
+            selected = 2;
+        } else if (d.isSelected()) {
+            selected = 3;
+        }
+
+        if (selected == -1) {
+            JOptionPane.showMessageDialog(this, "Please choose an answer first!");
+            return;
+        }
+
+        try {
+            qs.recordAnswer(attempt, currentIndex, selected);
+            double score = qs.assessQuizAttempt(attempt);
+
+            if (attempt.isPassed()) {
+                JOptionPane.showMessageDialog(this, "You Passed! Score: " + score + "%");
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed! Score: " + score + "%");
+            }
+
+            jTabbedPane1.setSelectedIndex(3);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error submitting quiz.");
+        }
+    }//GEN-LAST:event_SubmitActionPerformed
+
+    private void NextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextActionPerformed
+        // TODO add your handling code here:
+        
+        int selected = -1;
+
+        if (a.isSelected()) {
+            selected = 0;
+        } else if (b.isSelected()) {
+            selected = 1;
+        } else if (c.isSelected()) {
+            selected = 2;
+        } else if (d.isSelected()) {
+            selected = 3;
+        }
+
+        if (selected == -1) {
+            JOptionPane.showMessageDialog(this, "Please choose an answer first!");
+            return;
+        }
+
+        try {
+            qs.recordAnswer(attempt, currentIndex, selected);
+            currentIndex++;
+            showQuestion();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error saving answer.");
+        }
+    }//GEN-LAST:event_NextActionPerformed
+
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField A;
     private javax.swing.JTable All_Courses;
+    private javax.swing.JTextField B;
     private javax.swing.JToggleButton Back;
+    private javax.swing.JTextField C;
     private javax.swing.JButton CertificateEarned;
     private javax.swing.JTextArea Content;
+    private javax.swing.JTextField D;
     private javax.swing.JToggleButton Download_certification;
     private javax.swing.JToggleButton EnrollCourse;
     private javax.swing.JToggleButton Generate_Certificate;
     private javax.swing.JButton Home;
     private javax.swing.JTable Lessons;
     private javax.swing.JButton Logout;
-    private javax.swing.JToggleButton MarkCompleted;
+    private javax.swing.JButton Next;
+    private javax.swing.JTextField Question;
     private javax.swing.JTable Selected_Courses;
+    private javax.swing.JButton Submit;
     private javax.swing.JToggleButton TakeQuiz;
     private javax.swing.JToggleButton ViewContent;
     private javax.swing.JButton View_available_courses;
     private javax.swing.JToggleButton View_certification;
     private javax.swing.JButton View_enrolled_courses;
     private javax.swing.JToggleButton Viewlesson;
+    private javax.swing.JRadioButton a;
+    private javax.swing.JRadioButton b;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JRadioButton c;
     private javax.swing.JTable certification;
+    private javax.swing.JRadioButton d;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1004,5 +1213,6 @@ public class StudentDashboard extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 }
