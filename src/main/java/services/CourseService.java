@@ -446,4 +446,9 @@ public class CourseService {
         }
         return null;
     }
+    
+    public void saveCourses() throws IOException{
+        coursedb.write();
+    }
+    
 }

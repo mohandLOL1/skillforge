@@ -32,7 +32,7 @@ public class InstructorDashboard extends javax.swing.JFrame {
 
         initComponents();
         setLocationRelativeTo(null);
-        setSize(422, 370); 
+        setSize(422, 370);
         setTitle("Instructor Dashboard");
     }
 
@@ -156,12 +156,12 @@ public class InstructorDashboard extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(110, 110, 110)
                         .addComponent(jLabel1)
-                        .addGap(0, 4, Short.MAX_VALUE)))
+                        .addGap(0, 116, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(125, 125, 125)
                 .addComponent(enrolledStudents)
-                .addGap(88, 88, 88))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -239,12 +239,26 @@ public class InstructorDashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             String courseID = JOptionPane.showInputDialog(this, "Course ID:");
+            if (courseID == null || courseID.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Course ID!");
+            }
             String title = JOptionPane.showInputDialog(this, "Lesson Title:");
+            if (title == null || title.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Lesson Title!");
+            }
             String content = JOptionPane.showInputDialog(this, "Lesson Content:");
+            if (title == null || title.trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter the Lesson Title!");
+            }
 
-            cs.addLesson(title, content, courseID, this.instructorID);
-
+            Lesson newLesson = cs.addLesson(title, content, courseID, this.instructorID);
             JOptionPane.showMessageDialog(this, "Lesson added successfully!");
+            int response = JOptionPane.showConfirmDialog(this, "Do you want to add a quiz for this lesson?", "Add Quiz", JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.YES_OPTION) {
+                AddQuiz addQuizFrame = new AddQuiz(newLesson.getLessonID());
+                addQuizFrame.setVisible(true);
+            }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
@@ -295,14 +309,12 @@ public class InstructorDashboard extends javax.swing.JFrame {
         try {
             String courseID = JOptionPane.showInputDialog(this, "Course ID to edit:");
 
-            
             if (!cs.containsCourse(courseID)) {
                 JOptionPane.showMessageDialog(this, "Course not found!");
                 return;
             }
             String newTitle = JOptionPane.showInputDialog(this, "New Title:");
             String newDescription = JOptionPane.showInputDialog(this, "New Description:");
-
 
             cs.editCourse(courseID, newTitle, newDescription, this.instructorID);
 
@@ -336,17 +348,17 @@ public class InstructorDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void insightButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insightButtonActionPerformed
-   String courseID = JOptionPane.showInputDialog(this, "Enter course ID for Insights");
-    if(courseID == null || courseID.trim().isEmpty())
-        return;
-    if(cs.containsCourse(courseID)){
+        String courseID = JOptionPane.showInputDialog(this, "Enter course ID for Insights");
+        if (courseID == null || courseID.trim().isEmpty()) {
+            return;
+        }
+        if (cs.containsCourse(courseID)) {
 
-    ChartFrame chartFrame = new ChartFrame(courseID);
-    chartFrame.setVisible(true);
-    }
-    else{
-        JOptionPane.showMessageDialog(this, "ID not found");
-    }
+            ChartFrame chartFrame = new ChartFrame(courseID);
+            chartFrame.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "ID not found");
+        }
     }//GEN-LAST:event_insightButtonActionPerformed
 
     /**

@@ -3,7 +3,39 @@
   "title" : "m",
   "description" : "m",
   "instructorID" : "I17649",
-  "lessons" : [ ],
+  "lessons" : [ {
+    "lessonID" : "L19186",
+    "title" : "m",
+    "content" : "m",
+    "courseID" : "C14374",
+    "quiz" : {
+      "lessonID" : "L19186",
+      "questions" : [ {
+        "questionText" : "xx",
+        "options" : [ "x", "xx", "xxx", "xxxx" ],
+        "correctOptionIndex" : 1
+      } ]
+    }
+  }, {
+    "lessonID" : "L11059",
+    "title" : "L",
+    "content" : "L",
+    "courseID" : "C14374",
+    "quiz" : null
+  }, {
+    "lessonID" : "L15168",
+    "title" : "m",
+    "content" : "m",
+    "courseID" : "C14374",
+    "quiz" : {
+      "lessonID" : "L15168",
+      "questions" : [ {
+        "questionText" : "x",
+        "options" : [ "xxx", "xxx", "xxxx", "xxxx" ],
+        "correctOptionIndex" : 2
+      } ]
+    }
+  } ],
   "courseEnrollments" : [ {
     "studentID" : "S15455",
     "courseID" : "C14374",
@@ -27,6 +59,26 @@
   "courseEnrollments" : [ {
     "studentID" : "S15455",
     "courseID" : "C19868",
+    "percent" : 0.0,
+    "completedLessons" : [ ],
+    "quizAttempts" : [ ]
+  } ],
+  "status" : "APPROVED"
+}, {
+  "courseID" : "C18432",
+  "title" : "bomba",
+  "description" : "bombaclat",
+  "instructorID" : "I18008",
+  "lessons" : [ {
+    "lessonID" : "L16321",
+    "title" : "data types",
+    "content" : "integer",
+    "courseID" : "C18432",
+    "quiz" : null
+  } ],
+  "courseEnrollments" : [ {
+    "studentID" : "S11527",
+    "courseID" : "C18432",
     "percent" : 0.0,
     "completedLessons" : [ ],
     "quizAttempts" : [ ]

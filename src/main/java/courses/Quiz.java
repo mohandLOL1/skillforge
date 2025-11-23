@@ -1,5 +1,6 @@
 package courses;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -29,7 +30,9 @@ public class Quiz {
     public List<Question> getQuestions() {
         return questions;
     }
-
+    
+    @JsonIgnore
+    
     public int getNumberOfQuestions() {
         return questions.size();
     }
