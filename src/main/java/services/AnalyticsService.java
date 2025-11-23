@@ -16,10 +16,76 @@ public class AnalyticsService {
         this.courseService = new CourseService();
     }
 
-    public ArrayList<Double> getAverageCourseScore(String courseID) {
+   /* public ArrayList<Double> getAverageCourseScore(String courseID) {
 
-        return new ArrayList<>();
+        ArrayList<Double> lessonAverages = new ArrayList<>();
+
+        Course course = courseService.findCourse(courseID);
+        ArrayList<Lesson> lessons = courseService.getLessons(courseID);
+        //Set<CourseEnrollment> courseEnrollments = course.getCourseEnrollments();
+
+        if (courseEnrollments.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        if (lessons.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        for (Lesson lesson : lessons) {
+
+            double totalScore = 0.0;
+            int attemptCount = 0;
+
+            for (CourseEnrollment enrollment : courseEnrollments) {
+
+                ArrayList<StudentQuizAttempt> attempts = enrollment.getQuizAttempts();
+
+                for (StudentQuizAttempt sqa : attempts) {
+
+                    if (lesson.getLessonID().equals(sqa.getLessonID())) {
+                        totalScore += sqa.getScore();
+                        attemptCount++;
+                    }
+                }
+            }
+
+            if (attemptCount > 0) {
+                lessonAverages.add(totalScore / attemptCount);
+            } else {
+
+                lessonAverages.add(0.0);
+            }
+        }
+
+        return lessonAverages;
+    }
+
+
+    public Double getAverageCourseCompletion(String courseID) {
+
+        Double courseAveragescompletion = 0.0;
+        int counter=0;
+        Course course = courseService.findCourse(courseID);
+        if (course == null) {
+            throw new IllegalArgumentException("course not found");
+        }
+
+        //Set<CourseEnrollment> courseEnrollments = course.getCourseEnrollments();
+
+        if (courseEnrollments.isEmpty()) {
+            return 0.0;
+        }
+        
+        for(CourseEnrollment ce:courseEnrollments){
+            courseAveragescompletion+=ce.getPercent();
+            counter++;
+        }
+        courseAveragescompletion=courseAveragescompletion/counter;
+        return courseAveragescompletion;
+    }
 
 }
+*/
 }
 
