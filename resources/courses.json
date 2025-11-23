@@ -4,14 +4,32 @@
   "description" : "m",
   "instructorID" : "I17649",
   "lessons" : [ ],
-  "courseEnrollments" : [ ],
+  "courseEnrollments" : [ {
+    "studentID" : "S15455",
+    "courseID" : "C14374",
+    "percent" : 0.0,
+    "completedLessons" : [ ],
+    "quizAttempts" : [ ]
+  } ],
   "status" : "APPROVED"
 }, {
   "courseID" : "C19868",
   "title" : "l",
   "description" : "l",
   "instructorID" : "I17649",
-  "lessons" : [ ],
-  "courseEnrollments" : [ ],
+  "lessons" : [ {
+    "lessonID" : "L17468",
+    "title" : "m",
+    "content" : "m",
+    "courseID" : "C19868",
+    "quiz" : null
+  } ],
+  "courseEnrollments" : [ {
+    "studentID" : "S15455",
+    "courseID" : "C19868",
+    "percent" : 0.0,
+    "completedLessons" : [ ],
+    "quizAttempts" : [ ]
+  } ],
   "status" : "APPROVED"
 } ]

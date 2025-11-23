@@ -2,6 +2,8 @@ package certification;
 
 import java.io.File;
 import java.awt.Color;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -53,7 +55,6 @@ public class CreatePdfCertification {
                 content.endText();
             }
 
-
             try (PDPageContentStream wm = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
 
                 PDExtendedGraphicsState gs = new PDExtendedGraphicsState();
@@ -70,20 +71,7 @@ public class CreatePdfCertification {
                 wm.endText();
             }
 
-
-            try (PDPageContentStream sig = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
-
-                PDImageXObject signature = PDImageXObject.createFromFile("signet.png", doc);
-
-                float sigWidth = 150;
-                float sigHeight = 90;
-                float x = pageWidth - sigWidth - 50;
-                float y = 25;
-
-                sig.drawImage(signature, x, y, sigWidth, sigHeight);
-            }
-
-
+           
             try (PDPageContentStream border = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, true, true)) {
 
                 border.setStrokingColor(212 / 255f, 175 / 255f, 55 / 255f);
@@ -100,7 +88,9 @@ public class CreatePdfCertification {
             }
 
             File folder = new File("certificates");
-            if (!folder.exists()) folder.mkdir();
+            if (!folder.exists()) {
+                folder.mkdir();
+            }
 
             String path = "certificates/" + cert.getCertificateID() + ".pdf";
             doc.save(path);

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import users.*;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -203,7 +204,6 @@ public class CourseService {
         course.addLesson(lesson);
         coursedb.write();
         return lesson;
-       
     }
 
     public void removeLesson(String courseID, String lessonID, String InstructorID) throws IOException {
@@ -429,6 +429,21 @@ public class CourseService {
         
     }
     
-
-
+    public void completeLessonForStudent(String studentID, String lessonID) throws IOException{
+        CourseEnrollment courseEnrollment = getStudentEnrollment(studentID,lessonID);
+        courseEnrollment.addCompletedLesson(lessonID);
+        userservice.saveUsers();
+        coursedb.write();
+        
+    }
+    
+    private Lesson findLessonByID(String lessonID) {
+        for (Course course : courses) {
+            Set<Lesson> lessons = course.getLessons();
+            for (Lesson lesson : lessons) {
+                if (lesson.getLessonID().equals(lessonID)) return lesson;
+            }
+        }
+        return null;
+    }
 }

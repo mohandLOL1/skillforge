@@ -1,6 +1,7 @@
 package services;
 
 import courses.*;
+import java.io.IOException;
 import users.*;
 import java.util.ArrayList;
 import java.util.Set;
@@ -11,8 +12,8 @@ public class AnalyticsService {
 
     private CourseService courseService;
 
-    public AnalyticsService(CourseService courseService) {
-        this.courseService = courseService;
+    public AnalyticsService() throws IOException {
+        this.courseService = new CourseService();
     }
 
     public ArrayList<Double> getAverageCourseScore(String courseID) {
@@ -21,15 +22,22 @@ public class AnalyticsService {
 
         Course course = courseService.findCourse(courseID);
         ArrayList<Lesson> lessons = courseService.getLessons(courseID);
-        Set<CourseEnrollment> courseenrollments = course.getCourseEnrollments();
-
+        Set<CourseEnrollment> courseEnrollments = course.getCourseEnrollments();
+        
+        if(courseEnrollments.isEmpty())
+            return new ArrayList<>();
+        
+        if(lessons.isEmpty())
+            return new ArrayList<>();
+        
         for (Lesson lesson : lessons) {
 
             double totalScore = 0.0;
             int attemptCount = 0;
 
-            for (CourseEnrollment enrollment : courseenrollments) {
-
+            for (CourseEnrollment enrollment : courseEnrollments) {
+                
+                
                 ArrayList<StudentQuizAttempt> attempts = enrollment.getQuizAttempts();
 
                 for (StudentQuizAttempt sqa : attempts) {

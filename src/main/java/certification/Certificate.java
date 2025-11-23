@@ -9,7 +9,9 @@ public class Certificate {
     private String courseID;
     private String issueDate;
     private String studentID;
-    
+    public Certificate(){
+        
+    }
     public Certificate(String certificateID,String studentID,String courseID, String issueDate) {
         setCertificateID(certificateID);
         this.courseID = courseID;
