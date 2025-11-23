@@ -473,4 +473,19 @@ public class CourseService {
         userservice.saveUsers();
     }
 
+    public ArrayList<CourseEnrollment> getCourseEnrollments(String courseID){
+        ArrayList<CourseEnrollment> ces=new ArrayList<>();
+        if(findCourse(courseID)==null) return null;
+        for(User user:userservice.returnAllUsers()){
+            if(user instanceof Student){
+                for(CourseEnrollment ce:((Student) user).getCourseEnrollments()){
+                    if(ce.getCourseID().equals(courseID)){
+                        ces.add(ce);
+                    }
+                }
+            }
+        }
+    return ces;
+   }
+
 }
