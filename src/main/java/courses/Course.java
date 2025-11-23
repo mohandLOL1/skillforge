@@ -90,12 +90,20 @@ public class Course {
     public void removeLesson(Lesson lesson){
         this.lessons.remove(lesson);
     }
+
+    public void setCourseID(String courseID) {
+        this.courseID = courseID;
+    }
+
+    public void setCourseEnrollmentsIDs(ArrayList<String> courseEnrollmentsIDs) {
+        this.courseEnrollmentsIDs = courseEnrollmentsIDs;
+    }
     
-    public ArrayList<String> getCourseEnrollments() {
+    public ArrayList<String> getCourseEnrollmentsIDs() {
         return courseEnrollmentsIDs;
     }
     
-    public void addCourseEnrollment(String string){
+    public void addCourseEnrollmentID(String string){
         this.courseEnrollmentsIDs.add(string);
     }
 

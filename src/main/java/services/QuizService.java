@@ -93,7 +93,7 @@ public class QuizService {
             throw new IllegalArgumentException("Quiz not found");
         }
 
-        StudentQuizAttempt attempt = new StudentQuizAttempt(studentID, lessonID, quiz.getQuestions());
+        StudentQuizAttempt attempt = new StudentQuizAttempt(studentID, lessonID);
 
         // Attach attempt to student enrollment
         CourseEnrollment enrollment = courseService.getStudentEnrollment(studentID, lessonID);
@@ -103,7 +103,8 @@ public class QuizService {
             }
             enrollment.getQuizAttempts().add(attempt);
         }
-
+        
+        courseService.saveCourses();
         courseService.reload(); // save changes
         return attempt;
     }
@@ -139,13 +140,16 @@ public class QuizService {
                 correctCount++;
             }
         }
+        
+        CourseEnrollment enroll = courseService.getStudentEnrollment(attempt.getStudentID(), attempt.getLessonID());
 
         int score = (int) ((correctCount * 100.0) / questions.size());
         attempt.setScore(score);
         attempt.setPassed(score >= 60); // configurable pass threshold
         
+        
         if (score >= 60) {
-            CourseEnrollment enroll = courseService.getStudentEnrollment(attempt.getStudentID(), attempt.getLessonID());
+           
             if (enroll != null) {
                 enroll.addCompletedLesson(attempt.getLessonID());
             }
@@ -155,13 +159,16 @@ public class QuizService {
             double percent = ((double) completedLessons / totalLessons) * 100;
             enroll.setPercent(percent);
             
+            
         }
+        
+        enroll.addQuizAttempt(attempt);
         
          
         
-        
-        userservice.saveUsers();
         courseService.saveCourses();
+        userservice.saveUsers();
+        
         
         
 

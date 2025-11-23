@@ -206,7 +206,7 @@ public class UserService {
                     return null;
                 
                 for(CourseEnrollment enrollment : courseEnrollmentsForStudent)
-                    if(enrollment.getID().equals(enrollmentID))
+                    if(enrollment.getCourseEnrollmentID().equals(enrollmentID))
                         return (Student) user; 
             }
        }

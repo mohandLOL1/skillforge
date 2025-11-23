@@ -21,7 +21,7 @@ public class CourseEnrollment {
 
     public CourseEnrollment(String courseEnrollmentID, String studentID, String courseID, double percent) {
         
-        
+        setCourseEnrollmentID(courseEnrollmentID);
         setStudentID(studentID);
         setCourseID(courseID);
         setPercent(percent);
@@ -30,12 +30,11 @@ public class CourseEnrollment {
     }
     
     public void setCourseEnrollmentID(String courseEnrollmentID){
-        if(Validations.validateCourseEnrollmentID(courseEnrollmentID))
+        
             this.courseEnrollmentID = courseEnrollmentID;
-        else
-            throw new IllegalArgumentException("Invalid course enrollment ID");
+       
     }
-    public String getID(){
+    public String getCourseEnrollmentID(){
         return this.courseEnrollmentID;
     }
 

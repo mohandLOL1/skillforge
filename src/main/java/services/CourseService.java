@@ -129,7 +129,7 @@ public class CourseService {
             String courseEnrollmentID = Generator.generateCourseEnrollmentID();
             CourseEnrollment courseEnrollment = new CourseEnrollment(courseEnrollmentID, user.getID(), courseID, 0.0);
 
-            course.addCourseEnrollment(courseEnrollmentID);
+            course.addCourseEnrollmentID(courseEnrollmentID);
             ((Student) user).addCourseEnrollment(courseEnrollment);
 
             userservice.saveUsers();
@@ -232,7 +232,7 @@ public class CourseService {
             Logger.getLogger(CourseService.class.getName()).log(Level.SEVERE, null, ex);
         }
         Course course = findCourse(courseID);
-        ArrayList<String> enrollments = course.getCourseEnrollments();
+        ArrayList<String> enrollments = course.getCourseEnrollmentsIDs();
         
         if (enrollments.isEmpty()) {
             throw new IllegalArgumentException("No enrollments found");
@@ -469,6 +469,7 @@ public class CourseService {
     
     public void saveCourses() throws IOException{
         coursedb.write();
+        userservice.saveUsers();
     }
 
 }
