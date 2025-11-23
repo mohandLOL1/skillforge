@@ -4,7 +4,7 @@
   "passwordHash" : "11d7f1d044d1f23c84a1a2729436c6772862510f2b6f6810ccd127d8e1cc7a15",
   "id" : "I16477",
   "type" : "instructor",
-  "createdCoursesIDs" : [ "C17562" ]
+  "createdCoursesIDs" : [ ]
 }, {
   "username" : "fapper",
   "email" : "fap@gmail.com",
@@ -16,18 +16,12 @@
   "email" : "goo@gmail.com",
   "passwordHash" : "11d7f1d044d1f23c84a1a2729436c6772862510f2b6f6810ccd127d8e1cc7a15",
   "courseEnrollments" : [ {
-    "courseEnrollmentID" : "CE13170",
+    "courseEnrollmentID" : "CE16286",
     "studentID" : "S18214",
-    "courseID" : "C17562",
-    "percent" : 100.0,
-    "completedLessons" : [ "L18486" ],
-    "quizAttempts" : [ {
-      "studentID" : "S18214",
-      "lessonID" : "L18486",
-      "studentAnswers" : [ 1, 2 ],
-      "score" : 100,
-      "passed" : true
-    } ]
+    "courseID" : "C14370",
+    "percent" : 0.0,
+    "completedLessons" : [ ],
+    "quizAttempts" : [ ]
   } ],
   "certificates" : [ ],
   "id" : "S18214",

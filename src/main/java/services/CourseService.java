@@ -98,25 +98,14 @@ public class CourseService {
         }
        
             ArrayList<String> courseEnrollments = c.getCourseEnrollmentsIDs();
-            for (String id : courseEnrollments) {
-
-                Student s = userservice.getEnrolledStudentFromEnrollment(id);
-                Set<CourseEnrollment> enrollments = s.getCourseEnrollments();
-                for (CourseEnrollment enrollment : enrollments) {
-                    if (enrollment.getCourseID().equals(enrollment)) {
-                        enrollments.remove(enrollment);
-                    }
-                }
-
-            }
-
+           
             courses.remove(c);
             Instructor instructor = (Instructor) userservice.getUser(instructorID);
             instructor.removeCreatedCourse(courseID);
             
+            userservice.saveUsers();
             saveCourses();
             
-
    
 
     }
