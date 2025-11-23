@@ -1,0 +1,36 @@
+[ {
+  "courseID" : "C15614",
+  "title" : "x",
+  "description" : "x",
+  "instructorID" : "I14043",
+  "lessons" : [ {
+    "lessonID" : "L17497",
+    "title" : "m",
+    "content" : "m",
+    "courseID" : "C15614",
+    "quiz" : {
+      "lessonID" : "L17497",
+      "questions" : [ {
+        "questionText" : "m1",
+        "options" : [ "x1", "x2", "x3", "x4" ],
+        "correctOptionIndex" : 1
+      } ]
+    }
+  }, {
+    "lessonID" : "L19592",
+    "title" : "firstLesson",
+    "content" : "k",
+    "courseID" : "C15614",
+    "quiz" : {
+      "lessonID" : "L19592",
+      "questions" : [ {
+        "questionText" : "first question",
+        "options" : [ "67", "677", "6777", "677" ],
+        "correctOptionIndex" : 0
+      } ]
+    }
+  } ],
+  "courseEnrollmentsIDs" : [ "CE16525" ],
+  "status" : "APPROVED"
+} ]
+

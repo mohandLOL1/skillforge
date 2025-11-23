@@ -138,6 +138,17 @@ public class Validations {
             return false;
         }
     }
+    
+    
+    public static boolean validateCourseEnrollmentID(String LessonID) {
+        if (LessonID.startsWith("CE")) {
+            String numberSubString = LessonID.substring(1);
+            int ID = Integer.parseInt(numberSubString);
+            return ID >= 10000 && ID <= 20000;
+        } else {
+            return false;
+        }
+    }
 
     public static boolean validateUsername(String username) {
         if (username == null || username.length() < 3 || username.length() > 10) {

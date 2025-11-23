@@ -40,7 +40,7 @@ public class ChartFrame extends JFrame {
             Set<Lesson> lessons = course.getLessons();
 
             int[] completionPercent = {80, 50, 100};
-            ArrayList<Double> quizAvg = analyticsService.getAverageCourseScore(courseID);
+           // ArrayList<Double> quizAvg = analyticsService.getAverageCourseScore(courseID);
 
             ArrayList<Lesson> lessonList = new ArrayList<>(lessons);
 
@@ -49,7 +49,7 @@ public class ChartFrame extends JFrame {
 
                 // Use lesson.getName() or any string that identifies the lesson
                 completionDataset.addValue(completionPercent[i], "Completion %", lesson.getTitle());
-                quizDataset.addValue(quizAvg.get(i), "Quiz Average", lesson.getTitle());
+               // quizDataset.addValue(quizAvg.get(i), "Quiz Average", lesson.getTitle());
             }
 
             // Create charts

@@ -7,18 +7,19 @@ public class StudentQuizAttempt {
 
     private String studentID;
     private String lessonID;
-    private List<Question> quizQuestions;   // the questions for this attempt
     private List<Integer> studentAnswers;   // stores the selected option index for each question
     private int score;
-    private boolean passed;
+    private boolean passed;  
     
+   
+           
+  
     public StudentQuizAttempt(){
         
     }
-    public StudentQuizAttempt(String studentID, String lessonID, List<Question> quizQuestions) {
+    public StudentQuizAttempt(String studentID, String lessonID) {
         this.studentID = studentID;
         this.lessonID = lessonID;
-        this.quizQuestions = quizQuestions;
         this.studentAnswers = new ArrayList<>();
         this.score = 0;
         this.passed = false;
@@ -38,14 +39,6 @@ public class StudentQuizAttempt {
 
     public void setLessonID(String lessonID) {
         this.lessonID = lessonID;
-    }
-
-    public void setQuizQuestions(List<Question> quizQuestions) {
-        this.quizQuestions = quizQuestions;
-    }
-
-    public List<Question> getQuizQuestions() {
-        return quizQuestions;
     }
 
 

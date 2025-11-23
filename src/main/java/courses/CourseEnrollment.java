@@ -6,7 +6,8 @@ import java.util.Set;
 import misc.Validations;
 
 public class CourseEnrollment {
-
+    
+    private String courseEnrollmentID;
     private String studentID;
     private String courseID;
     private double percent;
@@ -18,12 +19,23 @@ public class CourseEnrollment {
         this.quizAttempts = new ArrayList<>(); 
     }
 
-    public CourseEnrollment(String studentID, String courseID, double percent) {
+    public CourseEnrollment(String courseEnrollmentID, String studentID, String courseID, double percent) {
+        
+        setCourseEnrollmentID(courseEnrollmentID);
         setStudentID(studentID);
         setCourseID(courseID);
         setPercent(percent);
         this.completedLessons = new HashSet<>();
         this.quizAttempts = new ArrayList<>();  // initialize here too
+    }
+    
+    public void setCourseEnrollmentID(String courseEnrollmentID){
+        
+            this.courseEnrollmentID = courseEnrollmentID;
+       
+    }
+    public String getCourseEnrollmentID(){
+        return this.courseEnrollmentID;
     }
 
 // getter that returns a copy to avoid exposing internal list

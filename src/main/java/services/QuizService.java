@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import users.Student;
+import users.User;
 
 public class QuizService {
 
@@ -39,7 +41,7 @@ public class QuizService {
         }
 
         for (Course course : courses) {
-            Set<Lesson> lessons = course.getLessons();
+            List<Lesson> lessons = course.getLessons();
             for (Lesson lesson : lessons) {
                 if (lesson.getQuiz() != null) {
                     quizzes.add(lesson.getQuiz());
@@ -93,7 +95,7 @@ public class QuizService {
             throw new IllegalArgumentException("Quiz not found");
         }
 
-        StudentQuizAttempt attempt = new StudentQuizAttempt(studentID, lessonID, quiz.getQuestions());
+        StudentQuizAttempt attempt = new StudentQuizAttempt(studentID, lessonID);
 
         // Attach attempt to student enrollment
         CourseEnrollment enrollment = courseService.getStudentEnrollment(studentID, lessonID);
@@ -103,7 +105,8 @@ public class QuizService {
             }
             enrollment.getQuizAttempts().add(attempt);
         }
-
+        
+        courseService.saveCourses();
         courseService.reload(); // save changes
         return attempt;
     }
@@ -111,7 +114,7 @@ public class QuizService {
     /**
      * Record an answer for a student's quiz attempt
      */
-    public void recordAnswer(StudentQuizAttempt attempt, int questionIndex, int selectedOption) {
+    public void recordAnswer(StudentQuizAttempt attempt, int questionIndex, int selectedOption) throws IOException {
         List<Integer> answers = attempt.getStudentAnswers();
         while (answers.size() <= questionIndex) {
             answers.add(-1); // fill with default invalid values if needed
@@ -139,13 +142,16 @@ public class QuizService {
                 correctCount++;
             }
         }
+        
+        CourseEnrollment enroll = courseService.getStudentEnrollment(attempt.getStudentID(), attempt.getLessonID());
 
         int score = (int) ((correctCount * 100.0) / questions.size());
         attempt.setScore(score);
         attempt.setPassed(score >= 60); // configurable pass threshold
         
+        
         if (score >= 60) {
-            CourseEnrollment enroll = courseService.getStudentEnrollment(attempt.getStudentID(), attempt.getLessonID());
+           
             if (enroll != null) {
                 enroll.addCompletedLesson(attempt.getLessonID());
             }
@@ -153,16 +159,18 @@ public class QuizService {
             int totalLessons = course.getLessons().size();
             int completedLessons = enroll.getCompletedLessons().size();
             double percent = ((double) completedLessons / totalLessons) * 100;
-            enroll.setPercent(percent);          
+            enroll.setPercent(percent);
+            
+            
         }
         
-         
-         
+        enroll.addQuizAttempt(attempt);
+              
+        courseService.saveCourses();
+        
         
         userservice.saveUsers();
-        courseService.saveCourses();
-        courseService.reload();
-
+       
         return attempt.getScore();
     }
 
@@ -195,7 +203,7 @@ public class QuizService {
         }
 
         for (Course course : courses) {
-            Set<Lesson> lessons = course.getLessons();
+            List<Lesson> lessons = course.getLessons();
             for (Lesson lesson : lessons) {
                 if (lesson.getLessonID().equals(lessonID)) {
                     return lesson;
@@ -204,5 +212,31 @@ public class QuizService {
         }
         return null;
     }
+    
+    public StudentQuizAttempt getAttempt(User log, String lessonID) throws IOException {
+
+        if (!(log instanceof Student)) {
+            return null;
+        }
+
+        Student st = (Student) log;
+
+        if (st.getCourseEnrollments() == null) {
+            return null;
+        }
+
+        for (CourseEnrollment ce : st.getCourseEnrollments()) {
+            if (ce.getQuizAttempts() != null) {
+                for (StudentQuizAttempt attempt : ce.getQuizAttempts()) {
+                    if (attempt.getLessonID().equals(lessonID)) {
+                        return attempt;
+                    }
+                }
+            }
+        }
+        userservice.saveUsers();
+        return null; 
+    }
+
 
 }

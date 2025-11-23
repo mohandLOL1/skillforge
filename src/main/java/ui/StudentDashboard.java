@@ -7,6 +7,7 @@ package ui;
 import certification.Certificate;
 import certification.CreatePdfCertification;
 import courses.Course;
+import courses.CourseEnrollment;
 import courses.Lesson;
 import courses.Question;
 import courses.Quiz;
@@ -36,10 +37,12 @@ public class StudentDashboard extends javax.swing.JFrame {
     private User log;
     private CourseService cs;
     private QuizService qs;
+    private UserService us;
     private Quiz quiz;
     private int currentIndex = 0;
     private StudentQuizAttempt attempt;
     private String quizLessonID;
+    private String CourseID;
 
     /**
      * Creates new form StudentDashboard
@@ -48,6 +51,7 @@ public class StudentDashboard extends javax.swing.JFrame {
         initComponents();
         try {
             cs = new CourseService();
+            us=new UserService();
             qs = new QuizService();
         } catch (IOException e) {
 
@@ -56,6 +60,10 @@ public class StudentDashboard extends javax.swing.JFrame {
         setTitle("Student Dashboard");
         setSize(720, 550);
         setLocationRelativeTo(null);
+        Lessons.setAutoCreateRowSorter(false);
+        certification.setAutoCreateRowSorter(false);
+        Selected_Courses.setAutoCreateRowSorter(false);
+        All_Courses.setAutoCreateRowSorter(false);
         this.log = user;
         jTextField1.setText(user.getUsername());
         jTextField2.setText(user.getEmail());
@@ -901,9 +909,11 @@ public class StudentDashboard extends javax.swing.JFrame {
             return;
         }
 
-        String courseID = Selected_Courses.getValueAt(row, 0).toString();
+        CourseID = Selected_Courses.getValueAt(row, 0).toString();
+        
+        
 
-        loadLessonsIntoTable(courseID);
+        loadLessonsIntoTable(CourseID);
 
         jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_ViewlessonActionPerformed
@@ -955,17 +965,36 @@ public class StudentDashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void ViewContentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewContentActionPerformed
-        int row = Lessons.getSelectedRow();
+        int Row = Lessons.getSelectedRow();
 
-        if (row == -1) {
+        if (Row == -1) {
             JOptionPane.showMessageDialog(this, "Please select a lesson first !");
             return;
         }
 
-        String lessonID = Lessons.getValueAt(row, 0).toString();
+        // Convert to real model index
+        int row = Lessons.convertRowIndexToModel(Row);
+        DefaultTableModel model = (DefaultTableModel) Lessons.getModel();
+
+        if (row > 0) {
+            String prevLessonID = model.getValueAt(row - 1, 0).toString();
+
+            try {
+                StudentQuizAttempt prevAttempt = qs.getAttempt(log, prevLessonID);
+
+                if (prevAttempt == null || !prevAttempt.isPassed()) { JOptionPane.showMessageDialog( this, "You must pass the previous lesson quiz first !","Access Denied",JOptionPane.WARNING_MESSAGE );
+                    return;
+                }
+
+            } catch (IOException ex) {
+                Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
+                return;
+            }
+        }
+
+        String lessonID = model.getValueAt(row, 0).toString();
 
         String content = cs.getLessonContent(lessonID);
-
         Content.setText(content);
 
         jTabbedPane1.setSelectedIndex(4);
@@ -986,6 +1015,19 @@ public class StudentDashboard extends javax.swing.JFrame {
         }
 
         String lessonID = Lessons.getValueAt(row, 0).toString();
+        
+        StudentQuizAttempt existAttempt = null;
+        
+        try {
+            existAttempt = qs.getAttempt(log, lessonID);
+        } catch (Exception ex) {
+            Logger.getLogger(StudentDashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (existAttempt != null) {
+            JOptionPane.showMessageDialog(this, "You have already taken this quiz !");
+            return;
+        }
         
         loadQuiz(lessonID);
     
@@ -1106,15 +1148,23 @@ public class StudentDashboard extends javax.swing.JFrame {
 
         try {
             qs.recordAnswer(attempt, currentIndex, selected);
+           
             double score = qs.assessQuizAttempt(attempt);
+            
+            cs.saveCourses();
+            
+            us.saveUsers();
+            
+            log = us.getUser(log.getID()); 
 
             if (attempt.isPassed()) {
+                
                 JOptionPane.showMessageDialog(this, "You Passed! Score: " + score + "%");
             } else {
                 JOptionPane.showMessageDialog(this, "Failed! Score: " + score + "%");
             }
-
-            jTabbedPane1.setSelectedIndex(3);
+           loadLessonsIntoTable(CourseID);
+           jTabbedPane1.setSelectedIndex(3);
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error submitting quiz.");

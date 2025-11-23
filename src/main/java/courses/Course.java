@@ -1,7 +1,8 @@
 package courses;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 import misc.Validations;
 
 public class Course {
@@ -10,8 +11,8 @@ public class Course {
     private String title;
     private String description;
     private String instructorID;
-    private Set<Lesson> lessons;
-    private Set<CourseEnrollment> courseEnrollments;
+    private List<Lesson> lessons;
+    private ArrayList<String> courseEnrollmentsIDs;
     private String status;
 
     public Course() {
@@ -23,8 +24,8 @@ public class Course {
         setTitle(title);
         setDescription(description);
         setInstructorID(instructorID);
-        this.lessons = new HashSet<>();
-        this.courseEnrollments= new HashSet<>();
+        this.lessons = new ArrayList<>();
+        this.courseEnrollmentsIDs = new ArrayList<>();
         this.status = "PENDING";       
     }
 
@@ -70,7 +71,7 @@ public class Course {
         this.instructorID = instructorID.trim();
     }
 
-    public Set<Lesson> getLessons() {
+    public List<Lesson> getLessons() {
         return lessons;
     }
     
@@ -89,13 +90,21 @@ public class Course {
     public void removeLesson(Lesson lesson){
         this.lessons.remove(lesson);
     }
-    
-    public Set<CourseEnrollment> getCourseEnrollments() {
-        return courseEnrollments;
+
+    public void setCourseID(String courseID) {
+        this.courseID = courseID;
+    }
+
+    public void setCourseEnrollmentsIDs(ArrayList<String> courseEnrollmentsIDs) {
+        this.courseEnrollmentsIDs = courseEnrollmentsIDs;
     }
     
-    public void addCourseEnrollment(CourseEnrollment c){
-        this.courseEnrollments.add(c);
+    public ArrayList<String> getCourseEnrollmentsIDs() {
+        return courseEnrollmentsIDs;
+    }
+    
+    public void addCourseEnrollmentID(String string){
+        this.courseEnrollmentsIDs.add(string);
     }
 
    public String getCourseID() {
