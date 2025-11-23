@@ -11,9 +11,11 @@ public class QuizService {
 
     private List<Quiz> quizzes;
     private CourseService courseService;
+    private static UserService userservice;
 
     public QuizService() throws IOException {
         this.courseService = new CourseService();
+        userservice = new UserService();
         this.quizzes = new ArrayList<>();
         reload(); // ensure quizzes are loaded fresh at startup
     }
@@ -142,13 +144,22 @@ public class QuizService {
         attempt.setScore(score);
         attempt.setPassed(score >= 60); // configurable pass threshold
         
-        if (score>=60) {
+        if (score >= 60) {
             CourseEnrollment enroll = courseService.getStudentEnrollment(attempt.getStudentID(), attempt.getLessonID());
             if (enroll != null) {
                 enroll.addCompletedLesson(attempt.getLessonID());
             }
+            Course course = courseService.findCourse(enroll.getCourseID());
+            int totalLessons = course.getLessons().size();
+            int completedLessons = enroll.getCompletedLessons().size();
+            double percent = ((double) completedLessons / totalLessons) * 100;
+            enroll.setPercent(percent);          
         }
-
+        
+         
+         
+        
+        userservice.saveUsers();
         courseService.saveCourses();
         courseService.reload();
 
