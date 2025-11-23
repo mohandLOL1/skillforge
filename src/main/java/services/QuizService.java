@@ -62,7 +62,7 @@ public class QuizService {
 
         lesson.setQuiz(quiz);
         quizzes.add(quiz);
-
+        courseService.saveCourses();
         courseService.reload(); // save updated course data
         return quiz;
     }
@@ -140,10 +140,9 @@ public class QuizService {
         int score = (int) ((correctCount * 100.0) / questions.size());
         attempt.setScore(score);
         attempt.setPassed(score >= 60); // configurable pass threshold
-        
-        
+
         courseService.saveCourses();
-        courseService.reload(); 
+        courseService.reload();
 
         return attempt.getScore();
     }
@@ -186,6 +185,5 @@ public class QuizService {
         }
         return null;
     }
-    
-   
+
 }
