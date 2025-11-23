@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import users.*;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -152,7 +153,7 @@ public class CourseService {
 
     public Lesson findLessonInCourse(String lessonID, Course course) {
 
-        Set<Lesson> lessons = course.getLessons();
+        List<Lesson> lessons = course.getLessons();
 
         for (Lesson lesson : lessons) {
             if (lesson.getLessonID().equals(lessonID)) {
@@ -165,7 +166,7 @@ public class CourseService {
     }
 
     public void editLesson(Lesson editedLesson, String courseID, String InstructorID) throws IOException {
-        Set<Lesson> lessons = null;
+        List<Lesson> lessons = null;
 
         Course course = findCourse(courseID);
 
