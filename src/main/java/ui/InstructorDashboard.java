@@ -227,8 +227,10 @@ public class InstructorDashboard extends javax.swing.JFrame {
             Lesson edited = new Lesson(lessonID, newTitle, newContent, courseID);
 
             cs.editLesson(edited, courseID, this.instructorID);
-
             JOptionPane.showMessageDialog(this, "Lesson updated successfully!");
+
+            AddQuiz newQuiz = new AddQuiz(lessonID);
+            newQuiz.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }

@@ -96,15 +96,28 @@ public class CourseService {
         if (c == null) {
             throw new IllegalArgumentException("Couldn't find course");
         }
-        if (instructorOwnsCourse(courseID, instructorID)) {
+       
+            ArrayList<String> courseEnrollments = c.getCourseEnrollmentsIDs();
+            for (String id : courseEnrollments) {
+
+                Student s = userservice.getEnrolledStudentFromEnrollment(id);
+                Set<CourseEnrollment> enrollments = s.getCourseEnrollments();
+                for (CourseEnrollment enrollment : enrollments) {
+                    if (enrollment.getCourseID().equals(enrollment)) {
+                        enrollments.remove(enrollment);
+                    }
+                }
+
+            }
+
             courses.remove(c);
-            coursedb.write();
             Instructor instructor = (Instructor) userservice.getUser(instructorID);
             instructor.removeCreatedCourse(courseID);
+            
+            saveCourses();
+            
 
-        } else {
-            throw new IllegalArgumentException("Cannot delete unowned course");
-        }
+   
 
     }
 
@@ -234,19 +247,19 @@ public class CourseService {
         }
         Course course = findCourse(courseID);
         ArrayList<String> enrollments = course.getCourseEnrollmentsIDs();
-        
+
         if (enrollments.isEmpty()) {
             throw new IllegalArgumentException("No enrollments found");
         }
-        
+
         ArrayList<Student> students = new ArrayList<>();
 
-        for(String enrollmentID : enrollments){
+        for (String enrollmentID : enrollments) {
             students.add(userservice.getEnrolledStudentFromEnrollment(enrollmentID));
         }
-        
+
         return students;
-        
+
     }
 
     public Set<Course> enrolledcourses(String studentID) {
@@ -446,7 +459,7 @@ public class CourseService {
             }
         }
 
-        return null; 
+        return null;
     }
 
     public void setCompletionPercentageForStudent(String studentID, String courseID) {
@@ -467,25 +480,27 @@ public class CourseService {
         double percent = ((double) completedLessons / totalLessons) * 100;
         ce.setPercent(percent);
     }
-    
-    public void saveCourses() throws IOException{
+
+    public void saveCourses() throws IOException {
         coursedb.write();
         userservice.saveUsers();
     }
 
-    public ArrayList<CourseEnrollment> getCourseEnrollments(String courseID){
-        ArrayList<CourseEnrollment> ces=new ArrayList<>();
-        if(findCourse(courseID)==null) return null;
-        for(User user:userservice.returnAllUsers()){
-            if(user instanceof Student){
-                for(CourseEnrollment ce:((Student) user).getCourseEnrollments()){
-                    if(ce.getCourseID().equals(courseID)){
+    public ArrayList<CourseEnrollment> getCourseEnrollments(String courseID) {
+        ArrayList<CourseEnrollment> ces = new ArrayList<>();
+        if (findCourse(courseID) == null) {
+            return null;
+        }
+        for (User user : userservice.returnAllUsers()) {
+            if (user instanceof Student) {
+                for (CourseEnrollment ce : ((Student) user).getCourseEnrollments()) {
+                    if (ce.getCourseID().equals(courseID)) {
                         ces.add(ce);
                     }
                 }
             }
         }
-    return ces;
-   }
+        return ces;
+    }
 
 }

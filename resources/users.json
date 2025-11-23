@@ -1,47 +1,35 @@
 [ {
-  "username" : "kkk",
-  "email" : "mohandamr2019@gmail.com",
-  "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
+  "username" : "snmoe",
+  "email" : "moe@gmail.com",
+  "passwordHash" : "11d7f1d044d1f23c84a1a2729436c6772862510f2b6f6810ccd127d8e1cc7a15",
+  "id" : "I16477",
+  "type" : "instructor",
+  "createdCoursesIDs" : [ "C17562" ]
+}, {
+  "username" : "fapper",
+  "email" : "fap@gmail.com",
+  "passwordHash" : "11d7f1d044d1f23c84a1a2729436c6772862510f2b6f6810ccd127d8e1cc7a15",
+  "id" : "A11061",
+  "type" : "admin"
+}, {
+  "username" : "gooner",
+  "email" : "goo@gmail.com",
+  "passwordHash" : "11d7f1d044d1f23c84a1a2729436c6772862510f2b6f6810ccd127d8e1cc7a15",
   "courseEnrollments" : [ {
-    "courseEnrollmentID" : "CE19773",
-    "studentID" : "S12245",
-    "courseID" : "C17652",
-    "percent" : 0.0,
-    "completedLessons" : [ ],
+    "courseEnrollmentID" : "CE13170",
+    "studentID" : "S18214",
+    "courseID" : "C17562",
+    "percent" : 100.0,
+    "completedLessons" : [ "L18486" ],
     "quizAttempts" : [ {
-      "studentID" : "S12245",
-      "lessonID" : "L14437",
-      "studentAnswers" : [ 0, 0 ],
-      "score" : 50,
-      "passed" : false
-    }, {
-      "studentID" : "S12245",
-      "lessonID" : "L14437",
-      "studentAnswers" : [ 0, 1 ],
-      "score" : 50,
-      "passed" : false
-    }, {
-      "studentID" : "S12245",
-      "lessonID" : "L14437",
-      "studentAnswers" : [ 2, 0 ],
-      "score" : 0,
-      "passed" : false
+      "studentID" : "S18214",
+      "lessonID" : "L18486",
+      "studentAnswers" : [ 1, 2 ],
+      "score" : 100,
+      "passed" : true
     } ]
   } ],
   "certificates" : [ ],
-  "id" : "S12245",
+  "id" : "S18214",
   "type" : "student"
-}, {
-  "username" : "kkkk",
-  "email" : "mohandamr2019@gmail.com",
-  "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
-  "id" : "I10275",
-  "type" : "instructor",
-  "createdCoursesIDs" : [ "C17652" ]
-}, {
-  "username" : "kkkkk",
-  "email" : "mohandamr2019@gmail.com",
-  "passwordHash" : "8bc87284905dcf0b13bb1b0bb01b4628f60677f7b9c1e31ff0faad0f3b80c1a6",
-  "id" : "A14358",
-  "type" : "admin"
 } ]

@@ -47,6 +47,7 @@ public class Student extends User {
     public void addCourseEnrollment(CourseEnrollment courseEnrollment) {
         this.courseEnrollments.add(courseEnrollment);
     }
+            
 
     public Set<CourseEnrollment> getCourseEnrollments() {
         return this.courseEnrollments;
