@@ -20,16 +20,27 @@
     "studentID" : "S18214",
     "courseID" : "C17562",
     "percent" : 100.0,
-    "completedLessons" : [ "L18486" ],
+    "completedLessons" : [ "L18486", "L11340" ],
     "quizAttempts" : [ {
       "studentID" : "S18214",
       "lessonID" : "L18486",
       "studentAnswers" : [ 1, 2 ],
       "score" : 100,
       "passed" : true
+    }, {
+      "studentID" : "S18214",
+      "lessonID" : "L11340",
+      "studentAnswers" : [ 0, 1 ],
+      "score" : 100,
+      "passed" : true
     } ]
   } ],
-  "certificates" : [ ],
+  "certificates" : [ {
+    "certificateID" : "CERT12485",
+    "courseID" : "C17562",
+    "issueDate" : "2025-11-24",
+    "studentID" : "S18214"
+  } ],
   "id" : "S18214",
   "type" : "student"
 } ]

@@ -20,6 +20,23 @@
         "correctOptionIndex" : 2
       } ]
     }
+  }, {
+    "lessonID" : "L11340",
+    "title" : "java methods",
+    "content" : "public",
+    "courseID" : "C17562",
+    "quiz" : {
+      "lessonID" : "L11340",
+      "questions" : [ {
+        "questionText" : "public methods can be accessed everywhere",
+        "options" : [ "yes", "no", "none", "maybe" ],
+        "correctOptionIndex" : 0
+      }, {
+        "questionText" : "private method can be accessed in the same package",
+        "options" : [ "yes", "no", "yes and no", "none" ],
+        "correctOptionIndex" : 1
+      } ]
+    }
   } ],
   "courseEnrollmentsIDs" : [ "CE13170" ],
   "status" : "APPROVED"
