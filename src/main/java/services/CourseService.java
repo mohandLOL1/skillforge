@@ -96,12 +96,22 @@ public class CourseService {
         if (c == null) {
             throw new IllegalArgumentException("Couldn't find course");
         }
+
         courses.remove(c);
         coursedb.write();
         Instructor instructor = (Instructor) userservice.getUser(instructorID);
         instructor.removeCreatedCourse(courseID);
 
         throw new IllegalArgumentException("Cannot delete unowned course");
+
+        ArrayList<String> courseEnrollments = c.getCourseEnrollmentsIDs();
+
+        courses.remove(c);
+
+        instructor.removeCreatedCourse(courseID);
+
+        userservice.saveUsers();
+        saveCourses();
 
     }
 
